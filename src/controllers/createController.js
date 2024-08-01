@@ -4,4 +4,4 @@ class CreateController {
     }
 }
 
-module.exports = new CreateController;
+module.exports = new CreateController();
