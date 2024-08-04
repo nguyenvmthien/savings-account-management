@@ -1,0 +1,192 @@
+// General
+
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #F9FCFB;
+    font-family: Arial;
+}
+
+.main-content {
+    margin-left: 256px;
+    padding: 20px;
+    margin-left: 311px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
+// Navbar
+
+.navbar {
+    width: 256px;
+    height: 100%;
+    background-color: #FFF;
+    border-right-width: 2px;
+    border-left-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-color: #E0E0E0;
+    border-style: solid;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.logo a {
+    position: absolute;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    color: #16A596;
+    text-align: center;
+    font-size: 50px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-decoration: none;
+    padding: 20px;
+}
+
+.navbar-item {
+    padding: 5px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.navbar-item:hover {
+    background-color: #a8a4a4;
+}
+
+.navbar-item a {
+    text-decoration: none;
+    color: #101720;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+ 
+.navbar-sub-item {
+    position: relative;
+    padding: 5px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.navbar-sub-item:hover {
+    background-color: #a8a4a4;
+}
+
+.navbar-sub-item a {
+    text-decoration: none;
+    color: #6D5858;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 50px;
+}
+
+.navbar-icon {
+    position: absolute;
+    height: 20px;
+    margin-right: 15px;
+    margin-left: 10px;
+}
+
+// Create Page
+
+h2 {
+    font-style: italic;
+    color: #6D5858;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.68px;
+}
+
+.form-group span {
+    display: inline-block;
+    width: 150px;
+}
+
+.form-control[disabled] {
+    background-color: #e9ecef;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.button {
+    font-family: Arial;
+    background-color: #16A596;
+    color: white;
+    line-height: 150%;
+    height: 40px;
+    width: 120px;
+    font-weight: 800;
+    align-items: center ;
+    justify-content: center;
+    display: inline-flex;
+    font-size: 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #176E65;
+}
+
+#contact-button {
+    margin-right: 15px;
+    margin-top: 15px;
+    position: absolute;
+}
+
+.pop-up {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+
+.pop-up-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.buttons {
+    text-align: right;
+    margin-top: 20px;
+}
+.buttons button {
+    margin-left: 10px;
+}
