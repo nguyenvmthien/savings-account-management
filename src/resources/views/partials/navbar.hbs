@@ -70,6 +70,17 @@
             src="https://s3-alpha-sig.figma.com/img/e7be/35c1/d7d6fccae81a326e9e27122c75ff8dc5?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GWvaGpCek~Sg42GaKNEfkROB-THuNdw~sbnlaYX9kFKbhMIPseP7r-rdGp0-IRvNAS5guXSa73t2kJwMHnyDXcACGHcIJrh~C20O1y-n1AtOjrtaKot6Tzg5woGk~W6ZU6rFJLqa58gxptibyWOIVX6b~2uM4X~NEZrFYkWoMaXQZLre7Z0JaSGZJ-3-uSLu1s7gUj5ycZ-x~56O~I7LI1YcgvjcGemjEtFqjSe~jESR20kGFtJL2HT6RPUw2qNCYDKEBOvGAMXTng5IL5QVbFCFwzXKztCmx4hQktj989DqlX7xAcBWWmOnh5iAXKdG7qHGEPhv2Db1RKbCKex7bw__">
         <a href="localhost:3000/change-type-delete">Delete</a>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.getElementById("navbar");
+            const currentPath = window.location.pathname;
+            console.log(currentPath);
+            if (currentPath === "/starting") {
+                navbar.style.display = "none";
+            } else 
+                navbar.style.display = "inline";
+        });
+    </script>
 </body>
 
 </html>
