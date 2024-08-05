@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Starting = require("../controllers/StartingController");
+const startingController = require("../controllers/startingController");
 
-router.get("/", Starting.createStarting);  
+router.get("/", startingController.createStarting);  
 
 module.exports = router;

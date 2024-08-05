@@ -1,9 +1,9 @@
-const CreateHomeRouter = require("./home");
-const CreateStartingRouter = require ("./starting");
+const createHomeRouter = require("./home");
+const createStartingRouter = require ("./starting");
 const createRouter = require("./create")
 function route(app) {
-    app.use("/starting/home", CreateHomeRouter);
-    app.use("/starting", CreateStartingRouter);
+    app.use("/home", createHomeRouter);
+    app.use("/starting", createStartingRouter);
     app.use("/sa-create", createRouter);
 }
 

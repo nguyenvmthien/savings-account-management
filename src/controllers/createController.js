@@ -1,5 +1,5 @@
 class CreateController {
-    render_sa_create(req, res) {
+    renderSaCreate(req, res) {
         res.render('sa-create');
     }
 
@@ -15,7 +15,7 @@ class CreateController {
         //accountModel.createNewAccount({ c_id, name, address, create_date, tos, money });
     }
 
-    async get_interest_rate_API(req, res) {
+    async getInterestRateAPI(req, res) {
         console.log(req.query.type);
 
         if (Object.keys(req.query).length === 0) {
