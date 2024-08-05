@@ -23,7 +23,7 @@ class Account_H {
         }
     }
 
-    async searchAccount(id_account) {
+    async getInformationByIDAccount(id_account) {
         try {
             // Search for an account by id_account.
             // Return info account, customer
