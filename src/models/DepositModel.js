@@ -13,7 +13,7 @@ class Deposit_H {
         }
     }
 
-    async getAllDepositMoney() {
+    async getAllDepositTransaction() {
         try {
             // Get all deposit money
         }

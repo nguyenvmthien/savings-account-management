@@ -13,7 +13,7 @@ class Withdraw_H {
         }
     }
 
-    async getAllWithdrawMoney() {
+    async getAllWithdrawTransaction() {
         try {
             // Get all withdraw money
         }
