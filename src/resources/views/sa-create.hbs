@@ -1,0 +1,69 @@
+<h2>Create new account</h2>
+<form id="myForm" method="POST">
+    <fieldset>
+        <legend>Customer's information</legend>
+        <div class="form-group">
+            <span>Customer's ID card</span>
+            <input type="number" name="c_id" class="form-control" placeholder="123456789" title="ID must have 9 numbers" required>
+        </div>
+        <div class="form-group">
+            <span>Customer's name</span>
+            <input type="text" name="name" class="form-control" placeholder="Nguyễn Văn A" pattern="[A-Za-zÀ-ỹ\s]+">
+        </div>
+        <div class="form-group">
+            <span>Customer's address</span>
+            <input type="text" name="address" class="form-control" placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Account's information</legend>
+        <div class="form-group">
+            <span>ID Account</span>
+            <input type="text" name="c_id" class="form-control" placeholder="MS0000000001" disabled>
+        </div>
+        <div class="form-group">
+            <span>Date create account</span>
+            <input type="date" name="create_date" class="form-control" placeholder="">
+        </div>
+        <div class="form-group">
+            <span>Type of saving</span>
+            <select name="tos" class="form-control" id="tos-input">
+                <option value="">--Type of saving--</option>
+                <option value="3 thang">3 months</option>
+                <option value="6 thang">6 months</option>
+                <option value="Khong thoi han">Non-term</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <span>Interest rate</span>
+            <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x%" disabled>
+        </div>
+        <div class="form-group">
+            <span>Money (VND)</span>
+            <input type="text" name="money" class="form-control" placeholder="100,000">
+        </div>
+    </fieldset>
+    <button type="button" class="btn btn-success" onclick="confirmSubmit()">Create</button>
+</form>
+<div>
+    <button class="button" id="contact-button">Contact</button>
+</div>
+
+<div id="pop-up" class="pop-up">
+    <div class="pop-up-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h2 style="text-align: center">Confirm Submission</h2>
+        <p id="confirmCId"></p>
+        <p id="confirmName"></p>
+        <p id="confirmAddress"></p>
+        <p id="confirmCreateDate"></p>
+        <p id="confirmTos"></p>
+        <p id="confirmRate"></p>
+        <p id="confirmMoney"></p>
+        <div class="buttons">
+            <button class="button" onclick="closePopup()">Cancel</button>
+            <button class="button" onclick="submitForm()">Confirm</button>
+        </div>
+    </div>
+</div>
+<script src = "../scripts/sa-create.js"></script>
