@@ -1,10 +1,10 @@
 const pool = require('../../config/db');
 
-class Accounts {
-    async create({id_card, customer, customer_address, id_account, date_created, type_of_saving, interest_rate, money}) {
+class Account_H {
+    async create({id_card, customer_name, customer_address, id_account, money, type_of_saving, date_created}) {
         try {
-            // Insert a new account into the database
             // Insert a new customer into the database if customer doesn't exist
+            // Insert a new account into the database
             // Update or Insert into balance table
         }
         catch (err) {
@@ -13,7 +13,7 @@ class Accounts {
         }
     }
 
-    async edit({id_card, customer, customer_address, id_account, date_created, type_of_saving, interest_rate, money}) {
+    async edit({id_card, customer_name, customer_address, id_account, money, type_of_saving, date_created}) {
         try {
             // Update the account or customer in the database
         }
