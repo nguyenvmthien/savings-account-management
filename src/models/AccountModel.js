@@ -22,7 +22,7 @@ class Account_H {
             throw err;
         }
     }
-
+        
     async getInformationByIDAccount(id_account) {
         try {
             // Search for an account by id_account.
