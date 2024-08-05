@@ -1,10 +1,15 @@
 const createHomeRouter = require("./home");
 const createStartingRouter = require ("./starting");
 const createRouter = require("./create")
+const sitesRouter = require("./sites")
+const editRouter = require("./edit")
+
 function route(app) {
     app.use("/home", createHomeRouter);
     app.use("/starting", createStartingRouter);
     app.use("/sa-create", createRouter);
+    app.use("/sa-edit", editRouter);
+    app.use("/", sitesRouter)
 }
 
 module.exports = route;

@@ -9,7 +9,7 @@
 <body>
     <div class="header">
         <div>
-            <h2>Create new account</h2>
+            <h2>Edit information</h2>
         </div>
         <div>
             <h1>Saving Account</h1>
@@ -28,15 +28,17 @@
                 <img
                     src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__">
                 <input type="number" name="id_card" class="form-control" placeholder="123456789"
-                    title="ID must have 9 numbers" required>
+                    title="ID must have 9 numbers" disabled>
             </div>
             <div class="form-group">
                 <span>Customer's name</span>
-                <input type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A" pattern="[A-Za-zÀ-ỹ\s]+">
+                <input type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A"
+                    pattern="[A-Za-zÀ-ỹ\s]+">
             </div>
             <div class="form-group address-box">
                 <span>Customer's address</span>
-                <input type="text" name="customer_address" class="form-control" placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
+                <input type="text" name="customer_address" class="form-control"
+                    placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
             </div>
         </fieldset>
         <fieldset class="account-information">
@@ -47,15 +49,15 @@
             </div>
             <div class="form-group">
                 <span>Date create account</span>
-                <input type="date" name="date_created" class="form-control" placeholder="">
+                <input type="date" name="date_created" class="form-control" placeholder="" disabled>
             </div>
             <div class="form-group">
                 <span>Money (VND)</span>
-                <input type="text" name="money" class="form-control" placeholder="100,000">
+                <input type="text" name="money" class="form-control" placeholder="100,000" disabled>
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
-                <select name="type_of_saving" class="form-control" id="tos-input">
+                <select name="type_of_saving" class="form-control" id="tos-input" disabled>
                     <option value="">--Type of saving--</option>
                     <option value="3 thang">3 months</option>
                     <option value="6 thang">6 months</option>
@@ -67,9 +69,8 @@
                 <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x%" disabled>
             </div>
         </fieldset>
-        <button id="submit-button" class="button" onclick="confirmSubmit()">Create</button>
+        <button id="submit-button" class="button" onclick="confirmSubmit()">Edit</button>
     </form>
-
     <div id="pop-up" class="pop-up">
         <div class="pop-up-content">
             <div>

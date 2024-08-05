@@ -1,4 +1,4 @@
-class CreateController {
+class createController {
     renderSaCreate(req, res) {
         res.render('sa-create');
     }
@@ -10,9 +10,9 @@ class CreateController {
             return;
         }
 
-        const { c_id, name, address, money, tos, create_date } = req.body;
-        console.log(c_id, name, address, money, tos, create_date);
-        //accountModel.createNewAccount({ c_id, name, address, create_date, tos, money });
+        const { id_card, customer_name, customer_address, money, type_of_saving, date_created } = req.body;
+        //console.log(id_card, customer_name, customer_address, money, type_of_saving, date_created);
+        //accountModel.createNewAccount({ id_card, customer_name, customer_address, date_created, type_of_saving, money });
     }
 
     async getInterestRateAPI(req, res) {
@@ -35,4 +35,4 @@ class CreateController {
     }
 }
 
-module.exports = new CreateController();
+module.exports = new createController();
