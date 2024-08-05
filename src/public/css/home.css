@@ -1,0 +1,175 @@
+@charset "UTF-8";
+.welcome-box {
+  background-color: #E0FBE2;
+  /* Màu nền xanh nhạt */
+  border-radius: 30px;
+  /* Bo tròn các góc */
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 185px;
+  width: 45%;
+  height: 150px;
+  margin-top: 25px;
+  position: relative;
+  /* Để định vị hình ảnh chính xác */
+  line-height: 1px; }
+
+.welcome-text {
+  font-size: 30px;
+  line-height: 110%;
+  /* 33px */
+  letter-spacing: -0.6px;
+  font-family: "Source Serif 4";
+  font-style: italic;
+  font-weight: 800;
+  position: relative; }
+
+.decorative-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  /* Thay đổi kích thước hình ảnh theo nhu cầu */
+  height: auto; }
+
+.welcome-box1, .welcome-box2 {
+  background-color: #E0FBE2;
+  /* Màu nền xanh nhạt */
+  border-radius: 30px;
+  /* Bo tròn các góc */
+  padding-top: 30px;
+  padding-left: 30px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 185px;
+  width: 45%;
+  height: 150px;
+  margin-top: 30px;
+  position: relative;
+  /* Để định vị hình ảnh chính xác */
+  line-height: 1px;
+  border: 2px dashed #7B7575;
+  /* Đường viền nét đứt thưa hơn */ }
+
+.welcome-text1, .welcome-text2 {
+  font-size: 35px;
+  font-family: "Source Serif 4";
+  font-weight: bold;
+  color: #86B5E0;
+  text-align: center;
+  position: relative;
+  width: 100%;
+  /* Chiều rộng đầy đủ */
+  border-bottom: 3px solid #7B7575;
+  padding-bottom: 40px;
+  width: 90%; }
+
+.amount1, .amount2 {
+  font-size: 40px;
+  font-family: 'Inika';
+  /* Đảm bảo font-family là Inika */
+  font-weight: bold;
+  color: #6D5858;
+  /* Màu của con số */
+  position: absolute;
+  /* Để định vị chính xác */
+  bottom: 40px;
+  /* Khoảng cách từ phía dưới của text-box */
+  position: absolute;
+  left: 40%;
+  text-align: center; }
+
+/* CSS cho welcome-box3 */
+.welcome-box3 {
+  background-color: #E0FBE2;
+  /* Màu nền xanh nhạt */
+  border-radius: 30px;
+  /* Bo tròn các góc */
+  padding: 40px;
+  /* Tăng padding */
+  display: flex;
+  align-items: center;
+  margin-left: 185px;
+  width: 80%;
+  /* Tăng chiều rộng */
+  height: 250px;
+  /* Tăng chiều cao */
+  margin-top: 50px;
+  /* Khoảng cách giữa welcome-box2 và welcome-box3 */
+  position: relative;
+  /* Để định vị hình ảnh chính xác */
+  border: 5px dashed #7B7575;
+  /* Đường viền nét đứt thưa hơn */
+  margin-bottom: 0px; }
+
+.welcome-text3 {
+  font-size: 24px;
+  line-height: 110%;
+  /* Căn chỉnh dòng chữ */
+  letter-spacing: -0.6px;
+  font-family: "Source Serif 4";
+  position: relative;
+  /* Để định vị pseudo-element */
+  padding-bottom: 30px;
+  /* Khoảng cách từ văn bản đến đường kẻ */ }
+
+.welcome-text3 h1 {
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  line-height: 41.60px;
+  margin-left: 70px;
+  /* Khoảng cách từ biên trái */
+  color: #6D5858;
+  /* Màu của chữ */ }
+
+.welcome-text3 h2 {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  line-height: 41.60px;
+  margin-left: 70px;
+  /* Khoảng cách từ biên trái */
+  color: #6D5858;
+  /* Màu của chữ */ }
+
+/* CSS cho hình ảnh */
+.girl-image {
+  position: absolute;
+  width: 240px;
+  /* Thay đổi kích thước hình ảnh theo nhu cầu */
+  height: 240px;
+  left: -15px;
+  /* Đặt vị trí lề trái */
+  top: 1px; }
+
+.money-image {
+  position: absolute;
+  top: -70px;
+  /* Khoảng cách từ phía trên của welcome-box3 */
+  margin-left: 120px;
+  /* Khoảng cách từ bên trái của welcome-box3 */
+  width: 130px;
+  /* Thay đổi kích thước hình ảnh theo nhu cầu */
+  height: auto; }
+
+.welcome-text3 h1 {
+  font-family: Inika;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 30px;
+  word-wrap: break-word;
+  color: #6D5858;
+  padding-top: 50px;
+  padding-left: 170px; }
+
+.welcome-text3 h2 {
+  font-family: Oleo Script;
+  font-size: 35px;
+  font-style: italic;
+  padding-left: 170px;
+  line-height: 45px;
+  font-weight: 800; }
+
+/* Style for the donut chart container */
