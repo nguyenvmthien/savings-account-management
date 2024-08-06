@@ -6,6 +6,8 @@ class Withdraw_H {
             // Insert a new withdraw into the database
             // Update into balance table
             // Return the withdraw information
+
+            // update close_date in account table if balance = 0
         } catch {
             console.error('Error withdraw:', err);
             throw err;

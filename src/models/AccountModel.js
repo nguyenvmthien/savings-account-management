@@ -11,14 +11,65 @@ class Account_H {
         date_created,
     }) {
         try {
-            // Insert a new customer into the database if customer doesn't exist
-            // Insert a new account into the database
-            // Update or Insert into balance table
+            // Begin a transaction to ensure atomicity
+            const connection = await pool.getConnection();
+            await connection.beginTransaction();
+
+            try {
+                // Check if the customer already exists
+                const [existingCustomer] = await connection.execute(
+                    'SELECT * FROM customer WHERE cus_id = ?',
+                    [id_card]
+                );
+
+                if (existingCustomer.length === 0) {
+                    // Insert the new customer
+                    await connection.execute(
+                        'INSERT INTO customer (cus_id, name, address) VALUES (?, ?, ?)',
+                        [id_card, customer_name, customer_address]
+                    );
+                }
+
+                // Get the apply_date from the regulation table
+                const [regulation] = await connection.execute(
+                    'SELECT apply_date FROM regulation WHERE type = ? ORDER BY apply_date DESC LIMIT 1',
+                    [type_of_saving]
+                );
+
+                if (regulation.length === 0) {
+                    throw new Error('Regulation for the given type_of_saving not found.');
+                }
+
+                const apply_date = regulation[0].apply_date;
+
+                // Insert the new account
+                await connection.execute(
+                    'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, ?)',
+                    [id_account, id_card, money, type_of_saving, apply_date, date_created]
+                );
+
+                // Insert the initial balance
+                await connection.execute(
+                    'INSERT INTO balance (acc_id, cur_balance) VALUES (?, ?)',
+                    [id_account, money]
+                );
+
+                // Commit the transaction
+                await connection.commit();
+            } catch (err) {
+                // Rollback in case of error
+                await connection.rollback();
+                throw err;
+            } finally {
+                connection.release();
+            }
         } catch (err) {
             console.error('Error creating account:', err);
             throw err;
         }
     }
+
+
 
     async edit({
         id_card,
