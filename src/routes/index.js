@@ -1,5 +1,5 @@
-const createhomeRouter = require("./home");
-const createstartingRouter = require ("./starting");
+const createHomeRouter = require("./home");
+const createStartingRouter = require ("./starting");
 const createRouter = require("./create");
 const createadjustedRouter = require("./changetype");
 const sitesRouter = require("./sites")
