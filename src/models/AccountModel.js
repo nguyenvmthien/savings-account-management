@@ -30,10 +30,16 @@ class Account_H {
                     );
                 }
 
-                // Get the apply_date from the regulation table
+                // Get the apply_date from the regulation table based on date_created
                 const [regulation] = await connection.execute(
-                    'SELECT apply_date FROM regulation WHERE type = ? ORDER BY apply_date DESC LIMIT 1',
-                    [type_of_saving]
+                    `
+                    SELECT r.applay_date 
+                    FROM regulation r 
+                    WHERE r.type = ? AND r.applay_date <= ? 
+                    ORDER BY r.applay_date DESC 
+                    LIMIT 1
+                    `,
+                    [type_of_saving, date_created]
                 );
 
                 if (regulation.length === 0) {
@@ -75,28 +81,84 @@ class Account_H {
         id_card,
         customer_name,
         customer_address,
-        id_account,
-        money,
-        type_of_saving,
-        date_created,
     }) {
         try {
-            // Update the account or customer in the database
+            // Validate input
+            if (!id_card || !customer_name || !customer_address) {
+                throw new Error('id_card, customer_name, and customer_address are required.');
+            }
+
+            // Begin a transaction to ensure atomicity
+            const connection = await pool.getConnection();
+            await connection.beginTransaction();
+
+            try {
+                // Update the customer information
+                const [result] = await connection.execute(
+                    'UPDATE customer SET name = ?, address = ? WHERE cus_id = ?',
+                    [customer_name, customer_address, id_card]
+                );
+
+                // Check if the update was successful
+                if (result.affectedRows === 0) {
+                    throw new Error('Customer not found or no changes were made.');
+                }
+
+                // Commit the transaction
+                await connection.commit();
+            } catch (err) {
+                // Rollback in case of error
+                await connection.rollback();
+                throw err;
+            } finally {
+                connection.release();
+            }
         } catch (err) {
-            console.error('Error editing account:', err);
+            console.error('Error editing customer:', err);
             throw err;
         }
     }
 
     async getInformationByIDAccount(id_account) {
         try {
-            // Search for an account by id_account.
-            // Return id_card, customer_name, customer_address, id_account, date_created, type_of_saving, interest_rate, balance
+            // Validate input
+            if (!id_account) {
+                throw new Error('Account ID is required.');
+            }
+
+            // Query to get account information, including customer details, regulation info, and balance
+            const query = `
+                SELECT
+                    c.cus_id AS id_card,
+                    c.name AS customer_name,
+                    c.address AS customer_address,
+                    a.acc_id AS id_account,
+                    a.open_date AS date_created,
+                    a.type AS type_of_saving,
+                    r.interest_rate,
+                    b.cur_balance AS balance
+                FROM account a
+                JOIN customer c ON a.cus_id = c.cus_id
+                JOIN regulation r ON a.type = r.type AND a.apply_date = r.applay_date
+                JOIN balance b ON a.acc_id = b.acc_id
+                WHERE a.acc_id = ?;
+            `;
+
+            // Execute the query
+            const [rows, fields] = await pool.execute(query, [id_account]);
+
+            // Check if the account exists and return the information
+            if (rows.length === 0) {
+                throw new Error('Account not found.');
+            }
+
+            return rows[0];
         } catch (err) {
             console.error('Error searching account:', err);
             throw err;
         }
     }
+
 
     async getTotalOpenedAccount() {
         try {

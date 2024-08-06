@@ -7,7 +7,7 @@ class Withdraw_H {
             // Update into balance table
             // Return the withdraw information
 
-            // update close_date in account table if balance = 0
+            // update close_date in account table if balance < 1
         } catch {
             console.error('Error withdraw:', err);
             throw err;
