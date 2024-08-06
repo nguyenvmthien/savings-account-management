@@ -3,7 +3,8 @@ body {
   height: 100%;
   margin: 0;
   background-color: #F9FCFB;
-  font-family: Inter; }
+  font-family: Inter;
+  overflow-y: hidden; }
 
 .main-content {
   height: 100%;

@@ -1,0 +1,217 @@
+/* Định dạng cho container chứa form */
+.container {
+    margin-top: 70px;
+    padding: 20px;
+}
+.form-row {
+    display: flex;
+    gap: 100px;
+}
+
+/* Định dạng cho các nhóm loại tiết kiệm */
+.type-group {
+    display: flex; /* Sử dụng flexbox để sắp xếp các phần tử trên cùng một hàng */
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 20px; /* Khoảng cách dưới nhóm Type */
+    gap: 20px; /* Khoảng cách giữa các phần tử bên trong type-group */
+}
+
+.type-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.term-inputs  {
+    flex-direction: column; /* Đặt các phần tử theo chiều dọc */
+    gap: 5px; /* Khoảng cách giữa label và input */
+
+}
+.term-inputs label {
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    font-size: 13px; /* Kích thước font cho label */
+    margin-bottom: 5px; /* Khoảng cách giữa label và ô nhập */
+}
+/* Định dạng cho các trường chọn loại tiết kiệm */
+.form-control {
+    width: auto; /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
+    color: #828282;
+    height: 45px; /* Đặt chiều cao cho dropdown */
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; /* Tăng kích thước font cho dropdown */
+    box-sizing: border-box;
+    font-weight: bold;
+    text-align: left;
+}
+
+.term-inputs .term {
+    width: 300%; /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
+    height: 40px;
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+/* Định dạng cho các nhóm input */
+.input-container {
+    display: flex; /* Sử dụng flexbox để sắp xếp các input trên cùng một hàng */
+    gap: 100px; /* Khoảng cách giữa các input */
+    margin-top: 20px;
+}
+.input-group {
+    flex: 1;
+}
+.input-group label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; /* Kích thước font cho label */
+    margin-bottom: 5px; /* Khoảng cách giữa label và ô nhập */
+    font-weight: bold;
+}
+
+/* Định dạng cho các trường nhập liệu */
+.input-field {
+    width: 30%; /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
+    padding: 5px;
+    height: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+/* Định dạng cho các trường nhập liệu term */
+.term-inputs {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Khoảng cách giữa label và input */
+}
+.term-inputs label {
+    margin-right: 10px; 
+    font-weight: bold;
+    font-size: 13px;
+    font-family: Inter;/* Khoảng cách giữa label và input */
+}
+.term-inputs .term {
+    width: auto;
+    height: 40px;
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+.term, .term-months {
+    display: block;
+}
+
+/* Định dạng cho các nhóm thời gian */
+.time-container {
+    display: flex;
+    gap: 25px;
+    margin-top: 20px;
+}
+.date {
+    flex: 1;
+}
+.date label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; /* Kích thước font cho label */
+    margin-top: 10px; /* Khoảng cách giữa label và ô nhập */
+    font-weight: bold;
+}
+
+#hourSelect, #minSelect {
+    margin-right:5px;
+}
+#app-date {
+    margin-left: 25px; /* Khoảng cách giữa Applied time và Applied date */
+}
+.date-control {
+    width: 30%;
+    height: 40px; /* Điều chỉnh chiều cao của các phần tử select và input */
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+/* Định dạng cho nút chính */
+.btn-primary {
+    position: fixed; /* Đặt vị trí nút cố định ở góc dưới bên phải */
+    bottom: 50px;
+    right: 50px;
+    width: 120px; /* Điều chỉnh kích thước nếu cần */
+    height: 60px; /* Điều chỉnh kích thước nếu cần */
+    background: #16A596;
+    border-radius: 8px;
+    color: #fff; /* Màu chữ trắng */
+    font-size: 20px; /* Kích thước chữ */
+    font-family: 'Inter', sans-serif; /* Phông chữ */
+    font-weight: bold; /* Độ dày chữ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+    border: none; /* Loại bỏ viền nếu có */
+    cursor: pointer; /* Thay đổi con trỏ khi di chuột vào nút */
+}
+
+/* Định dạng cho các thông báo lỗi */
+p[id$="Notification"] {
+    display: none;
+    font-size: 0.875rem;
+    color: red;
+}
+
+/* Định dạng cho pop-up */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Định dạng cho nội dung pop-up */
+.popup-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+/* Định dạng cho các nút trong pop-up */
+.popup-button {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    margin: 0.5rem;
+}
+
+.popup-button.cancel-btn {
+    background-color: #dc3545;
+}
+
+/* Định dạng cho nút "OK" trong pop-up thành công */
+#closeSuccessPopup {
+    background-color: #28a745;
+}
