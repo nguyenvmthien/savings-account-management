@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/navbar.css">
+    <style>
+    .fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-out;
+    }
+    </style>
 </head>
 
 <body>
@@ -55,7 +61,7 @@
     <div class="navbar-item">
         <a href="localhost:3000/change-type">Types of Savings</a>
     </div>
-    <div class="navbar-sub-item">
+    <div class="navbar-sub-item" id = "adjusted_create">
         <img class="navbar-icon"
             src="https://s3-alpha-sig.figma.com/img/456e/ce6a/64c23cc0a98bb9a676230a728576b4c7?Expires=1723420800&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=IKh2SJfg3oTZsGwig2vZc1jfvEmXh1P-Zn8XZhod~NUyNaZNx51XU3VE-KD91tpl56qwe1SJv0qIutYFG5ogU-GNUj7DvVUbyJ-wgIgRadK09jYUZ1VTSTndGs4EiF~zhBksYvXCHlVNl8aSCdHTk7bkY5t544T610FzDbCgyBh5f7P4OLeQJDDmC8OsxoN0COkarLIF~8S0OnQ3lCAATvD3D~V~0Ia~RUu-oOK3uZE-0s6eJRIwaXcmp06-brwnuLtVWvVbtlUv2F-SEKA9Rt6647Mpi3d8NWXJEu1dGkFz8nPlQ6eXpk0~kuzDK2nQwt8R7-DjVL7cCK9ehtXxUA__">
         <a href="localhost:3000/change-type-create">Create</a>
@@ -71,5 +77,14 @@
         <a href="localhost:3000/change-type-delete">Delete</a>
     </div>
 </body>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("adjusted_create").addEventListener("click", function() {
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+          location.href = "/change-type-create";
+        }, 1000); // Thời gian chờ để hoàn thành hiệu ứng fade-out
+      });
+    });
+  </script>
 </html>

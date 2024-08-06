@@ -1,11 +1,12 @@
-const CreateHomeRouter = require("./home");
-const CreateStartingRouter = require ("./starting");
-const createRouter = require("./create")
+const createhomeRouter = require("./home");
+const createstartingRouter = require ("./starting");
+const createRouter = require("./create");
+const createadjustedRouter = require("./changetype");
 function route(app) {
-    app.use("/starting/home", CreateHomeRouter);
-    app.use("/starting", CreateStartingRouter);
+    app.use("/change-type-create", createadjustedRouter);
+    app.use("/starting/home", createhomeRouter);
+    app.use("/starting", createstartingRouter);
     app.use("/sa-create", createRouter);
 }
-
 module.exports = route;
 
