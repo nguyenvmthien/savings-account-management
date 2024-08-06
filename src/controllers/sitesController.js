@@ -1,4 +1,4 @@
-class sitesController {
+class Sites_Controller {
     renderSa(req, res) {
         res.render('sa');
     }
@@ -12,8 +12,16 @@ class sitesController {
     }
 
     renderHome(req, res) {
-    res.render("home");
+        res.render("home");
+    }
+
+    renderAnalysis(req, res) {
+        res.render("analysis");
+    }
+
+    renderDefault(req, res) {
+        res.redirect("/starting");
     }
 }
 
-module.exports = new sitesController();
+module.exports = new Sites_Controller();

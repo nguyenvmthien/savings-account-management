@@ -1,6 +1,6 @@
-class createController {
+class Create_Account_Controller {
     renderSaCreate(req, res) {
-        res.render('sa-create');
+        res.render('sa_create');
     }
 
     create(req, res) {
@@ -33,6 +33,10 @@ class createController {
         //     res.status(500).json({ error: error.message });
         // }
     }
+
+    getBiggestIDAccountAPI(req, res) {
+        return;
+    }
 }
 
-module.exports = new createController();
+module.exports = new Create_Account_Controller();

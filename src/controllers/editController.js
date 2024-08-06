@@ -1,13 +1,17 @@
-class editController {
-    renderEdit(req, res) {
-        res.render('sa-edit');
+class Edit_Account_Controller {
+    renderSaEdit(req, res) {
+        res.render('sa_edit');
     }
 
-    renderEditAccount(req, res) {
-        res.render('sa-edit-account');
+    renderSaEditAccount(req, res) {
+        res.render('sa_edit_account');
     }
 
-    getInformation(req, res) {
+    edit(req, res) {
+        return;
+    }
+
+    getInformationAPI(req, res) {
         var id_account = req.body.id_account;
         // Get in4
         res.redirect("/sa/edit/account");
@@ -15,4 +19,4 @@ class editController {
     }
 }
 
-module.exports = new editController();
+module.exports = new Edit_Account_Controller();
