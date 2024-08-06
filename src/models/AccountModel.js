@@ -67,6 +67,26 @@ class Account_H {
         }
     }
 
+    async getTotalClosedAccount() {
+        try {
+            // Get total closed account
+
+            const query = `
+                SELECT COUNT(*) AS total_closed_account
+                FROM account
+                WHERE close_date IS NOT NULL;
+            `;
+
+            const [rows, fields] = await pool.execute(query);
+
+            // Access the first row and the total_closed_account column
+            return rows[0].total_closed_account;
+        } catch (err) {
+            console.error('Error getting total closed account:', err);
+            throw err;
+        }
+    }
+
     async getNewestIDAccount() {
         try {
             const query = `
