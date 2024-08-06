@@ -9,5 +9,18 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
 });
 
+let sql = `SELECT acc_id, account.cus_id, name, address, init_money, account.type, apply_date, open_date, close_date
+FROM account 
+JOIN customer ON account.cus_id = customer.cus_id
+JOIN regulation ON account.type = regulation.type AND account.apply_date = regulation.applay_date`;
 
-module.exports = pool.promise();
+pool.query(sql, (err, rows, fields) => {
+    if (err) {
+        console.error('Error:', err);
+        return;
+    }
+    console.log('Rows:', rows);
+    console.log('Fields:', fields);
+});
+
+// module.exports = pool.promise();

@@ -1,30 +1,40 @@
 const pool = require('../../config/db');
 
 class Regulation_H {
-    async create({type, applied_date, applied_time, interest_rate, min_des_money, min_days_withdraw}) {
+    async create({
+        type,
+        applied_date,
+        applied_time,
+        interest_rate,
+        min_des_money,
+        min_days_withdraw,
+    }) {
         try {
             // create in regulation table, delete = 0 and type not exist in table
-        }
-        catch {
+        } catch {
             console.error('Error create regulation:', err);
             throw err;
         }
     }
-    async edit({type, applied_date, applied_time, interest_rate, min_des_money, min_days_withdraw}) {
+    async edit({
+        type,
+        applied_date,
+        applied_time,
+        interest_rate,
+        min_des_money,
+        min_days_withdraw,
+    }) {
         try {
-
-        }
-        catch {
+        } catch {
             console.error('Error edit regulation:', err);
             throw err;
         }
     }
 
-    async delete({type}) {
+    async delete({ type }) {
         try {
             // delete in regulation table
-        }
-        catch {
+        } catch {
             console.error('Error delete regulation:', err);
             throw err;
         }
@@ -33,8 +43,7 @@ class Regulation_H {
     async getCurrentTypeOfSaving() {
         try {
             // get current type of saving
-        }
-        catch (err) {
+        } catch (err) {
             console.error('Error getting current type of saving:', err);
             throw err;
         }
@@ -43,20 +52,20 @@ class Regulation_H {
     async getAllTypeOfSaving() {
         try {
             // get all type of saving
-        }
-        catch (err) {
+        } catch (err) {
             console.error('Error getting all type of saving:', err);
             throw err;
-        }   
+        }
     }
-    async getMinDesMoneyAndMinWithDays({type, applied_date, applied_time}) {
+    async getMinDesMoneyAndMinWithDays({ type, applied_date, applied_time }) {
         try {
             // get min_des_money and min_days_withdraw
-        }
-        catch (err) {
-            console.error('Error getting min_des_money and min_days_withdraw:', err);
+        } catch (err) {
+            console.error(
+                'Error getting min_des_money and min_days_withdraw:',
+                err,
+            );
             throw err;
         }
     }
 }
-
