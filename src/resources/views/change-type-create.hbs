@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Account Type</title>
     <link rel="stylesheet" href="/css/change-type-create.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-    </style>
 </head>
 <body>
     <div class="container">
-            <div class="form-row">
+        <div class="form-row">
         <div class="type-group">
             <label for="savingsType">Type</label>
             <select class="form-control" id="savingsType">
@@ -19,7 +16,6 @@
                 <option value="non-term">Non-term</option>
                 <option value="term">Term</option>
             </select>
-        </div>
 
         <div class="term-inputs" id="termInputs" style="display: none;">
             <label for="term-months">If term:</label>
@@ -27,6 +23,7 @@
             <input type="text" class="term-months" id="months" placeholder="Months" disabled>
             <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
         </div>
+    </div>
     </div>
 
             <div class="input-container">
@@ -155,7 +152,6 @@
     </div>
     <div class="popup" id="popup">
         <div class="popup-content" id="popup-content">
-            <!-- Nội dung sẽ được chèn vào đây -->
             <button class="popup-button submit-btn" id="submit">Submit</button>
             <button class="popup-button cancel-btn" id="cancel">Cancel</button>
         </div>

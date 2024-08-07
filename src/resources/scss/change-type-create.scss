@@ -5,20 +5,19 @@
 }
 .form-row {
     display: flex;
-    gap: 100px;
+    gap: 50px;
 }
 
 /* Định dạng cho các nhóm loại tiết kiệm */
 .type-group {
     display: flex; /* Sử dụng flexbox để sắp xếp các phần tử trên cùng một hàng */
-    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
     margin-bottom: 20px; /* Khoảng cách dưới nhóm Type */
-    gap: 20px; /* Khoảng cách giữa các phần tử bên trong type-group */
+    gap: 10px; /* Khoảng cách giữa các phần tử bên trong type-group */
 }
 
 .type-group label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 13px;
