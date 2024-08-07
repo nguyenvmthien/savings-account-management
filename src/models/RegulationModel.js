@@ -25,6 +25,8 @@ class Regulation_H {
         min_days_withdraw,
     }) {
         try {
+            // create new regulation with delete = 0 and type not exist in table
+            // update old regulation with delete = 1
         } catch {
             console.error('Error edit regulation:', err);
             throw err;
@@ -42,7 +44,8 @@ class Regulation_H {
 
     async getCurrentTypeOfSaving() {
         try {
-            // get current type of saving
+            // get CURRENT type of saving
+            // return type, applied_date, interest_rate
         } catch (err) {
             console.error('Error getting current type of saving:', err);
             throw err;
@@ -52,6 +55,7 @@ class Regulation_H {
     async getAllTypeOfSaving() {
         try {
             // get all type of saving
+            // return type, applied_date, interest_rate
         } catch (err) {
             console.error('Error getting all type of saving:', err);
             throw err;
