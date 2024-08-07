@@ -9,6 +9,15 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
 });
 
-let sql = `SELECT * `
+let query = `SELECT * FROM test`;
+
+pool.query(query, (err, rows) => {
+
+    if (err) {
+        console.log(err);
+    }
+    console.log(rows);
+}
+);
 
 module.exports = pool.promise();
