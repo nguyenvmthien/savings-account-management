@@ -87,23 +87,23 @@ class Account_H {
             if (!id_card || !customer_name || !customer_address) {
                 throw new Error('id_card, customer_name, and customer_address are required.');
             }
-
+    
             // Begin a transaction to ensure atomicity
             const connection = await pool.getConnection();
             await connection.beginTransaction();
-
+    
             try {
                 // Update the customer information
                 const [result] = await connection.execute(
                     'UPDATE customer SET name = ?, address = ? WHERE cus_id = ?',
                     [customer_name, customer_address, id_card]
                 );
-
+    
                 // Check if the update was successful
                 if (result.affectedRows === 0) {
                     throw new Error('Customer not found or no changes were made.');
                 }
-
+    
                 // Commit the transaction
                 await connection.commit();
             } catch (err) {
@@ -118,14 +118,14 @@ class Account_H {
             throw err;
         }
     }
-
+    
     async getInformationByIDAccount(id_account) {
         try {
             // Validate input
             if (!id_account) {
                 throw new Error('Account ID is required.');
             }
-
+    
             // Query to get account information, including customer details, regulation info, and balance
             const query = `
                 SELECT
@@ -143,22 +143,22 @@ class Account_H {
                 JOIN balance b ON a.acc_id = b.acc_id
                 WHERE a.acc_id = ?;
             `;
-
+    
             // Execute the query
             const [rows, fields] = await pool.execute(query, [id_account]);
-
+    
             // Check if the account exists and return the information
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }
-
+    
             return rows[0];
         } catch (err) {
             console.error('Error searching account:', err);
             throw err;
         }
     }
-
+    
 
     async getTotalOpenedAccount() {
         try {
@@ -217,6 +217,7 @@ class Account_H {
         }
     }
 
+    // NEED TO UPDATE with input id_account, withdraw_date
     async getCurrentBalance(id_account) {
         try {
             // Validate the id_account input
