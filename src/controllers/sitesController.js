@@ -8,19 +8,19 @@ class Sites_Controller {
     }
 
     renderStarting(req, res) {
-        res.render("starting");
+        res.render('starting');
     }
 
     renderHome(req, res) {
-        res.render("home");
+        res.render('home');
     }
 
     renderAnalysis(req, res) {
-        res.render("analysis");
+        res.render('analysis');
     }
 
     renderDefault(req, res) {
-        res.redirect("/starting");
+        res.redirect('/starting');
     }
 }
 

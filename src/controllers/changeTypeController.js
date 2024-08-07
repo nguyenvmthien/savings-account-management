@@ -12,7 +12,7 @@ class Regulation_Controller {
     }
 
     renderChangeType(req, res) {
-        res.render("change_type"); 
+        res.render('change_type');
     }
 
     create(req, res) {
@@ -32,4 +32,4 @@ class Regulation_Controller {
     }
 }
 
-module.exports =  new Regulation_Controller();
+module.exports = new Regulation_Controller();

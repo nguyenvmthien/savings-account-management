@@ -8,4 +8,4 @@ class Find_Account_Controller {
     }
 }
 
-module.exports =  new Find_Account_Controller();
+module.exports = new Find_Account_Controller();

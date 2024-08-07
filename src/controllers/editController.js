@@ -14,7 +14,7 @@ class Edit_Account_Controller {
     getInformationAPI(req, res) {
         var id_account = req.body.id_account;
         // Get in4
-        res.redirect("/sa/edit/account");
+        res.redirect('/sa/edit/account');
         return;
     }
 }

@@ -8,4 +8,4 @@ class Analyze_Monthly_Controller {
     }
 }
 
-module.exports =  new Analyze_Monthly_Controller();
+module.exports = new Analyze_Monthly_Controller();

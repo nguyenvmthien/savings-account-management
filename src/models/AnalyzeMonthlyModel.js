@@ -5,12 +5,20 @@ class Analyze_Monthly_H {
     async getAnalyzeMonthly({ month, year, type_of_saving }) {
         try {
             // Validate the month and year inputs
-            if (!month || !year || !moment(`${year}-${month}`, 'YYYY-MM', true).isValid()) {
-                throw new Error('Invalid month or year format. Expected format: MM and YYYY');
+            if (
+                !month ||
+                !year ||
+                !moment(`${year}-${month}`, 'YYYY-MM', true).isValid()
+            ) {
+                throw new Error(
+                    'Invalid month or year format. Expected format: MM and YYYY',
+                );
             }
 
             const startDate = `${year}-${month}-01`;
-            const endDate = moment(startDate).endOf('month').format('YYYY-MM-DD');
+            const endDate = moment(startDate)
+                .endOf('month')
+                .format('YYYY-MM-DD');
 
             const query = `
             SELECT 
@@ -24,7 +32,17 @@ class Analyze_Monthly_H {
             GROUP BY DATE_FORMAT(account.open_date, '%Y-%m-%d');
             `;
 
-            const params = [startDate, endDate, startDate, endDate, startDate, endDate, startDate, endDate, type_of_saving];
+            const params = [
+                startDate,
+                endDate,
+                startDate,
+                endDate,
+                startDate,
+                endDate,
+                startDate,
+                endDate,
+                type_of_saving,
+            ];
             const [rows, fields] = await pool.execute(query, params);
             return rows;
             // return date, number_of_new_account, number_of_closed_account, difference
@@ -35,4 +53,4 @@ class Analyze_Monthly_H {
     }
 }
 
-module.exports = new Analyze_Monthly_H;
+module.exports = new Analyze_Monthly_H();
