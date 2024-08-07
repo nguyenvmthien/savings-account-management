@@ -4,13 +4,13 @@ class Create_Account_Controller {
         res.render('sa_create');
     }
 
-    create(req, res) {
+    async create(req, res) {
         if (Object.keys(req.body).length === 0) {
             //console.log('No data');
             return;
         }
 
-        const id_account = 'MS00001';
+        const id_account = 'MS000010';
         const {
             id_card,
             customer_name,
@@ -19,6 +19,7 @@ class Create_Account_Controller {
             type_of_saving,
             date_created,
         } = req.body;
+
         console.log(
             id_card,
             customer_name,
@@ -28,18 +29,24 @@ class Create_Account_Controller {
             type_of_saving,
             date_created,
         );
-        accountModel.create({
-            id_card,
-            customer_name,
-            customer_address,
-            id_account,
-            money,
-            type_of_saving,
-            date_created,
-        });
-    }
 
-    async getInterestRateAPI(req, res) {
+        try {
+            const result = await accountModel.create({
+                id_card,
+                customer_name,
+                customer_address,
+                id_account,
+                money,
+                type_of_saving,
+                date_created,
+            });
+            if (result.message === 'success')
+                res.render('sa_create', { message: 'success' });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+    getInterestRateAPI(req, res) {
         console.log(req.query.type);
 
         if (Object.keys(req.query).length === 0) {

@@ -12,6 +12,7 @@ class Account_H {
     }) {
         try {
             // Begin a transaction to ensure atomicity
+
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 
@@ -21,6 +22,7 @@ class Account_H {
                     'SELECT * FROM customer WHERE cus_id = ?',
                     [id_card],
                 );
+                console.log(existingCustomer, 'error here');
 
                 if (existingCustomer.length === 0) {
                     // Insert the new customer
@@ -28,6 +30,8 @@ class Account_H {
                         'INSERT INTO customer (cus_id, name, address) VALUES (?, ?, ?)',
                         [id_card, customer_name, customer_address],
                     );
+
+                    console.log('inserted new customer');
                 }
 
                 // Get the apply_date from the regulation table based on date_created
@@ -42,13 +46,15 @@ class Account_H {
                     [type_of_saving, date_created],
                 );
 
+                console.log(regulation, 'get regulation');
+
                 if (regulation.length === 0) {
                     throw new Error(
                         'Regulation for the given type_of_saving not found.',
                     );
                 }
 
-                const apply_date = regulation[0].apply_date;
+                const apply_date = regulation[0].applay_date;
 
                 // Insert the new account
                 await connection.execute(
@@ -63,24 +69,34 @@ class Account_H {
                     ],
                 );
 
+                console.log('inserted new account');
                 // Insert the initial balance
                 await connection.execute(
                     'INSERT INTO balance (acc_id, cur_balance) VALUES (?, ?)',
                     [id_account, money],
                 );
 
+                console.log('inserted new balance');
                 // Commit the transaction
                 await connection.commit();
+                console.log('commited');
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
                 throw err;
             } finally {
-                connection.release();
+                // Release the connection back to the pool
+                if (connection) {
+                    connection.release();
+                    console.log('released');
+                    return { message: 'success' };
+                }
+                console.log('done');
             }
         } catch (err) {
             console.error('Error creating account:', err);
-            throw err;
+            // throw err;
+            return { message: 'fail' };
         }
     }
 
@@ -118,7 +134,10 @@ class Account_H {
                 await connection.rollback();
                 throw err;
             } finally {
-                connection.release();
+                // Release the connection back to the pool
+                if (connection) {
+                    connection.release();
+                }
             }
         } catch (err) {
             console.error('Error editing customer:', err);
