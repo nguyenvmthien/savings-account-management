@@ -5,12 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/navbar.css">
-    <style>
-    .fade-out {
-    opacity: 0;
-    transition: opacity 1s ease-out;
-    }
-    </style>
 </head>
 
 <body>
@@ -88,14 +82,4 @@
         });
     </script>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-      document.getElementById("adjusted_create").addEventListener("click", function() {
-        document.body.classList.add('fade-out');
-        setTimeout(() => {
-          location.href = "/change-type-create";
-        }, 1000); // Thời gian chờ để hoàn thành hiệu ứng fade-out
-      });
-    });
-  </script>
 </html>

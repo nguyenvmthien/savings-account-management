@@ -5,5 +5,6 @@ const sitesController = require('../controllers/sitesController.js');
 router.get('/contact', sitesController.renderContact);
 router.get('/home', sitesController.renderHome);
 router.get('/starting', sitesController.renderStarting);
+router.get('/', sitesController.renderDefault);
 
 module.exports = router;
