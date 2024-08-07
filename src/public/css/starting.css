@@ -1,0 +1,129 @@
+@charset "UTF-8";
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: #F1FFFB !important; }
+
+.container {
+  height: 100vh;
+  /* Chiều cao toàn bộ viewport */
+  flex-direction: column;
+  display: flex;
+  margin: 0;
+  padding: 0; }
+
+.header-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  /* Đảm bảo chiếm toàn bộ chiều rộng */
+  padding-left: 40px; }
+
+.header {
+  margin: 0;
+  padding-left: 30px;
+  padding-top: 30px; }
+
+.mata-text {
+  font-family: Inter;
+  font-size: 50px;
+  font-weight: 800;
+  color: #16A596;
+  font-style: normal;
+  letter-spacing: -0.5px;
+  float: left; }
+
+.contact-text {
+  font-family: Inter;
+  font-size: 35px;
+  font-weight: normal;
+  color: #1B8136;
+  text-decoration: none;
+  /* Loại bỏ gạch chân */
+  padding-left: 430px;
+  float: right; }
+
+.content-container {
+  display: flex;
+  width: 100vw;
+  /* Đảm bảo chiều rộng toàn bộ viewport */
+  height: 100vh;
+  /* Đảm bảo chiều cao toàn bộ viewport */
+  flex: 1; }
+
+.text-container {
+  position: relative;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  margin-left: 30px; }
+
+.text-container h3,
+.text-container h4 {
+  margin: 0;
+  font-size: 60px;
+  /* Đảm bảo cả h2 và h3 có cùng kích thước */
+  font-weight: bold;
+  stroke-width: 3px;
+  font-family: Jura;
+  /* Đảm bảo không có sự khác biệt về chiều rộng nét */ }
+
+/* Định nghĩa màu sắc riêng biệt */
+.text-container h3 {
+  color: #1B8136; }
+
+.text-container h4 {
+  color: #665F5F; }
+
+.background {
+  width: 50vw;
+  /* Chiếm nửa chiều rộng của viewport */
+  height: 100vh;
+  /* Chiều cao bằng toàn bộ viewport */
+  position: absolute;
+  /* Để điều chỉnh vị trí */
+  top: 0;
+  right: 0;
+  /* Đặt bên phải màn hình */
+  background: url("/images/home.png") no-repeat;
+  background-size: cover;
+  background-position: right center; }
+
+/* Căn giữa nội dung trong start-container */
+.start-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  /* Để đặt chính xác */
+  top: 50%;
+  /* Đặt từ giữa màn hình */
+  left: 50%;
+  /* Đặt từ giữa màn hình */
+  transform: translate(-50%, -50%);
+  /* Để căn giữa chính xác */ }
+
+/* Định dạng cho nút */
+.primary-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 9px solid #55ad9b;
+  overflow: hidden;
+  text-decoration: none;
+  font-family: Jura;
+  color: black; }

@@ -1,0 +1,386 @@
+/* Định dạng cho container chứa form */
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-content: baseline;
+    align-items: flex-start;
+    margin-top: 20px;
+}
+
+.header>div {
+    width: 450px;
+}
+
+h1 {
+    color: #6D5858;
+    font-size: 35px;
+    font-weight: 700;
+    line-height: 110%;
+    letter-spacing: -0.96px;
+    margin-left: 150px;
+    display: inline-block;
+}
+
+h2 {
+    font-style: italic;
+    color: #6D5858;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 110%;
+    letter-spacing: -0.68px;
+}
+.container {
+    margin-top: 70px;
+    padding: 20px;
+}
+#contact-button {
+    margin-top: 15px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #FFF;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 150%;
+    box-sizing: border-box;
+    padding: 16px;
+}
+.form-row {
+    margin-top: 20px;
+}
+
+/* Định dạng cho các nhóm loại tiết kiệm */
+.type-group {
+    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
+    margin-bottom: 20px; /* Khoảng cách dưới nhóm Type */
+}
+
+.type-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-family: 'Inter';
+    font-weight: bold;
+    font-size: 15px;
+}
+
+
+
+/* Định dạng cho các trường chọn loại tiết kiệm */
+.form-control {
+    width: auto; /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
+    color: #828282;
+    height: 45px; /* Đặt chiều cao cho dropdown */
+    font-family: 'Inter', sans-serif;
+    font-size: 12px; /* Tăng kích thước font cho dropdown */
+    box-sizing: border-box;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Định dạng cho các nhóm input */
+.input-container {
+    display: flex; /* Sử dụng flexbox để sắp xếp các input trên cùng một hàng */
+    gap: 30px; /* Khoảng cách giữa các input */
+    margin-top: 20px;
+    position: relative;
+}
+.input-group {
+    flex: 1;
+    position: relative;
+}
+
+
+
+.input-group label {
+    display: flex;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; /* Kích thước font cho label */
+    margin-bottom: 5px; /* Khoảng cách giữa label và ô nhập */
+    font-weight: bold;
+    margin-right: 5px;
+}
+.valid, .invalid {
+    position: absolute;
+    margin-left: 150px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: none; /* Ẩn biểu tượng mặc định */
+    height: 25px;
+    width: 15x;
+}
+/* Định dạng cho các trường nhập liệu */
+.input-field {
+    width: 40%; /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
+    padding: 5px;
+    height: 40px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 0.25rem;
+}
+
+/* Định dạng cho các trường nhập liệu term */
+.term-inputs {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Khoảng cách giữa label và input */
+}
+.term-inputs label {
+    margin-right: 10px; 
+    font-weight: bold;
+    font-size: 13px;
+    font-family: Inter;/* Khoảng cách giữa label và input */
+}
+.term-inputs .term {
+    width: auto;
+    height: 40px;
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+.term, .term-months {
+    display: block;
+}
+
+/* Định dạng cho các nhóm thời gian */
+/* Định dạng cho các nhóm thời gian */
+.time-container {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 180px; /* Khoảng cách giữa Applied date và Applied time */
+}
+
+
+
+.date label {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px; /* Kích thước font cho label */
+    margin-bottom: 15px; /* Khoảng cách giữa label và ô nhập */
+    font-weight: bold;
+}
+
+.date-control {
+    width: 80px; /* Điều chỉnh chiều rộng của các phần tử select và input */
+    height: 40px; /* Điều chỉnh chiều cao của các phần tử select và input */
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+}
+#app-date {
+    width: 130px;
+    height:40px;
+    padding: 5px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+}
+
+.time-inputs {
+    display: flex;
+    gap: 15px; /* Khoảng cách giữa hour và min */
+}
+
+/* Định dạng cho nút chính */
+.btn-primary {
+    position: fixed; /* Đặt vị trí nút cố định ở góc dưới bên phải */
+    bottom: 50px;
+    right: 50px;
+    width: 120px; /* Điều chỉnh kích thước nếu cần */
+    height: 60px; /* Điều chỉnh kích thước nếu cần */
+    background: #16A596;
+    border-radius: 8px;
+    color: #fff; /* Màu chữ trắng */
+    font-size: 20px; /* Kích thước chữ */
+    font-family: 'Inter', sans-serif; /* Phông chữ */
+    font-weight: bold; /* Độ dày chữ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+    border: none; /* Loại bỏ viền nếu có */
+    cursor: pointer; /* Thay đổi con trỏ khi di chuột vào nút */
+}
+
+/* Định dạng cho các thông báo lỗi */
+p[id$="Notification"] {
+    display: none;
+    font-size: 0.875rem;
+    color: red;
+}
+
+/* Định dạng cho pop-up */
+.pop-up {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 3% auto;
+    padding: 0 20px;
+    width: 80%;
+    max-width: 600px;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #6D5858;
+    box-shadow: 15px 15px 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+.popup-content h2 {
+    font-style: Inter;
+    margin-left: 50px;
+    font-size: 15px;
+}
+
+.popup-content img {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    height: 50px;
+}
+
+.popup-content p {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    font-family: Inter;
+    line-height: 100%;
+    margin-bottom: 70px;
+}
+
+.buttons {
+    position: absolute; /* Sử dụng để cố định vị trí của phần tử */
+    bottom: 20px; /* Đặt phần tử cách biên dưới 20px */
+    right: 20px; /* Đặt phần tử cách biên phải 20px */
+    display: flex; /* Sử dụng flexbox để sắp xếp các nút */
+    gap: 20px; /* Khoảng cách giữa các nút */
+}
+
+.buttons button {
+    padding: 10px 20px; /* Điều chỉnh kích thước của nút */
+    font-size: 16px; /* Kích thước chữ */
+}
+
+
+.popup {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    border: 2px dashed #7B7575;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.edit-content {
+    padding-top: 15px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-weight: bold;
+    color: #6D5858;
+    line-height: 70px;
+}
+
+.pop-up img {
+    align-items: center;
+}
+
+.pop-up button {
+    bottom: 50px;
+    right: 50px;
+    width: 120px; /* Điều chỉnh kích thước nếu cần */
+    height: 60px; /* Điều chỉnh kích thước nếu cần */
+    background: #16A596;
+    border-radius: 8px;
+    color: #fff; /* Màu chữ trắng */
+    font-size: 20px; /* Kích thước chữ */
+    font-family: 'Inter', sans-serif; /* Phông chữ */
+    font-weight: bold; /* Độ dày chữ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+}
+
+.noti-pop-up {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.noti-pop-up-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: 3% auto;
+    padding: 0 20px;
+    width: 80%;
+    max-width: 600px;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #6D5858;
+    box-shadow: 15px 15px 4px 5px rgba(0, 0, 0, 0.25);
+}
+
+
+.noti-pop-up-content img {
+    margin-left: 250px; /* Cách lề trái 100px */
+    margin-top: 150px;
+    height: 100px;
+    width: 100px;
+}
+
+.noti-pop-up-content p {
+    color: #6D5858;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: bold;
+    font-family: Inter;
+    line-height: 100%;
+}
+
+.noti-pop-up-content button {
+    position: absolute;
+    bottom: 90px;
+    right: 80px;
+    width: 175px;
+    height: 64px;
+    color: #FFF;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 150%;
+    box-sizing: border-box;
+    padding: 0 16px;
+}

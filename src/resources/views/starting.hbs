@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>MATA</title>
+  <link rel="stylesheet" href="/css/starting.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jura:wght@300..700&display=swap');
+
+    .fade-out {
+      opacity: 0;
+      transition: opacity 1s ease-out;
+    }
+  </style>
+</head>
+
+<body style="background-color:#e0f7f0 !important">
+  <div class="container">
+    <div class="header-container">
+      <header class="header">
+        <h1 class="mata-text">MATA</h1>
+        <h2 class="contact-text">Contact</h2>
+      </header>
+    </div>
+    <div class="content-container">
+      <div class="text-container">
+        <h3>Your Trust</h3>
+        <h4>Our Vision</h4>
+      </div>
+      <div class="background"></div>
+    </div>
+    <div class="start-container">
+      <button class="btn primary-btn " id="myButton">START</a>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("myButton").addEventListener("click", function () {
+        document.body.classList.add('fade-out');
+        setTimeout(() => {
+          location.href = "/home";
+        }, 1000); // Thời gian chờ để hoàn thành hiệu ứng fade-out
+      });
+    });
+  </script>
+
+</body>
+
+</html>

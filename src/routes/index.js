@@ -1,13 +1,10 @@
-// const accountsRoutes = require('./accountRoutes');
-
+const changeTypeRouter = require("./changetype");
+const sitesRouter = require("./sites")
+const savingAccountRouter = require("./sa")
 function route(app) {
-    // app.use('/accounts', accountsRoutes);
-    // app.use('/search', (req, res) => {
-    //     res.render('search');
-    // });
-    // app.use('/', (req, res) => {
-    //     res.render('home');
-    // });
+    app.use("/change-type", changeTypeRouter);
+    app.use("/sa", savingAccountRouter);
+    app.use("/", sitesRouter)
 }
-
 module.exports = route;
+
