@@ -1,27 +1,35 @@
+require('dotenv').config();
+
 const express = require('express');
-const path = require('path');
 const handlebars = require('express-handlebars');
-const app = express();
-const port = 3000;
-
+const path = require('path');
 const route = require('./routes');
+const bodyParser = require('body-parser');
+const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.use(
-    express.urlencoded({
-        extended: true,
+app.engine(
+    'hbs',
+    handlebars.engine({
+        extname: '.hbs',
     }),
-);
-app.use(express.json());
+); // use the handlebars engine for rendering views
 
-// Template Engine
-app.engine('hbs', handlebars.engine({ extname: '.hbs' }));
-app.set('view engine', 'hbs');
-app.set('views', path.join(__dirname, 'resources/views'));
+app.set('view engine', 'hbs'); // set the view engine to handlebars
+app.set('views', path.join(__dirname, 'resources', 'views')); // set the views directory to resources/views
 
+// Routers
 route(app);
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+// Global error handler.
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send('An error occurred. Please try again later.');
 });
+
+// Listen on pc port
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
