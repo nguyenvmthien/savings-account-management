@@ -14,6 +14,7 @@ class Create_Account_Controller {
         const { id_card, customer_name, customer_address, money, type_of_saving, date_created } = req.body;
         console.log(id_card, customer_name, customer_address, id_account, money, type_of_saving, date_created);
         //accountModel.create({ id_card, customer_name, customer_address, id_account, money, type_of_saving, date_created });
+        res.render('sa_create', {message: "success"});
     }
 
     async getInterestRateAPI(req, res) {
