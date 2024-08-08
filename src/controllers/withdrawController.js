@@ -10,17 +10,6 @@ class Withdraw_Controller {
     withdraw(req, res) {
         return;
     }
-
-    getInformationAPI(req, res) {
-        var id_account = req.body.id_account;
-        // Get in4
-        res.redirect("/sa/withdraw/account");
-        return;
-    }
-
-    getCurrentBalanceAPI(req, res) {
-        return;
-    }
 }
 
 module.exports = new Withdraw_Controller();

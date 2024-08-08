@@ -10,13 +10,6 @@ class Edit_Account_Controller {
     edit(req, res) {
         return;
     }
-
-    getInformationAPI(req, res) {
-        var id_account = req.body.id_account;
-        // Get in4
-        res.redirect("/sa/edit/account");
-        return;
-    }
 }
 
 module.exports = new Edit_Account_Controller();

@@ -16,29 +16,6 @@ class Create_Account_Controller {
         //accountModel.create({ id_card, customer_name, customer_address, id_account, money, type_of_saving, date_created });
         res.render('sa_create', {message: "success"});
     }
-
-    async getInterestRateAPI(req, res) {
-        console.log(req.query.type);
-
-        if (Object.keys(req.query).length === 0) {
-            console.log('No data');
-            return;
-        }
-
-        const typeOfSaving = req.query.type;
-        console.log(typeOfSaving);
-        // try {
-        //     const result = await accountModel.getInterestRate(typeOfSaving);
-        //     console.log(result);
-        //     res.json(result);
-        // } catch (error) {
-        //     res.status(500).json({ error: error.message });
-        // }
-    }
-
-    getBiggestIDAccountAPI(req, res) {
-        return;
-    }
 }
 
 module.exports = new Create_Account_Controller();
