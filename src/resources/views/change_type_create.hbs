@@ -7,8 +7,20 @@
     <link rel="stylesheet" href="/css/change-type-create.css">
 </head>
 <body>
+    <div class="header">
+        <div>
+            <h2>Create</h2>
+        </div>
+        <div>
+            <h1>Types of Savings</h1>
+        </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
     <div class="container">
-        <div class="form-row">
         <div class="type-group">
             <label for="savingsType">Type</label>
             <select class="form-control" id="savingsType">
@@ -16,14 +28,14 @@
                 <option value="non-term">Non-term</option>
                 <option value="term">Term</option>
             </select>
+        </div>
 
-        <div class="term-inputs" id="termInputs" style="display: none;">
+        <div class="type-group" id="termInputs" style="display: none;">
             <label for="term-months">If term:</label>
             <input type="text" class="term" id="term-months" placeholder="3">
             <input type="text" class="term-months" id="months" placeholder="Months" disabled>
             <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
         </div>
-    </div>
     </div>
 
             <div class="input-container">

@@ -1,1 +1,79 @@
-<h1>Find Account Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Account Type</title>
+    <link rel="stylesheet" href="/css/analysis-find-account.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Analysis</h1>
+    <div class ="row">
+        <h2>Find Account</h2>
+        <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+    </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+    <div class="input-container">
+            <div class="input-ID">
+                <label for="ID-Account">ID Account</label>
+                <input type="text" class="input-field" id="ID_account" placeholder="MSxxxx">
+            </div>
+            <div class="input-group">
+                <label for="ID-Card">ID Card</label>
+                <input type="text" class="input-field" id="ID_card" placeholder="012345678911">
+            </div>
+            <div class="input-container">
+            </div>
+        </div>
+
+        <div class="input-container-second">
+        <div class="input_date_create">
+            <label for="date-create">Date Create Account</label>
+            <input type="date" class="input-field" id="date-create">
+        </div>
+        <div class="type_of_saving">
+            <label for="type-of-saving">Type of Saving</label>
+            <option value="" disabled selected>3 months</option>
+        </div>
+    </div>
+    <button type="submit" class="btn-primary" id="submit_button">Find</button>
+   <div class="table-container">
+    <table class="account-table">
+        <caption class="table-title">List of Accounts</caption>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>ID Account</th>
+                <th>Type of Saving</th>
+                <th>Customer's Name</th>
+                <th>Balance (VND)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>MS1234</td>
+                <td>3 months</td>
+                <td>John Doe</td>
+                <td>100,000 VND</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>MS5678</td>
+                <td>Short Term</td>
+                <td>Jane Smith</td>
+                <td>200,000 VND</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+    

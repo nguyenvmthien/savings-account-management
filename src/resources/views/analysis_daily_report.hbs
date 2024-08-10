@@ -1,1 +1,118 @@
-<h1>Daily Report Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Account Type</title>
+    <link rel="stylesheet" href="/css/analysis-daily-report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="header">
+        <h1>Analysis</h1>
+        <div class="row">
+            <h2>Daily Report</h2>
+            <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+        </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+    <div class="daily_report">
+        <label for="date-report">Date</label>
+        <input type="date" class="input-field" id="date-create" placeholder="01/01/2024">
+    </div>
+    <button class="create_button" id="create">Create Report</button>
+    <div class="table-container">
+        <table class="account-table">
+            <caption class="table-title">Daily Operations Sales Report</caption>
+            <thead>
+                <tr>
+                    <th>Type of Savings</th>
+                    <th>Total Income (VND)</th>
+                    <th>Total Expense (VND)</th>
+                    <th>Difference (VND)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>3 months</td>
+                    <td>100,000 VND</td>
+                    <td>20,000 VND</td>
+                    <td>80,000 VND</td>
+                </tr>
+                <tr>
+                    <td>Short Term</td>
+                    <td>200,000 VND</td>
+                    <td>50,000 VND</td>
+                    <td>150,000 VND</td>
+                </tr>
+            </tbody>
+        </table>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['3 months', 'Short Term'], // Giai đoạn
+                datasets: [
+                    {
+                        label: 'Total Income',
+                        data: [100000, 200000], 
+                        backgroundColor: '#7FC2FF', // Màu sắc của cột
+                        borderWidth: 1,
+                        barThickness: 30 // Điều chỉnh kích thước của cột
+                    },
+                    {
+                        label: 'Total Expense',
+                        data: [20000, 50000], 
+                        backgroundColor: '#FF5F9E',
+                        borderWidth: 1,
+                        barThickness: 30 // Điều chỉnh kích thước của cột
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 20 // Kích thước của ô màu cho các chú thích
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + ' VND';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: 'Type of Savings'
+                        }
+                        
+                    },
+                    y: {
+                        stacked: false,
+                        title: {
+                            display: true,
+                        },
+
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
