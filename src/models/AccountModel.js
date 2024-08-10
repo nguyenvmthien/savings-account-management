@@ -22,7 +22,6 @@ class Account_H {
                     'SELECT * FROM customer WHERE cus_id = ?',
                     [id_card],
                 );
-                console.log(existingCustomer, 'error here');
 
                 if (existingCustomer.length === 0) {
                     // Insert the new customer
@@ -37,10 +36,10 @@ class Account_H {
                 // Get the apply_date from the regulation table based on date_created
                 const [regulation] = await connection.execute(
                     `
-                    SELECT r.applay_date 
+                    SELECT r.apply_date 
                     FROM regulation r 
-                    WHERE r.type = ? AND r.applay_date <= ? 
-                    ORDER BY r.applay_date DESC 
+                    WHERE r.type = ? AND r.apply_date <= ? 
+                    ORDER BY r.apply_date DESC 
                     LIMIT 1
                     `,
                     [type_of_saving, date_created],
@@ -54,8 +53,9 @@ class Account_H {
                     );
                 }
 
-                const apply_date = regulation[0].applay_date;
+                const apply_date = regulation[0].apply_date;
 
+                console.log(apply_date, 'get apply_date');
                 // Insert the new account
                 await connection.execute(
                     'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, ?)',
@@ -72,7 +72,7 @@ class Account_H {
                 console.log('inserted new account');
                 // Insert the initial balance
                 await connection.execute(
-                    'INSERT INTO balance (acc_id, cur_balance) VALUES (?, ?)',
+                    'INSERT INTO balance (acc_id, principal, interest) VALUES (?, ?, 0)',
                     [id_account, money],
                 );
 
@@ -165,7 +165,7 @@ class Account_H {
                     b.cur_balance AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
-                JOIN regulation r ON a.type = r.type AND a.apply_date = r.applay_date
+                JOIN regulation r ON a.type = r.type AND a.apply_date = r.apply_date
                 JOIN balance b ON a.acc_id = b.acc_id
                 WHERE a.acc_id = ?;
             `;

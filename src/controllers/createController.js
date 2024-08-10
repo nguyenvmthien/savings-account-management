@@ -10,7 +10,7 @@ class Create_Account_Controller {
             return;
         }
 
-        const id_account = 'MS000010';
+        const id_account = 'MS' + Math.floor(Math.random() * 1000000);
         const {
             id_card,
             customer_name,
@@ -56,13 +56,6 @@ class Create_Account_Controller {
 
         const typeOfSaving = req.query.type;
         console.log(typeOfSaving);
-        // try {
-        //     const result = await accountModel.getInterestRate(typeOfSaving);
-        //     console.log(result);
-        //     res.json(result);
-        // } catch (error) {
-        //     res.status(500).json({ error: error.message });
-        // }
     }
 
     getBiggestIDAccountAPI(req, res) {
