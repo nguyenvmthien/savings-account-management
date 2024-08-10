@@ -5,7 +5,8 @@ const apiController = require('../controllers/apiController');
 
 router.get('/account', depositController.renderSaDepositAccount);
 router.get('/', depositController.renderSaDeposit);
-router.post('/', depositController.deposit);
+router.post('/account', depositController.deposit);
+router.post('/', apiController.getInformationAPI);
 router.get('/getCurrentPrincipalAPI', apiController.getCurrentPrincipalAPI);
 
 module.exports = router;

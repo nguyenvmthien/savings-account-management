@@ -1,9 +1,9 @@
 class Withdraw_Controller {
-    renderSaWithraw(req, res) {
+    renderSaWithdraw(req, res) {
         res.render('sa_withdraw');
     }
 
-    renderSaWithDrawAccount(req, res) {
+    renderSaWithdrawAccount(req, res) {
         res.render('sa_withdraw_account');
     }
 
