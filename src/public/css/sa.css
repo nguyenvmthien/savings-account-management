@@ -1,0 +1,63 @@
+.boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 20px; }
+
+.boxes a {
+  width: 150px;
+  height: 160px;
+  text-decoration: none; }
+
+.box {
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+  width: 150px;
+  height: 160px;
+  background: #16A596;
+  text-align: center; }
+
+box:hover {
+  background: #176E65; }
+
+.box img {
+  height: 60px;
+  margin: 30px auto 15px; }
+
+.box p {
+  color: #FFF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%;
+  margin: 0 auto 10px;
+  max-width: 90%; }
+
+.message-box {
+  position: relative;
+  width: 880px;
+  height: 250px;
+  border-radius: 30px;
+  border: 2px #6D5858;
+  border-style: dashed;
+  background: #FEF4F4;
+  margin-top: 10px; }
+
+.message-box p {
+  margin-left: 150px;
+  font-size: 12px; }
+
+.message-box h2 {
+  font-size: 30px;
+  margin-left: 70px; }
+
+.message-box img {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: 40px; }
+
+.message-box h3 {
+  position: absolute;
+  top: 100px;
+  left: 20px; }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/home.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inika:wght@400;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jura:wght@300..700&family=Oleo+Script:wght@400;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+        .chartContainer {
+            position: absolute; /* Position absolutely */
+            top: 10px; /* Adjust the distance from the top */
+            right: 10px; /* Adjust the distance from the right edge */
+            width: 300px; /* Set a fixed width for the chart */
+            height: 300px; /* Set a fixed height for the chart */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="welcome-box">
+        <div class="welcome-text">
+            <img src="/images/sunshine1.png" alt="Decorative Image" class="decorative-image">
+            Welcome to MATA. <br>
+            How can we help you today? <br>
+        </div>
+    </div>
+
+    <div class="welcome-box1">
+        <div class="welcome-text1">
+            Total account opened. <br>
+        </div>
+        <div class="amount1">1.000.000</div>
+    </div>
+
+    <div class="welcome-box2">
+        <div class="welcome-text2">
+            Total account closed <br>
+        </div>
+        <div class="amount2">1.000.000</div>
+    </div>
+
+    <!-- New welcome box -->
+    <div class="welcome-box3">
+        <img src="/images/girl.png" alt="Girl Image" class="girl-image">
+        <img src="/images/money-image.png" alt="Money Image" class="money-image">
+        <div class="welcome-text3">
+            <h1> Every penny you save now is a step closer to living your best life. </h1>
+            <h2> Let's make that saving account pop! </h2>
+        </div>
+    </div>
+
+    <!-- Donut chart container -->
+    <div id="chartContainer" class="chartContainer"></div>
+
+    <script type="text/javascript">
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+                title: {
+                    text: "Top U.S Smartphone Operating Systems By Market Share, Q3 2012"
+                },
+                data: [
+                {
+                    type: "doughnut",
+                    dataPoints: [
+                        { y: 53.37, indexLabel: "Android" },
+                        { y: 35.0, indexLabel: "Apple iOS" },
+                        { y: 7, indexLabel: "Blackberry" },
+                        { y: 2, indexLabel: "Windows Phone" },
+                        { y: 5, indexLabel: "Others" }
+                    ]
+                }
+                ]
+            });
+
+            chart.render();
+        }
+    </script>
+</body>
+
+</html>

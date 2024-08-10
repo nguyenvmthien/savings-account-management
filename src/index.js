@@ -7,6 +7,8 @@ const route = require('./routes');
 const bodyParser = require('body-parser');
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'public'))); // serve static files from the public directory
+
 // Middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
