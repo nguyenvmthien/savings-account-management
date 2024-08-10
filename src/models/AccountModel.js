@@ -1,6 +1,8 @@
 const pool = require('../config/db');
 
 class Account_H {
+
+    // OK
     async create({
         id_card,
         customer_name,
@@ -145,6 +147,7 @@ class Account_H {
         }
     }
 
+    // NEED CHECK WHEN b.interest IS NULL
     async getInformationByIDAccount(id_account) {
         try {
             // Validate input
@@ -162,7 +165,7 @@ class Account_H {
                     a.open_date AS date_created,
                     a.type AS type_of_saving,
                     r.interest_rate,
-                    b.cur_balance AS balance
+                    b.principal + b.interest AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN regulation r ON a.type = r.type AND a.apply_date = r.applay_date
@@ -185,6 +188,7 @@ class Account_H {
         }
     }
 
+    // OK
     async getTotalOpenedAccount() {
         try {
             // Get total opened account
@@ -205,6 +209,7 @@ class Account_H {
         }
     }
 
+    // OK
     async getTotalClosedAccount() {
         try {
             // Get total closed account
@@ -225,6 +230,7 @@ class Account_H {
         }
     }
 
+    // OK
     async getNewestIDAccount() {
         try {
             const query = `
@@ -242,7 +248,7 @@ class Account_H {
         }
     }
 
-    // NEED TO UPDATE with input id_account, withdraw_date
+    // NEED CHECK AGAIN.
     async getCurrentBalance(id_account, withdraw_date) {
         try {
             // Validate input
@@ -281,6 +287,7 @@ class Account_H {
             }
 
             const {
+                type,
                 principal,
                 last_deposit_date,
                 interest_rate,
@@ -297,9 +304,24 @@ class Account_H {
             let totalAmount = principal;
 
             if (diffDays >= min_wit_date) {
-                // Calculate interest: Principal * (Interest Rate) * (Days / 365)
-                const interest =
-                    principal * (interest_rate / 100) * (diffDays / 365);
+                let interest = 0;
+
+                if (type === 'non-term') {
+                    // For non-term accounts: interest = principal * interest_rate
+                    interest = principal * (interest_rate / 100);
+                } else {
+                    // For fixed-term accounts: interest = principal * interest_rate * [(withdraw_date - last_deposit_date) / x]
+                    // Extract the term in months from the type string
+                    const termMatch = type.match(/(\d+)\s*month/);
+                    const months = termMatch ? parseInt(termMatch[1]) : 1; // Default to 1 month if parsing fails
+
+                    // Calculate interest based on the term
+                    interest =
+                        principal *
+                        (interest_rate / 100) *
+                        (diffDays / (months * 30)); // Approximating 1 month as 30 days
+                }
+
                 totalAmount += interest;
             }
 
