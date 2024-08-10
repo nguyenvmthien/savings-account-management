@@ -9,30 +9,30 @@ h1 {
   font-weight: 700;
   line-height: 110%;
   letter-spacing: -0.96px;
-  margin-left: 130px;
+  margin-left: 50px;
   font-family: 'Inter', sans-serif; }
 
 h2 {
   font-style: italic;
   color: #6D5858;
-  font-size: 35px;
+  font-size: 28px;
   font-weight: 600;
   line-height: 110%;
   letter-spacing: -0.68px;
-  margin-left: -300px;
+  margin-left: -650px;
   font-family: 'Inter', sans-serif;
   color: black;
   font-style: normal; }
 
 .row {
-  margin-top: 60px;
+  margin-top: 80px;
   display: flex;
-  gap: 150px; }
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  gap: 90px; }
 
 .btn-CSV {
-  margin-top: 20px;
-  position: fixed;
-  margin-left: 100px;
+  position: relative;
   width: 100px;
   height: 40px;
   background: #16A596;
@@ -43,14 +43,15 @@ h2 {
   font-weight: bold;
   text-align: center;
   border: none;
-  cursor: pointer; }
+  cursor: pointer;
+  margin-left: 50px; }
 
 .daily_report {
   display: flex;
   /* Sử dụng Flexbox để sắp xếp các phần tử trên cùng một hàng */
   align-items: center;
   /* Căn giữa các phần tử theo chiều dọc */
-  gap: 10px;
+  gap: 15px;
   /* Khoảng cách giữa label và input */ }
 
 .daily_report label {
@@ -75,7 +76,7 @@ h2 {
 
 .create_button {
   position: fixed;
-  margin-top: 10px;
+  margin-top: 30px;
   left: 650px;
   right: 70px;
   width: 140px;
@@ -92,7 +93,7 @@ h2 {
 
 .table-container {
   margin-top: 150px;
-  border: 3px dashed #6D5858; }
+  border: 2px dashed #6D5858; }
 
 .account-table {
   width: 100%;
@@ -143,7 +144,7 @@ h2 {
 
 #myChart {
   position: absolute;
-  top: 20px;
+  top: 60px;
   right: 20px;
   width: 100px;
   height: 100px; }

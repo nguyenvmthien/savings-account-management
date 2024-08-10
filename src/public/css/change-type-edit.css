@@ -45,15 +45,10 @@ h2 {
   box-sizing: border-box;
   padding: 16px; }
 
-.form-row {
-  margin-top: 20px; }
-
 /* Định dạng cho các nhóm loại tiết kiệm */
 .type-group {
-  align-items: center;
-  /* Căn giữa các phần tử theo chiều dọc */
-  margin-bottom: 20px;
-  /* Khoảng cách dưới nhóm Type */ }
+  margin-top: -50px;
+  margin-left: -20px; }
 
 .type-group label {
   display: block;
@@ -74,7 +69,8 @@ h2 {
   /* Tăng kích thước font cho dropdown */
   box-sizing: border-box;
   font-weight: bold;
-  text-align: left; }
+  text-align: left;
+  margin-bottom: 10px; }
 
 /* Định dạng cho các nhóm input */
 .input-container {
@@ -94,7 +90,7 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   /* Kích thước font cho label */
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
   font-weight: bold;
   margin-right: 5px; }
@@ -118,7 +114,6 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   box-sizing: border-box;
-  border: 2px solid #ccc;
   border-radius: 0.25rem; }
 
 /* Định dạng cho các trường nhập liệu term */
@@ -150,10 +145,10 @@ h2 {
 /* Định dạng cho các nhóm thời gian */
 /* Định dạng cho các nhóm thời gian */
 .time-container {
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
-  gap: 180px;
+  gap: 200px;
   /* Khoảng cách giữa Applied date và Applied time */ }
 
 .date label {
@@ -161,7 +156,7 @@ h2 {
   font-family: 'Inter', sans-serif;
   font-size: 15px;
   /* Kích thước font cho label */
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
   font-weight: bold; }
 
@@ -195,7 +190,7 @@ h2 {
   /* Khoảng cách giữa hour và min */ }
 
 /* Định dạng cho nút chính */
-.btn-primary {
+.button {
   position: fixed;
   /* Đặt vị trí nút cố định ở góc dưới bên phải */
   bottom: 50px;
@@ -208,9 +203,9 @@ h2 {
   border-radius: 8px;
   color: #fff;
   /* Màu chữ trắng */
-  font-size: 20px;
+  font-size: 30px;
   /* Kích thước chữ */
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   /* Phông chữ */
   font-weight: bold;
   /* Độ dày chữ */

@@ -1,1 +1,113 @@
-<h1>Monthly Report Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Account Type</title>
+    <link rel="stylesheet" href="/css/analysis-monthly-report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Analysis</h1>
+        <div class="row">
+            <h2>Monthly Report</h2>
+            <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+        </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="month-report">Month</label>
+            <input type="date" id="month-report" name="month-report">
+        </div>
+        <div class="filter-group">
+            <label for="type-saving">Type of Saving</label>
+            <select id="type-saving" name="type-saving">
+                <option value="3months" disabled>3 months</option>
+                <option value="3months">3 months</option>
+                <option value="6months">6 months</option>
+                <option value="non-term">Non-term</option>
+            </select>
+        </div>
+    </div>
+    <button class="create_button" id="create">Create Report</button>
+    <div class="table-container">
+        <div class="caption-container">
+            <span class="table-title">Monthly Account Activity Report</span>
+            <div class="filter-info">
+                <span class="filter-label">Type of Savings: --</span>
+                <span class="filter-label">Month: --</span>
+            </div>
+        </div>
+        <table class="account-table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Day</th>
+                    <th>Number of New Accounts</th>
+                    <th>Number of Closed Accounts</th>
+                    <th>Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>01</td>
+                    <td>5</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>02</td>
+                    <td>7</td>
+                    <td>3</td>
+                    <td>4</td>
+                </tr>
+            </tbody>
+        </table>
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['New accounts', 'Closed accounts'],
+                datasets: [{
+                    data: [62, 38],
+                    backgroundColor: ['#FFA500', '#32CD32'] // Màu cam và màu xanh lá cây
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 20, // Kích thước của ô màu cho các chú thích
+                            padding: 20 // Khoảng cách giữa các mục trong legend
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.label + ': ' + context.raw + '%';
+                            }
+                        }
+                    }
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -59,18 +59,18 @@
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['3 months', 'Short Term'], // Giai đoạn
+                labels: ['3 months', '6 months', 'Non-term'], // Giai đoạn
                 datasets: [
                     {
                         label: 'Total Income',
-                        data: [100000, 200000], 
+                        data: [100000, 80000, 58000], 
                         backgroundColor: '#7FC2FF', // Màu sắc của cột
                         borderWidth: 1,
                         barThickness: 30 // Điều chỉnh kích thước của cột
                     },
                     {
                         label: 'Total Expense',
-                        data: [20000, 50000], 
+                        data: [50000, 120000, 140000], 
                         backgroundColor: '#FF5F9E',
                         borderWidth: 1,
                         barThickness: 30 // Điều chỉnh kích thước của cột
@@ -100,15 +100,14 @@
                         title: {
                             display: true,
                             text: 'Type of Savings'
-                        }
-                        
+                        }   
                     },
                     y: {
                         stacked: false,
                         title: {
                             display: true,
                         },
-
+                       
                     }
                 }
             }

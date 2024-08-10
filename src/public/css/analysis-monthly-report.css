@@ -1,0 +1,191 @@
+@charset "UTF-8";
+.header {
+  margin-top: 10px; }
+
+h1 {
+  margin-top: 10px;
+  color: #6D5858;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 110%;
+  letter-spacing: -0.96px;
+  margin-left: 50px;
+  font-family: 'Inter', sans-serif; }
+
+h2 {
+  font-style: italic;
+  color: #6D5858;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 110%;
+  letter-spacing: -0.68px;
+  margin-left: -650px;
+  font-family: 'Inter', sans-serif;
+  color: black;
+  font-style: normal; }
+
+.row {
+  margin-top: 80px;
+  display: flex;
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  gap: 200px; }
+
+.btn-CSV {
+  position: relative;
+  width: 100px;
+  height: 40px;
+  background: #16A596;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-family: 'Inter';
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  margin-left: 50px; }
+
+.filters {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px; }
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; }
+
+.filter-group label {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 16px; }
+
+.filter-group input,
+.filter-group select {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: #828282; }
+
+.filter-group select {
+  width: 160px; }
+
+.create_button {
+  margin-top: 10px;
+  position: fixed;
+  left: 700px;
+  right: 70px;
+  width: 140px;
+  height: 60px;
+  background: #16A596;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  font-family: 'Inter';
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: pointer; }
+
+#myChart {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 20%;
+  height: 20%; }
+
+.table-container {
+  margin-top: 150px;
+  border: 2px dashed #6D5858;
+  /* Dashed border for container */
+  padding: 20px;
+  /* Padding inside the container */ }
+
+.caption-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  /* Margin below the caption container */ }
+
+.table-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #440A67;
+  /* Color for table title */ }
+
+.filter-info {
+  display: flex;
+  align-items: center;
+  /* Center items vertically */
+  margin-left: 150px;
+  /* Space between title and filter info */ }
+
+.filter-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #828282;
+  /* Color for filter labels */
+  margin-left: 50px;
+  /* Space between title and filter info */ }
+
+.filter-label:not(:last-child) {
+  margin-right: 40px;
+  /* Space between filter labels */ }
+
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Ensures borders between cells do not overlap */ }
+
+.account-table th, .account-table td {
+  padding: 25px;
+  /* Padding inside table cells */
+  text-align: left;
+  border: none;
+  /* No border for cells */ }
+
+.account-table th {
+  color: #828282;
+  /* Color for table headers */
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  padding: 15px;
+  /* Padding inside headers */ }
+
+.account-table td {
+  font-family: 'Inter', sans-serif;
+  color: #440A67;
+  /* Color for table data */
+  font-weight: 400;
+  /* Font weight for data */ }
+
+.account-table tr {
+  border-bottom: 1px solid #440A67;
+  /* Border for table rows */
+  position: relative; }
+
+.account-table tr:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  /* Full width of row */
+  right: 0;
+  bottom: 0; }
+
+#myChart .legend {
+  display: flex;
+  flex-direction: row;
+  /* Align items in a row */
+  justify-content: center;
+  /* Center the legend items horizontally */
+  margin: 0;
+  padding: 0; }
+
+/* Style the list items in the legend */
+.chartjs-legend li {
+  margin: 0 5px;
+  /* Space between the items: 10px total (5px each side) */ }

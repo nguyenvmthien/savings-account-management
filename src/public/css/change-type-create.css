@@ -42,68 +42,50 @@ h2 {
   padding: 16px; }
 
 .container {
-  margin-top: 70px;
-  padding: 20px; }
-
-.form-row {
   margin-top: 20px; }
 
-/* Định dạng cho các nhóm loại tiết kiệm */
 .type-group {
-  margin-bottom: 20px; }
-
-.type-group label {
-  display: block;
-  margin-bottom: 10px;
-  font-family: 'Inter', sans-serif;
-  font-weight: bold;
-  font-size: 15px; }
-
-/* Định dạng cho các trường chọn loại tiết kiệm */
-.form-control {
-  width: 150px;
-  /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
-  color: #828282;
-  height: 45px;
-  /* Đặt chiều cao cho dropdown */
-  font-family: 'Inter';
-  font-size: 12px;
-  /* Tăng kích thước font cho dropdown */
-  box-sizing: border-box;
-  font-weight: bold;
-  text-align: left;
-  margin-bottom: 10px; }
-
-.term-inputs {
   display: flex;
-  align-items: center;
+  gap: 100px; }
+
+.form-control {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 200px;
+  text-align: left;
+  color: black;
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 500;
+  margin-bottom: 30px; }
+
+.label-group label {
+  display: block;
+  font-weight: 500;
+  width: 100%;
+  font-style: Inter;
+  color: black; }
+
+.term-group label {
+  margin-top: 10px; }
+
+.label-group-1 .label {
+  margin-bottom: 10px;
+  font-weight: 500;
+  width: 100%;
+  font-style: Inter;
+  color: black;
+  font-size: 16px; }
+
+.input-group-1 {
+  display: flex;
   gap: 10px;
-  /* Khoảng cách giữa label và input */ }
-
-.term-inputs label {
-  font-family: 'Inter', sans-serif;
-  font-weight: bold;
-  font-size: 13px;
-  /* Kích thước font cho label */
-  margin-bottom: 19px;
-  /* Khoảng cách giữa label và ô nhập */ }
-
-.term-inputs .term {
-  width: 300%;
-  /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
-  height: 40px;
-  padding: 5px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem; }
+  width: 50%; }
 
 /* Định dạng cho các nhóm input */
 .input-container {
   display: flex;
-  /* Sử dụng flexbox để sắp xếp các input trên cùng một hàng */
-  gap: 100px;
-  /* Khoảng cách giữa các input */
+  gap: 30px;
   margin-top: 20px; }
 
 .input-group {
@@ -112,81 +94,74 @@ h2 {
 .input-group label {
   display: block;
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  /* Kích thước font cho label */
+  font-size: 16px;
   margin-bottom: 5px;
-  /* Khoảng cách giữa label và ô nhập */
-  font-weight: bold; }
+  font-weight: 500;
+  color: black; }
 
 /* Định dạng cho các trường nhập liệu */
 .input-field {
-  width: 30%;
-  /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
-  padding: 5px;
+  width: 40%;
+  padding: 10px;
   height: 40px;
   font-family: 'Inter', sans-serif;
   font-size: 11px;
   box-sizing: border-box;
   border: 1px solid #ccc;
-  border-radius: 0.25rem; }
-
-.term-inputs {
-  display: flex;
-  align-items: center;
-  gap: 20px; }
-
-.term-inputs label {
-  margin-right: 10px;
-  font-weight: bold;
-  font-size: 13px;
-  font-family: Inter;
-  /* Khoảng cách giữa label và input */ }
-
-.term-inputs .term {
-  width: auto;
-  height: 40px;
-  padding: 5px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem; }
-
-.term, .term-months {
-  display: block; }
+  border-radius: 0.25rem;
+  font-size: 15px; }
 
 /* Định dạng cho các nhóm thời gian */
 .time-container {
   display: flex;
-  gap: 25px;
-  margin-top: 20px; }
+  align-items: flex-start;
+  gap: 160px;
+  /* Gap between 'Applied time' and 'Applied date' */
+  margin-top: 30px; }
 
-.date {
-  flex: 1; }
+.time-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Space between 'Applied time' label and the selectors */ }
 
-.date label {
-  display: block;
+.time-label {
   font-family: 'Inter', sans-serif;
   font-size: 15px;
-  /* Kích thước font cho label */
-  margin-top: 10px;
-  /* Khoảng cách giữa label và ô nhập */
-  font-weight: bold; }
+  font-weight: 500; }
 
-#hourSelect, #minSelect {
-  margin-right: 5px; }
-
-#app-date {
-  margin-left: 25px; }
+.time-selectors {
+  display: flex;
+  gap: 10px;
+  /* Gap between hour and minute selectors */ }
 
 .date-control {
-  width: 30%;
+  width: 100px;
+  /* Adjust width as needed */
   height: 40px;
   padding: 5px;
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 16px;
   text-align: left;
   border: 1px solid #ccc;
-  border-radius: 0.25rem; }
+  border-radius: 0.25rem;
+  color: #828282; }
+
+.day {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+
+.day label {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 10px; }
+
+.day input {
+  width: 150px;
+  font-weight: 500;
+  color: #828282; }
 
 /* Định dạng cho nút chính */
 .btn-primary {
