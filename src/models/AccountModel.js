@@ -305,6 +305,8 @@ class Account_H {
             throw err;
         }
     }
+
+    async getCurrentPrincipal(id_account) {}
 }
 
 module.exports = new Account_H();
