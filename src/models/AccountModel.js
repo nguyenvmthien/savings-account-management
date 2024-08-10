@@ -243,29 +243,67 @@ class Account_H {
     }
 
     // NEED TO UPDATE with input id_account, withdraw_date
-    async getCurrentBalance(id_account) {
+    async getCurrentBalance(id_account, withdraw_date) {
         try {
-            // Validate the id_account input
-            if (!id_account) {
-                throw new Error('Account ID is required.');
+            // Validate input
+            if (!id_account || !withdraw_date) {
+                throw new Error('Account ID and withdrawal date are required.');
             }
 
+            // Query to retrieve necessary account and balance information
             const query = `
-                SELECT cur_balance
-                FROM balance
-                WHERE acc_id = ?;
+                SELECT
+                    a.type,
+                    a.open_date,
+                    b.principal,
+                    r.interest_rate,
+                    r.min_wit_time AS min_wit_date,
+                    (
+                        CASE 
+                            WHEN a.type = 'non-term' THEN (
+                                SELECT COALESCE(MAX(dep.dep_date), a.open_date)
+                                FROM deposit dep
+                                WHERE dep.acc_id = a.acc_id
+                            )
+                            ELSE a.open_date
+                        END
+                    ) AS last_deposit_date
+                FROM account a
+                JOIN balance b ON a.acc_id = b.acc_id
+                JOIN regulation r ON a.type = r.type AND a.apply_date = r.apply_date
+                WHERE a.acc_id = ?;
             `;
 
-            // Execute the query
-            const [rows, fields] = await pool.execute(query, [id_account]);
+            const [rows] = await pool.execute(query, [id_account]);
 
-            // Check if the account exists and return the current balance
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }
 
-            return rows[0].cur_balance;
-            // Get current balance of account
+            const {
+                principal,
+                last_deposit_date,
+                interest_rate,
+                min_wit_date,
+            } = rows[0];
+
+            // Calculate the difference between the withdrawal date and the last deposit date
+            const lastDepositDate = new Date(last_deposit_date);
+            const withdrawDate = new Date(withdraw_date);
+            const diffTime = Math.abs(withdrawDate - lastDepositDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
+
+            // If the difference in days is greater than or equal to the minimum withdrawal date
+            let totalAmount = principal;
+
+            if (diffDays >= min_wit_date) {
+                // Calculate interest: Principal * (Interest Rate) * (Days / 365)
+                const interest =
+                    principal * (interest_rate / 100) * (diffDays / 365);
+                totalAmount += interest;
+            }
+
+            return totalAmount;
         } catch (err) {
             console.error('Error getting current balance:', err);
             throw err;
@@ -306,7 +344,34 @@ class Account_H {
         }
     }
 
-    async getCurrentPrincipal(id_account) {}
+    async getCurrentPrincipal(id_account) {
+        try {
+            // Validate the id_account input
+            if (!id_account) {
+                throw new Error('Account ID is required.');
+            }
+
+            const query = `
+                SELECT principal
+                FROM balance
+                WHERE acc_id = ?;
+            `;
+
+            // Execute the query
+            const [rows, fields] = await pool.execute(query, [id_account]);
+
+            // Check if the account exists and return the current balance
+            if (rows.length === 0) {
+                throw new Error('Account not found.');
+            }
+
+            return rows[0].principal;
+            // Get current balance of account
+        } catch (err) {
+            console.error('Error getting current balance:', err);
+            throw err;
+        }
+    }
 }
 
 module.exports = new Account_H();
