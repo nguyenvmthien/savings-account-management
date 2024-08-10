@@ -12,12 +12,17 @@ class Deposit_H {
             const connection = await pool.getConnection();
             await connection.beginTransaction();
             try {
+            try {
                 // Check if the account already exists
                 const [existingAccount] = await connection.execute(
                     'SELECT * FROM account WHERE acc_id = ?',
                     [id_account],
                 );
+                    [id_account],
+                );
 
+                if (existingAccount.length > 0) {
+                    const [account] = await connection.execute(
                 if (existingAccount.length > 0) {
                     const [account] = await connection.execute(
                         `
@@ -26,6 +31,8 @@ class Deposit_H {
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1
+                        `,
+                        [id_account],
                         `,
                         [id_account],
                     );
@@ -39,25 +46,26 @@ class Deposit_H {
                             [dep_id, id_account, money_deposit, deposit_date],
                         );
 
-                            const[balance] = await connection.execute(
-                                `
+                        const [balance] = await connection.execute(
+                            `
                                 SELECT a.cur_balance
                                 FROM balance b
                                 WHERE b.acc_id = ? 
                                 ORDER BY b.open_date DESC
                                 LIMIT 1
-                                `, [id_account]
-                            );
-        
-                            const p_cur_balance = balance[0].cur_balance + money_deposit;
+                                `,
+                            [id_account],
+                        );
 
-                            await connection.execute(
-                                'UPDATE balance SET cur_balance = ? WHERE acc_id = ?', [p_cur_balance, id_account]
-                            )
-                            
-                            await connection.commit();
-                            
-                        }
+                        const p_cur_balance =
+                            balance[0].cur_balance + money_deposit;
+
+                        await connection.execute(
+                            'UPDATE balance SET cur_balance = ? WHERE acc_id = ?',
+                            [p_cur_balance, id_account],
+                        );
+
+                        await connection.commit();
                     }
                 } catch (err) {
                 await connection.rollback();
