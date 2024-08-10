@@ -70,7 +70,7 @@ class Regulation_H {
             throw err;
         }
     }
-    async getMinDesMoneyAndMinWithDays({ type, applied_date, applied_time }) {
+    async getMinDepMoneyAndMinWitDays({ type, applied_date, applied_time }) {
         try {
             // get min_des_money and min_days_withdraw
         } catch (err) {
