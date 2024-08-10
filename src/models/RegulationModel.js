@@ -15,15 +15,24 @@ class Regulation_H {
             await connection.beginTransaction();
             try{
                 // Check if the account already exists
-                const [existingAccount] = await connection.execute(
+                const [existingRegulation] = await connection.execute(
                     'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0',
                     [type, real_applied_date]
                 );  
-                
-        } catch {
+
+                if (existingRegulation.length === 0){
+                    const deleted = 0;
+                    'INSERT INTO deposit (type, apply_date, interest_rate, min_des_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?)',
+                }
+
+            } catch {
             console.error('Error create regulation:', err);
             throw err;
+            } finally {
+
+            }
         }
+    
     }
     async edit({
         type,

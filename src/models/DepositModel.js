@@ -12,17 +12,12 @@ class Deposit_H {
             const connection = await pool.getConnection();
             await connection.beginTransaction();
             try {
-            try {
                 // Check if the account already exists
                 const [existingAccount] = await connection.execute(
                     'SELECT * FROM account WHERE acc_id = ?',
                     [id_account],
                 );
-                    [id_account],
-                );
 
-                if (existingAccount.length > 0) {
-                    const [account] = await connection.execute(
                 if (existingAccount.length > 0) {
                     const [account] = await connection.execute(
                         `
@@ -31,8 +26,6 @@ class Deposit_H {
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1
-                        `,
-                        [id_account],
                         `,
                         [id_account],
                     );
@@ -67,7 +60,8 @@ class Deposit_H {
 
                         await connection.commit();
                     }
-                } catch (err) {
+                } 
+            } catch (err) {
                 await connection.rollback();
                 console.error('Error during transaction:', err);
                 throw err;
