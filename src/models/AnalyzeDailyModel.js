@@ -5,9 +5,11 @@ class Analyze_Daily_H {
         try {
             // Validate the date input
             if (!date || !moment(date, 'YYYY-MM-DD', true).isValid()) {
-                throw new Error('Invalid date format. Expected format: YYYY-MM-DD');
+                throw new Error(
+                    'Invalid date format. Expected format: YYYY-MM-DD',
+                );
             }
-            
+
             const query = `
                 SELECT 
                     account.type AS type_of_saving, 
