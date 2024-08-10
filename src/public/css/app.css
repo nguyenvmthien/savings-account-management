@@ -4,7 +4,7 @@ body {
   margin: 0;
   background-color: #F9FCFB;
   font-family: Inter;
-  overflow-y: hidden; }
+  overflow: hidden; }
 
 .main-content {
   height: 100%;
@@ -20,9 +20,10 @@ body {
   justify-content: left;
   align-content: baseline;
   align-items: flex-start;
-  margin-top: 20px; }
+  margin-top: 10px; }
 
 .header > div {
+  margin-top: 50px;
   width: 450px; }
 
 h1 {
@@ -31,7 +32,8 @@ h1 {
   font-weight: 700;
   line-height: 110%;
   letter-spacing: -0.96px;
-  margin-left: 100px; }
+  margin-left: 400px;
+  width: 600px; }
 
 h2 {
   font-style: italic;

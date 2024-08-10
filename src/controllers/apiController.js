@@ -35,9 +35,15 @@ class API_Controller {
     }
 
     getInformationAPI(req, res) {
-        var id_account = req.body.id_account;
-        // Get in4
-        res.redirect("/sa/deposit/account");
+        // var id_account = req.body.id_account;
+        if(req.originalUrl == "/sa/edit")
+            res.redirect("/sa/edit/account");
+        else if(req.originalUrl == "/sa/deposit")
+            res.redirect("/sa/deposit/account");
+        else if(req.originalUrl == "/sa/withdraw")
+            res.redirect("/sa/withdraw/account");
+        else 
+            console.log("Routing error");
         return;
     }
 
