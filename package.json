@@ -6,7 +6,8 @@
     "beautiful": "prettier --single-quote --trailing-comma all --tab-width 4 --write \"src/**/*.{js, json, scss}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "start": "node ./src/index.js",
+    "watch": "node-sass --watch src/resources/scss/ --output src/public/css/"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "lint-staged": "^15.2.7",
+    "node-sass": "^9.0.0",
     "nodemon": "^2.0.22",
     "prettier": "^3.3.3"
   },
