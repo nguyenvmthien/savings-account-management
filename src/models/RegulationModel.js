@@ -10,7 +10,16 @@ class Regulation_H {
         min_days_withdraw,
     }) {
         try {
-            // create in regulation table, delete = 0 and type not exist in table
+            const real_applied_date = applied_date + " " + applied_time;
+            const connection = await pool.getConnection();
+            await connection.beginTransaction();
+            try{
+                // Check if the account already exists
+                const [existingAccount] = await connection.execute(
+                    'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0',
+                    [type, real_applied_date]
+                );  
+                
         } catch {
             console.error('Error create regulation:', err);
             throw err;

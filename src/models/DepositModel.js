@@ -1,6 +1,9 @@
 const pool = require('../../config/db');
 
+let depositTransactionCount = 0;
+
 class Deposit_H {
+    
     async deposit({ id_account, money_deposit, deposit_date }) {
         try {
             // Insert a new deposit into the database
@@ -41,7 +44,7 @@ class Deposit_H {
 
                             const[balance] = await connection.execute(
                                 `
-                                SELECT a.cur_balance
+                                SELECT a.principle
                                 FROM balance b
                                 WHERE b.acc_id = ? 
                                 ORDER BY b.open_date DESC
@@ -49,14 +52,15 @@ class Deposit_H {
                                 `, [id_account]
                             );
         
-                            const p_cur_balance = balance[0].cur_balance + money_deposit;
+                            const p_cur_principle = balance[0].principle + money_deposit;
 
                             await connection.execute(
-                                'UPDATE balance SET cur_balance = ? WHERE acc_id = ?', [p_cur_balance, id_account]
+                                'UPDATE balance SET cur_balance = ? WHERE acc_id = ?', [p_cur_principle, id_account]
                             )
                             
                             await connection.commit();
                             
+                            depositTransactionCount++;
                         }
                     }
                 }catch (err) {
@@ -74,9 +78,9 @@ class Deposit_H {
 
     async getAllDepositTransaction() {
         try {
-            // Get all deposit money
+            return depositTransactionCount;
         } catch (err) {
-            console.error('Error getting all deposit money:', err);
+            console.error('Error getting all deposit transaction:', err);
             throw err;
         }
     }
