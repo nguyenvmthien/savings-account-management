@@ -1,7 +1,6 @@
 const pool = require('../config/db');
 
 class Account_H {
-
     // OK
     async create({
         id_card,

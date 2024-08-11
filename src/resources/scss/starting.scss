@@ -1,87 +1,52 @@
 body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-color: #F1FFFB !important;
-}
-
-.container {
-    height: 100vh; /* Chiều cao toàn bộ viewport */
-    flex-direction: column;
-    display: flex;
-    margin: 0;
-    padding: 0;
+    background-color: #F1FFFB;
 }
 
 .header-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 10vh;
     display: flex;
     align-items: center;
-    width: 100%; /* Đảm bảo chiếm toàn bộ chiều rộng */
-    padding-left: 40px;
+    width: 100%;
+    padding: 30px;
 }
 
-
-.header {
-    margin: 0;
-    padding-left: 30px;
-    padding-top: 30px;
-}
-
-.mata-text {
+.logo {
+    color: #16A596;
     font-family: Inter;
     font-size: 50px;
-    font-weight: 800;
-    color: #16A596;
     font-style: normal;
+    font-weight: 800;
+    line-height: 150%;
     letter-spacing: -0.5px;
-    float:left;
 }
 
-.contact-text {
+.contact-text a {
     font-family: Inter;
-    font-size: 35px;
+    font-size: 30px;
     font-weight: normal;
     color: #1B8136;
-    text-decoration: none; /* Loại bỏ gạch chân */
-    padding-left: 430px;
-    float:right;
+    text-decoration: none;
+    margin-left: 500px;
 }
-
-
-.content-container {
-    display: flex;
-    width: 100vw; /* Đảm bảo chiều rộng toàn bộ viewport */
-    height: 100vh; /* Đảm bảo chiều cao toàn bộ viewport */
-    flex:1;
-}
-
 
 .text-container {
-    position: relative;
+    width: 437px;
+    height: 257px;
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    flex: 1;
-    margin-left: 30px;
+    margin: 80px 0 0 200px;
 }
 
 .text-container h3,
 .text-container h4 {
     margin: 0;
-    font-size: 60px; /* Đảm bảo cả h2 và h3 có cùng kích thước */
+    font-size: 60px;
     font-weight: bold;  
     stroke-width: 3px; 
-    font-family:Jura;/* Đảm bảo không có sự khác biệt về chiều rộng nét */
+    font-family:Jura;
 }
 
-/* Định nghĩa màu sắc riêng biệt */
 .text-container h3 {
     color: #1B8136;
 }
@@ -89,30 +54,12 @@ body {
 .text-container h4   {
     color: #665F5F;
 }
-.background {
-    width: 50vw; /* Chiếm nửa chiều rộng của viewport */
-    height: 100vh; /* Chiều cao bằng toàn bộ viewport */
-    position: absolute; /* Để điều chỉnh vị trí */
-    top: 0;
-    right: 0; /* Đặt bên phải màn hình */
-    background: url("/images/home.png") no-repeat;
-    background-size: cover;
-    background-position: right center;
-}
 
-/* Căn giữa nội dung trong start-container */
-.start-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute; /* Để đặt chính xác */
-    top: 50%; /* Đặt từ giữa màn hình */
-    left: 50%; /* Đặt từ giữa màn hình */
-    transform: translate(-50%, -50%); /* Để căn giữa chính xác */
-}
-
-/* Định dạng cho nút */
 .primary-btn {
+    position: absolute;
+    top: 50%;
+    right: 25%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,12 +68,25 @@ body {
     height: 150px;
     border-radius: 50%;
     background-color: #fff;
-    border: 9px solid #55ad9b;
-    overflow: hidden;
+    border: 15px solid #55ad9bbb;
     text-decoration: none;
     font-family: Jura;
     color:black;
 }
+
+.block {
+    position: absolute;
+    top: -50%;
+    right: -67%;
+    height: 200%;
+    width: 100%;
+    background-image: url("/images/home.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    border-radius: 50% 0 0 50%;
+}
+
 
 
 

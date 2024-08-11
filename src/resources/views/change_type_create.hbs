@@ -7,23 +7,40 @@
     <link rel="stylesheet" href="/css/change-type-create.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-row">
-        <div class="type-group">
-            <label for="savingsType">Type</label>
-            <select class="form-control" id="savingsType">
-                <option value="" disabled selected>Term/Non-term</option>
-                <option value="non-term">Non-term</option>
-                <option value="term">Term</option>
-            </select>
-
-        <div class="term-inputs" id="termInputs" style="display: none;">
-            <label for="term-months">If term:</label>
-            <input type="text" class="term" id="term-months" placeholder="3">
-            <input type="text" class="term-months" id="months" placeholder="Months" disabled>
-            <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
+    <div class="header">
+        <div>
+            <h2>Create</h2>
+        </div>
+        <div>
+            <h1>Types of Savings</h1>
         </div>
     </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+   <div class="container">
+        <div class="type-group">
+            <div class="label-group">
+                <label for="savingsType">Type</label>
+                <select class="form-control" id="savingsType">
+                    <option value="" disabled selected>Term</option>
+                    <option value="non-term">Non-term</option>
+                    <option value="term">Term</option>
+                </select>
+            </div>
+            <div class = "label-group-1">
+            <div class="term-group" id="termInputs" style="display: none;">
+                <label for="term-months">If term:</label>
+                <div class="input-group-1">
+                    <input type="text" class="term" id="term-months" placeholder="3">
+                    <input type="text" class="term-months" id="months" placeholder="months" disabled>
+                </div>
+            </div>
+                <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
+            </div>
+        </div>
     </div>
 
             <div class="input-container">
@@ -33,7 +50,7 @@
                     <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
                 </div>
                 <div class="input-group">
-                    <label for="min-deposit">Minimum deposit amount (VNĐ)</label>
+                    <label for="min-deposit">Minimum deposit amount (VND)</label>
                     <input type="text" class="input-field" id="min-deposit" placeholder="100,000">
                     <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
                 </div>
@@ -43,111 +60,36 @@
                     <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
                 </div>
             </div>
-
-            <div class="time-container">
-                <div class="date">
-                    <label for="hourSelect">Applied time</label>
+        <div class="container">
+        <div class="time-container">
+            <div class="time-info">
+                <label for="hourSelect" class="time-label">Applied time</label>
+                <div class="time-selectors">
                     <select class="date-control" id="hourSelect">
                         <option value="" disabled selected>hour</option>
-                        <!-- Các tùy chọn giờ -->
-                         <option value="" disabled selected>hour</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
+                        <!-- Options for hours -->
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <!-- More options -->
+                        <option value="23">23</option>
                     </select>
-                </div>
-                <div class="date">
-                    <label for="minSelect"></label>
                     <select class="date-control" id="minSelect">
                         <option value="" disabled selected>Min</option>
-                        <!-- Các tùy chọn phút -->
+                        <!-- Options for minutes -->
                         <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                            <option value="11">11</option>
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
-                            <option value="22">22</option>
-                            <option value="23">23</option>
-                            <option value="24">24</option>
-                            <option value="25">25</option>
-                            <option value="26">26</option>
-                            <option value="27">27</option>
-                            <option value="28">28</option>
-                            <option value="29">29</option>
-                            <option value="30">30</option>
-                            <option value="31">31</option>
-                            <option value="32">32</option>
-                            <option value="33">33</option>
-                            <option value="34">34</option>
-                            <option value="35">35</option>
-                            <option value="36">36</option>
-                            <option value="37">37</option>
-                            <option value="38">38</option>
-                            <option value="39">39</option>
-                            <option value="40">40</option>
-                            <option value="41">41</option>
-                            <option value="42">42</option>
-                            <option value="43">43</option>
-                            <option value="44">44</option>
-                            <option value="45">45</option>
-                            <option value="46">46</option>
-                            <option value="47">47</option>
-                            <option value="48">48</option>
-                            <option value="49">49</option>
-                            <option value="50">50</option>
-                            <option value="51">51</option>
-                            <option value="52">52</option>
-                            <option value="53">53</option>
-                            <option value="54">54</option>
-                            <option value="55">55</option>
-                            <option value="56">56</option>
-                            <option value="57">57</option>
-                            <option value="58">58</option>
-                            <option value="59">59</option>
+                        <option value="2">2</option>
+                        <!-- More options -->
+                        <option value="59">59</option>
                     </select>
                 </div>
-                <div class="date">
-                    <label for="app-date">Applied date</label>
-                    <input type="date" class="date-control" id="app-date">
-                </div>
             </div>
+            <div class="day">
+                <label for="app-date">Applied date</label>
+                <input type="date" class="date-control" id="app-date">
+            </div>
+        </div>
+    </div>
+           
         <button type="submit" class="btn-primary" id="submit_button">Create</button>
     </div>
     <div class="popup" id="popup">
@@ -182,7 +124,7 @@
         // Show or hide term inputs based on savings type
         document.getElementById("savingsType").addEventListener("change", function() {
             const savingsType = document.getElementById("savingsType").value;
-            termInputs.style.display = savingsType == "term" ? "flex" : "none";
+            termInputs.style.display = savingsType == "term" ? "block" : "none";
         });
 
         // Real-time validation for term months input

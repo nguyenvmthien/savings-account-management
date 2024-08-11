@@ -16,39 +16,46 @@ class Regulation_H {
 
             const connection = await pool.getConnection();
             await connection.beginTransaction();
-            try{
+            try {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
-                    [type, real_applied_date]
-                );  
-                //If regulation doesn't exist 
-                if (existingRegulation.length === 0){
+                    [type, real_applied_date],
+                );
+                //If regulation doesn't exist
+                if (existingRegulation.length === 0) {
                     const deleted = 0;
                     await connection.execute(
                         'INSERT INTO deposit (type, apply_date, interest_rate, min_des_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
-                        [type, real_applied_date, interest_rate, min_des_money, min_days_withdraw, 0],
+                        [
+                            type,
+                            real_applied_date,
+                            interest_rate,
+                            min_des_money,
+                            min_days_withdraw,
+                            0,
+                        ],
                     );
-                    
+
                     await connection.commit();
                 }
             } catch (err) {
-            //errors appear during creating
-            await connection.rollback();
-            console.error('Error during creating regulation:', err);
-            throw err;
+                //errors appear during creating
+                await connection.rollback();
+                console.error('Error during creating regulation:', err);
+                throw err;
             } finally {
                 //final step
                 connection.release();
             }
-            //error 
+            //error
         } catch (err) {
             console.log('Erorr regulation: ', err);
             throw err;
         }
     }
 
-    async delete({ type, applied_date, applied_time}) {
+    async delete({ type, applied_date, applied_time }) {
         //We need applied_date & applied time for the primary key
 
         try {
@@ -65,21 +72,20 @@ class Regulation_H {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
-                    [type, real_applied_date]
+                    [type, real_applied_date],
                 );
-                
+
                 //if regulation exists
-                if (existingRegulation.length > 0){
+                if (existingRegulation.length > 0) {
                     //delete regulation
                     const deleted = 1;
                     await connection.execute(
                         'UPDATE regulation SET deleted = ? WHERE type = ? AND apply_date = ?;',
                         [deleted, type, real_applied_date],
                     );
-                    
+
                     await connection.commit();
                 }
-
             } catch (err) {
                 //throw error if there is error during the deleting process
                 await connection.rollback();
@@ -90,7 +96,7 @@ class Regulation_H {
                 connection.release();
             }
         } catch {
-            //throw error 
+            //throw error
             console.error('Error delete regulation:', err);
             throw err;
         }
@@ -119,22 +125,23 @@ class Regulation_H {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
-                    [type, real_applied_date]
+                    [type, real_applied_date],
                 );
-                
+
                 //if regulation exists
-                if (existingRegulation.length > 0){
+                if (existingRegulation.length > 0) {
                     //delete regulation
-                    this.delete({type, applied_date, applied_time});
+                    this.delete({ type, applied_date, applied_time });
 
                     //create regulation
-                    this.create(
-                        {type, 
-                        applied_date, 
-                        interest_rate, 
-                        min_des_money, 
-                        min_days_withdraw});
-                    
+                    this.create({
+                        type,
+                        applied_date,
+                        interest_rate,
+                        min_des_money,
+                        min_days_withdraw,
+                    });
+
                     await connection.commit();
                 }
             } catch (err) {
@@ -146,14 +153,11 @@ class Regulation_H {
                 //final step
                 connection.release();
             }
-
         } catch (err) {
             console.error('Error edit regulation:', err);
             throw err;
         }
     }
-
-    
 
     async getCurrentTypeOfSaving() {
         try {
@@ -169,16 +173,14 @@ class Regulation_H {
                 FROM regulation
                 WHERE deleted > 0;
             `;
-            
+
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
 
-            if(rows.length > 0) {
+            if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;
-            }
-
-            else {
+            } else {
                 throw new Error('There is nothing here.');
             }
         } catch (err) {
@@ -200,19 +202,16 @@ class Regulation_H {
                     interest_rate AS interest_rate_of_regulation
                 FROM regulation;
             `;
-            
+
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
 
-            if(rows.length > 0) {
+            if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;
-            }
-
-            else {
+            } else {
                 throw new Error('There is nothing here.');
             }
-            
         } catch (err) {
             console.error('Error getting all type of saving:', err);
             throw err;
@@ -220,7 +219,6 @@ class Regulation_H {
     }
     async getMinDepMoneyAndMinWitDays({ type, applied_date, applied_time }) {
         try {
-
             //Hello,  this is the concerning factor in the file
             const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
@@ -233,17 +231,17 @@ class Regulation_H {
             WHERE type = ? and applied_time = ? and deleted = 0;
             `;
 
-            const [rows, fields] = await pool.execute(query, [type, real_applied_date]);
-            
-            if(rows.length > 0) {
+            const [rows, fields] = await pool.execute(query, [
+                type,
+                real_applied_date,
+            ]);
+
+            if (rows.length > 0) {
                 // Access the first row and the all_deposit_transaction column
                 return rows[0].all_deposit_transation;
-            }
-
-            else {
+            } else {
                 throw new Error('There is nothing here.');
             }
-            
         } catch (err) {
             console.error(
                 'Error getting min_des_money and min_days_withdraw:',

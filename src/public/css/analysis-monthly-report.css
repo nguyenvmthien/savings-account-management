@@ -1,0 +1,213 @@
+@charset "UTF-8";
+.header {
+  margin-top: 10px; }
+
+h1 {
+  margin-top: 10px;
+  color: #6D5858;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 110%;
+  letter-spacing: -0.96px;
+  margin-left: 50px;
+  font-family: 'Inter', sans-serif; }
+
+h2 {
+  font-style: italic;
+  color: #6D5858;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 110%;
+  letter-spacing: -0.68px;
+  margin-left: -650px;
+  font-family: 'Inter', sans-serif;
+  color: black;
+  font-style: normal; }
+
+.row {
+  display: flex;
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  gap: 200px; }
+
+.btn-CSV {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  background: #16A596;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 15px;
+  font-family: 'Inter';
+  font-weight: bold;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  margin-left: 50px; }
+
+.filters {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px; }
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px; }
+
+.filter-group label {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 16px; }
+
+.filter-group input,
+.filter-group select {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  color: #828282; }
+
+.filter-group select {
+  width: 160px; }
+
+.create_button {
+  margin-top: -10px;
+  position: fixed;
+  left: 700px;
+  right: 70px;
+  width: 140px;
+  height: 40px;
+  background: #16A596;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 18px;
+  font-family: 'Inter';
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: pointer; }
+
+#myChart {
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  width: 20%;
+  height: 20%; }
+
+.table-container {
+  margin-top: 150px;
+  border: 2px dashed #6D5858;
+  /* Dashed border for container */
+  padding: 20px;
+  /* Padding inside the container */ }
+
+.caption-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  /* Margin below the caption container */ }
+
+.table-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #440A67;
+  /* Color for table title */ }
+
+.filter-info {
+  display: flex;
+  align-items: center;
+  /* Center items vertically */
+  margin-left: 150px;
+  /* Space between title and filter info */ }
+
+.filter-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  color: #828282;
+  /* Color for filter labels */
+  margin-left: 50px;
+  /* Space between title and filter info */ }
+
+.filter-label:not(:last-child) {
+  margin-right: 40px;
+  /* Space between filter labels */ }
+
+.table-container {
+  width: 100%;
+  margin-top: 50px;
+  margin-left: -20px;
+  border: 3px dashed #6D5858; }
+
+.account-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-left: 15px;
+  /* Cách lề trái 15px */
+  margin-right: 15px;
+  /* Cách lề phải 15px */ }
+
+.account-table caption {
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  color: #440A67;
+  margin-top: 10px;
+  /* Cách lề trên của bảng 10px */ }
+
+.account-table th {
+  color: #828282;
+  font-size: 16px;
+  font-family: Inter;
+  text-align: center; }
+
+.account-table th, .account-table td {
+  padding-left: 10px;
+  padding-top: 10px;
+  border: none;
+  text-align: center; }
+
+.account-table td {
+  font-family: Inter;
+  color: #440A67;
+  margin-top: 20px;
+  font-weight: 400; }
+
+.account-table tr {
+  position: relative;
+  /* Để sử dụng pseudo-element */ }
+
+.account-table tr::after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 1%;
+  /* Tạo khoảng cách từ lề trái */
+  right: 5%;
+  /* Tạo khoảng cách từ lề phải */
+  height: 1px;
+  /* Độ dày của đường kẻ */
+  background-color: #440A67;
+  /* Màu của đường kẻ */ }
+
+.chart-container {
+  position: absolute;
+  top: -15px;
+  /* Adjust as needed */
+  right: 70px;
+  /* Adjust as needed */
+  width: 500px;
+  /* Adjust the width */
+  height: 250px;
+  /* Adjust the height */
+  color: #6D5858; }
+
+#myChart {
+  width: 120%;
+  /* Make the chart fit its container */
+  height: 120%;
+  /* Make the chart fit its container */ }

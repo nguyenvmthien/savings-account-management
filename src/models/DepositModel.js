@@ -1,8 +1,6 @@
 const pool = require('../../config/db');
 
-
 class Deposit_H {
-    
     async deposit({ id_account, money_deposit, deposit_date }) {
         try {
             // Insert a new deposit into the database
@@ -29,11 +27,13 @@ class Deposit_H {
                         `,
                         [id_account],
                     );
-                    
+
                     //insert new deposit transaction
                     const p_open_date = account[0].open_date;
                     if (money_deposit > 500000 && deposit_date > p_open_date) {
-                        const dep_id = `DEP${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
+                        const dep_id = `DEP${Math.floor(Math.random() * 100000)
+                            .toString()
+                            .padStart(5, '0')}`;
 
                         await connection.execute(
                             'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, ?);',
@@ -50,10 +50,9 @@ class Deposit_H {
                                 `,
                             [id_account],
                         );
-                        
+
                         const cur_principle =
                             balance[0].principle + money_deposit;
-                        
 
                         //update account's principle
                         await connection.execute(
@@ -63,7 +62,7 @@ class Deposit_H {
 
                         await connection.commit();
                     }
-                } 
+                }
             } catch (err) {
                 //throw error if there is error during the transaction
                 await connection.rollback();
@@ -73,8 +72,8 @@ class Deposit_H {
                 //final step
                 connection.release();
             }
-        } catch (err){
-            //throw error if there is something wrong 
+        } catch (err) {
+            //throw error if there is something wrong
             console.error('Error deposit:', err);
             throw err;
         }

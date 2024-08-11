@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Account Type</title>
+    <link rel="stylesheet" href="/css/analysis-monthly-report.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="header">
+        <h1>Analysis</h1>
+        <div class="row">
+            <h2>Monthly Report</h2>
+            <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+        </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="month-report">Month</label>
+            <input type="date" id="month-report" name="month-report">
+        </div>
+        <div class="filter-group">
+            <label for="type-saving">Type of Saving</label>
+            <select id="type-saving" name="type-saving">
+                <option value="3months" disabled>3 months</option>
+                <option value="3months">3 months</option>
+                <option value="6months">6 months</option>
+                <option value="non-term">Non-term</option>
+            </select>
+        </div>
+    </div>
+    <button class="create_button" id="create">Create Report</button>
+    <div class="table-container">
+        <div class="caption-container">
+            <span class="table-title">Monthly Account Activity Report</span>
+            <div class="filter-info">
+                <span class="filter-label">Type of Savings: --</span>
+                <span class="filter-label">Month: --</span>
+            </div>
+        </div>
+        <table class="account-table">
+            <caption>List of Accounts</caption>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Account</th>
+                    <th>Type of Saving</th>
+                    <th>Customer's Name</th>
+                    <th>Balance (VND)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>MS1234</td>
+                    <td>3 months</td>
+                    <td>John Doe</td>
+                    <td>100,000 VND</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>MS5678</td>
+                    <td>Short Term</td>
+                    <td>Jane Smith</td>
+                    <td>200,000 VND</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>MS9101</td>
+                    <td>6 months</td>
+                    <td>Emily Davis</td>
+                    <td>300,000 VND</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>MS1213</td>
+                    <td>Non-term</td>
+                    <td>Michael Brown</td>
+                    <td>150,000 VND</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>MS1415</td>
+                    <td>1 year</td>
+                    <td>Sarah Wilson</td>
+                    <td>250,000 VND</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>MS1617</td>
+                    <td>3 months</td>
+                    <td>David Lee</td>
+                    <td>175,000 VND</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>MS1819</td>
+                    <td>6 months</td>
+                    <td>Jessica Taylor</td>
+                    <td>225,000 VND</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>MS2021</td>
+                    <td>Non-term</td>
+                    <td>Chris Martin</td>
+                    <td>120,000 VND</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>MS2223</td>
+                    <td>1 year</td>
+                    <td>Anna White</td>
+                    <td>275,000 VND</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>MS2425</td>
+                    <td>3 months</td>
+                    <td>Robert Harris</td>
+                    <td>140,000 VND</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="chart-container">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+       const config = {
+    type: 'doughnut',
+    data: {
+        labels: ['New accounts', 'Closed accounts'],
+        datasets: [{
+            data: [62, 38],
+            backgroundColor: ['#FFA500', '#32CD32'] // Colors for the slices
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom', // Position the legend at the bottom
+                labels: {
+                    boxWidth: 20, // Width of the color box
+                    padding: 20, // Padding around the legend items
+                }
+            },
+            title: {
+                display: true,
+                text: 'Monthly account activity',
+                position: 'bottom', // Title position at the top
+                font: {
+                    size: 16, // Font size of the title
+                    weight: 'bold' // Font weight of the title
+                },
+                padding: {
+                    top: 10,
+                    bottom: 10
+                }
+            }
+        },
+        layout: {
+            padding: 20 // Padding around the chart
+        },
+        cutout: '70%', // Adjust the thickness of the donut
+    }
+};
+
+// Create the chart
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, config);
+
+    </script>
+</body>
+
+</html>

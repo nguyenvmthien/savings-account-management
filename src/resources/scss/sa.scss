@@ -1,3 +1,8 @@
+h1 {
+    font-size: 64px;
+    margin-left: 100px;
+}
+
 .boxes {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -5,33 +10,33 @@
 }
 
 .boxes a {
-    width: 150px;
-    height: 160px;
-        text-decoration: none;
+    width: 189px;
+    height: 191px;
+    text-decoration: none;
 }
 
 .box {
     display: flex;
     flex-direction: column;
     border-radius: 8px;
-    width: 150px;
-    height: 160px;
+    width: 189px;
+    height: 191px;
     background: #16A596;
     text-align: center;
 }
 
-box:hover {
+.box:hover {
     background: #176E65;
 }
 
 .box img {
-    height: 60px;
+    height: 72px;
     margin: 30px auto 15px;
 }
 
 .box p {
     color: #FFF;
-    font-size: 16px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 500;
     line-height: 150%;
@@ -41,34 +46,41 @@ box:hover {
 
 .message-box {
     position: relative;
-    width: 880px;
-    height: 250px;
+    width: 92%;
+    height: 300px;
     border-radius: 30px;
     border: 2px #6D5858;
     border-style: dashed;
     background: #FEF4F4;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .message-box p {
     margin-left: 150px;
-    font-size: 12px;
+    margin-right: 15px;
+    font-size: 16px;
+    text-align: justify;
+    font-weight: 500;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
 .message-box h2 {
-    font-size: 30px;
-    margin-left: 70px;
+    font-size: 32px;
+    margin-left: 100px;
+    margin-top: 35px;
+    font-weight: 400;
 }
 
 .message-box img {
     position: absolute;
     top: 20px;
     left: 20px;
-    height: 40px;
+    height: 60px;
 }
 
 .message-box h3 {
     position:absolute;
-    top: 100px;
+    top: 50%;
     left: 20px;
 }

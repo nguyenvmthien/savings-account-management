@@ -20,7 +20,7 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm" method="POST">
+    <form id="myForm" method="PUT">
         <fieldset class="customer-information">
             <legend>Customer's information</legend>
             <div class="form-group">
@@ -66,10 +66,10 @@
             </div>
             <div class="form-group">
                 <span>Interest rate</span>
-                <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x%" disabled>
+                <input id="rate" name="interest_rate" type="text" class="form-control" value="0.x%" disabled>
             </div>
         </fieldset>
-        <button id="submit-button" class="button" onclick="confirmSubmit()">Edit</button>
+        <button type="button" id="submit-button" class="button" onclick="confirmSubmit()">Edit</button>
     </form>
     <div id="pop-up" class="pop-up">
         <div class="pop-up-content">
@@ -102,7 +102,7 @@
             var address = document.querySelector('[name="customer_address"]').value;
             var createDate = document.querySelector('[name="date_created"]').value;
             var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
-            var rate = document.querySelector('[name="interest-rate"]').value;
+            var rate = document.querySelector('[name="interest_rate"]').value;
             var money = document.querySelector('[name="money"]').value;
 
             if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
@@ -130,26 +130,6 @@
         function submitForm() {
             document.getElementById('myForm').submit();
         }
-
-        document.getElementById('tos-input').addEventListener('change', function () {
-            var typeOfSaving = this.value;
-            console.log(typeOfSaving);
-            if (typeOfSaving !== "") {
-                console.log('Calling API with type:', typeOfSaving);
-                fetch('/sa-create/getInterestRate?type=' + typeOfSaving)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log('Raw Data:', data);
-                        document.getElementById('rate').value = data.interestRate + '%';
-                    })
-                    .catch(error => {
-                        console.error('Error fetching interest rate:', error);
-                        document.getElementById('rate').value = '0.x%';
-                    });
-            } else {
-                document.getElementById('rate').value = '0.x%';
-            }
-        });
     </script>
 </body>
 
