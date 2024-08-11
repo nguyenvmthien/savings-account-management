@@ -172,6 +172,15 @@ class Withdraw_H {
     async getAllWithdrawTransaction() {
         try {
             // Get all withdraw money
+            const query = `
+                SELECT COUNT(*) AS all_withdraw_transation
+                FROM withdraw;
+            `;
+
+            const [rows, fields] = await pool.execute(query);
+
+            // Access the first row and the all_deposit_transaction column
+            return rows[0].all_withdraw_transation;
         } catch (err) {
             console.error('Error getting all withdraw money:', err);
             throw err;
