@@ -19,8 +19,8 @@ class Deposit_H {
                     //get the opened_date
                     const [account] = await connection.execute(
                         `
-                        SELECT a.open_date
-                        FROM account a
+                        SELECT a.open_date, r.min_des_money
+                        FROM account a join regulation on a.type = r.type
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1;
@@ -29,8 +29,7 @@ class Deposit_H {
                     );
 
                     //insert new deposit transaction
-                    const p_open_date = account[0].open_date;
-                    if (money_deposit > 500000 && deposit_date > p_open_date) {
+                    if (money_deposit > account[0].min_des_money && deposit_date > account[0].open_date) {
                         const dep_id = `DEP${Math.floor(Math.random() * 100000)
                             .toString()
                             .padStart(5, '0')}`;
