@@ -12,12 +12,27 @@
     </head>
     <body>
         <div class = "app">
-            <div id = "navbar" class = "navbar">
+            <div id="navbar" class = "navbar">
                 {{>navbar}}
             </div>
-            <div class = "main-content">
+            <div id="main" class = "main-content">
                 {{{body}}}
             </div> 
         </div>
+        <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const navbar = document.getElementById("navbar");
+            const main = document.getElementById("main");
+            const currentPath = window.location.pathname;
+            console.log(currentPath);
+            if (currentPath === "/starting") {
+                navbar.style.display = "none";
+                main.style.marginLeft = "0";
+            } else {
+                navbar.style.display = "inline";
+                main.style.marginLeft = "311px";
+            }
+        });
+        </script>
     </body>
 </html>

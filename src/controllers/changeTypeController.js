@@ -26,10 +26,6 @@ class Regulation_Controller {
     delete(req, res) {
         return;
     }
-
-    getMinDesMoneyAndMinWithDaysAPI(req, res) {
-        return;
-    }
 }
 
 module.exports = new Regulation_Controller();
