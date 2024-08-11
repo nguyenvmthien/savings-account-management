@@ -12,8 +12,9 @@
   width: 450px; }
 
 h1 {
+  margin-top: 20px;
   color: #6D5858;
-  font-size: 35px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 110%;
   letter-spacing: -0.96px;
@@ -47,15 +48,15 @@ h2 {
 .type-group {
   align-items: center;
   /* Căn giữa các phần tử theo chiều dọc */
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   /* Khoảng cách dưới nhóm Type */ }
 
 .type-group label {
   display: block;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   font-family: 'Inter';
   font-weight: bold;
-  font-size: 15px; }
+  font-size: 16px; }
 
 .form-control {
   width: auto;
@@ -71,13 +72,10 @@ h2 {
   text-align: left; }
 
 .btn-primary {
-  position: fixed;
-  /* Đặt vị trí nút cố định ở góc dưới bên phải */
-  margin-top: 10px;
-  margin-left: 350px;
+  margin-left: 150px;
   width: 120px;
   /* Điều chỉnh kích thước nếu cần */
-  height: 60px;
+  height: 40px;
   /* Điều chỉnh kích thước nếu cần */
   background: #16A596;
   border-radius: 8px;
@@ -88,15 +86,12 @@ h2 {
   font-family: 'Inter', sans-serif;
   /* Phông chữ */
   font-weight: bold;
-  /* Độ dày chữ */
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   text-decoration: none;
-  /* Loại bỏ gạch chân nếu có */
   border: none;
-  /* Loại bỏ viền nếu có */
   cursor: pointer;
   /* Thay đổi con trỏ khi di chuột vào nút */ }
 
@@ -132,23 +127,18 @@ h2 {
   top: 20px;
   left: 150px; }
 
-.delete-text {
-  padding-top: 10px;
-  padding-left: 40px; }
-
 .delete-text h1 {
+  padding-left: 50px;
   font-size: 32px;
   font-family: Inter;
-  font-weight: 800;
-  text-align: center;
-  line-height: 0.1s; }
+  font-weight: 800; }
 
 .delete-text h2 {
+  margin-top: 10px;
   font-size: 30px;
   font-family: Inter;
-  padding-top: 10px;
-  padding-left: 150px;
-  text-align: center;
   color: black;
   font-weight: 200;
-  font-style: normal; }
+  font-style: normal;
+  padding-left: 200px;
+  font-weight: 400; }

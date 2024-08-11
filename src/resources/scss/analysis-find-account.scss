@@ -37,7 +37,7 @@ h2 {
     position: fixed; 
     right: 60px;
     width: 120px; 
-    height: 50px;
+    height: 40px;
     background: #16A596;
     border-radius: 8px;
     color: #fff; /* Màu chữ trắng */
@@ -50,7 +50,7 @@ h2 {
 }
 
 .input-container {
-    margin-top: -10px;
+    margin-top: -20px;
     display: flex; 
     gap:150px;
 }
@@ -84,7 +84,7 @@ h2 {
 .input-container-second {
     display: flex; 
     gap: 150px; 
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .input_date_create,
@@ -115,7 +115,7 @@ h2 {
 }
 
 .type_of_saving option {
-    width: 180px; /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
+    width: 180px; 
     padding: 10px;
     height: 40px;
     font-family: 'Inter';
@@ -129,8 +129,8 @@ h2 {
 position: fixed; 
 margin-top: -10px;
 right: 70px;
-width: 120px; 
-height: 60px;
+width: 100px; 
+height: 40px;
 background: #16A596;
 border-radius: 8px;
 color: #fff; /* Màu chữ trắng */
@@ -143,62 +143,64 @@ cursor: pointer;
 }
 
 .table-container {
-    margin-top: 70px;
+    width: 100%;
+    margin-top: 40px;
     border: 3px dashed #6D5858;
 }
 
 .account-table {
     width: 100%;
-    border-collapse: collapse; 
-}
-
-.table-title {
-    text-align: left; 
-    font-family: 'Inter', sans-serif;
-    font-weight: bold;
-    font-size: 24px;
-    margin: 0; 
-    padding: 10px; 
+    border-collapse: collapse;
+    margin-left: 15px; /* Cách lề trái 15px */
+    margin-right: 15px; /* Cách lề phải 15px */
 }
 
 .account-table caption {
-    text-align: left; 
+    text-align: left;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 24px;
-    margin-top: 10px; 
-    color:#440A67;
+    color: #440A67;
+    margin-top: 10px; /* Cách lề trên của bảng 10px */
 }
 
 .account-table th {
     color: #828282;
     font-size: 16px;
     font-family: Inter;
+    text-align: center;
 }
+
 .account-table th, .account-table td {
-    padding: 25px;
-    text-align: left;
+    padding-left: 10px;
+    padding-top: 15px;
     border: none;
+    text-align: center;
 }
 
 .account-table td {
     font-family: Inter;
     color: #440A67;
+    margin-top: 20px;
     font-weight: 400;
 }
+
 .account-table tr {
-    border-bottom: 1px solid #440A67; 
-    margin-top: 80px;
-    position: relative; 
+    position: relative; /* Để sử dụng pseudo-element */
 }
 
-.account-table tr:not(:last-child)::after {
+.account-table tr::after {
     content: "";
+    display: block;
     position: absolute;
-    left: 20px; 
-    right: 20px; 
     bottom: 0;
+    left: 1%; /* Tạo khoảng cách từ lề trái */
+    right: 5%; /* Tạo khoảng cách từ lề phải */
+    height: 1px; /* Độ dày của đường kẻ */
+    background-color: #440A67; /* Màu của đường kẻ */
 }
+
+
 
 
 

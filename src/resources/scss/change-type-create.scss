@@ -13,8 +13,9 @@
 }
 
 h1 {
+    margin-top: 20px;
     color: #6D5858;
-    font-size: 35px;
+    font-size: 48px;
     font-weight: 700;
     line-height: 110%;
     letter-spacing: -0.96px;
@@ -49,21 +50,21 @@ h2 {
     margin-top: 20px;
 }
 
-
 .type-group {
     display: flex;
-    gap: 100px;
+    gap: 170px;
 }
 .form-control {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 200px;
+    height: 38px;
     text-align: left;
     color: black;
-    font-size: 16px;
+    font-size: 13px;
     font-family: Inter;
     font-weight: 500;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .label-group label {
@@ -72,10 +73,6 @@ h2 {
     width: 100%;
     font-style: Inter;
     color:black;
-}
-
-.term-group label {
-    margin-top: 10px;
 }
 
 .label-group-1 .label {
@@ -89,18 +86,20 @@ h2 {
 
 .input-group-1 {
     display: flex;
-    gap:10px;
-    width: 50%;
+    gap:20px;
+    height: 55px;
+    width: 60%;
 }
+
 /* Định dạng cho các nhóm input */
 .input-container {
     display: flex;
     gap: 30px;
     margin-top: 20px;
 }
-
-
-
+.input-group-1 .months {
+    width: 65%;
+}
 .input-group {
     flex: 1;
 }

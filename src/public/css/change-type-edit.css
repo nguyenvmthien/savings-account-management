@@ -12,8 +12,9 @@
   width: 450px; }
 
 h1 {
+  margin-top: 20px;
   color: #6D5858;
-  font-size: 35px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 110%;
   letter-spacing: -0.96px;
@@ -54,7 +55,8 @@ h2 {
   display: block;
   margin-bottom: 10px;
   font-family: 'Inter';
-  font-weight: bold;
+  font-weight: black;
+  font-weight: 500;
   font-size: 15px; }
 
 /* Định dạng cho các trường chọn loại tiết kiệm */
@@ -62,7 +64,7 @@ h2 {
   width: auto;
   /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
   color: #828282;
-  height: 45px;
+  height: 35px;
   /* Đặt chiều cao cho dropdown */
   font-family: 'Inter', sans-serif;
   font-size: 12px;
@@ -82,8 +84,7 @@ h2 {
   position: relative; }
 
 .input-group {
-  flex: 1;
-  position: relative; }
+  flex: 1; }
 
 .input-group label {
   display: flex;
@@ -92,7 +93,8 @@ h2 {
   /* Kích thước font cho label */
   margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
-  font-weight: bold;
+  color: black;
+  font-weight: 500;
   margin-right: 5px; }
 
 .valid, .invalid {
@@ -110,7 +112,7 @@ h2 {
   width: 40%;
   /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
   padding: 5px;
-  height: 40px;
+  height: 35px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   box-sizing: border-box;
@@ -120,29 +122,11 @@ h2 {
 .term-inputs {
   display: flex;
   align-items: center;
-  gap: 20px;
-  /* Khoảng cách giữa label và input */ }
+  gap: 20px; }
 
-.term-inputs label {
-  margin-right: 10px;
-  font-weight: bold;
-  font-size: 13px;
-  font-family: Inter;
-  /* Khoảng cách giữa label và input */ }
+#min-deposit {
+  width: 48%; }
 
-.term-inputs .term {
-  width: auto;
-  height: 40px;
-  padding: 5px;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 0.25rem; }
-
-.term, .term-months {
-  display: block; }
-
-/* Định dạng cho các nhóm thời gian */
 /* Định dạng cho các nhóm thời gian */
 .time-container {
   margin-top: 30px;
@@ -158,24 +142,24 @@ h2 {
   /* Kích thước font cho label */
   margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
-  font-weight: bold; }
+  font-weight: 500;
+  color: black; }
 
 .date-control {
   width: 80px;
-  /* Điều chỉnh chiều rộng của các phần tử select và input */
-  height: 40px;
-  /* Điều chỉnh chiều cao của các phần tử select và input */
+  height: 35px;
   padding: 5px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   text-align: left;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  margin-top: 10px; }
+  margin-top: 10px;
+  color: #828282; }
 
 #app-date {
   width: 130px;
-  height: 40px;
+  height: 35px;
   padding: 5px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
