@@ -32,4 +32,4 @@ class Analyze_Daily_H {
     }
 }
 
-module.exports = Analyze_Daily_H;
+module.exports = new Analyze_Daily_H();

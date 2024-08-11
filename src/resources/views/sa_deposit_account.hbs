@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/deposit.css">
+</head>
+
+<body>
+    <div class="header">
+        <div>
+            <h2>Deposit Money</h2>
+        </div>
+        <div>
+            <h1>Saving Account</h1>
+        </div>
+    </div>
+    <div>
+        <a href="http://localhost:3000/contact">
+            <button class="button" id="contact-button">Contact</button>
+        </a>
+    </div>
+    <form id="myForm" method="POST">
+        <fieldset class="customer-information">
+            <legend>Customer's information</legend>
+            <div class="form-group">
+                <span>Customer's name</span>
+                <input type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A" disabled>
+            </div>
+        </fieldset>
+        <fieldset class="account-information">
+            <legend>Account's information</legend>
+            <div class="form-group">
+                <span>ID Account</span>
+                <input type="text" name="id_account" class="form-control" placeholder="MSxxxxx" disabled>
+            </div>
+            <div class="form-group">
+                <span>Type of saving</span>
+                <input type="text" name="type_of_saving" class="form-control" placeholder="Non-term" disabled>
+            </div>
+            <div class="form-group">
+                <span>Interest rate</span>
+                <input id="rate" name="interest_rate" type="text" class="form-control" value="0.x%" disabled>
+            </div>
+            <div class="form-group">
+                <span>Current amount</span>
+                <input id="cur_amount" name="current_amount" type="text" class="form-control" value="100,000,000" disabled>
+            </div>
+        </fieldset>
+        <fieldset class="deposit-information">
+            <legend>Deposit information</legend>
+            <div class="form-group">
+                <span>Money deposited</span>
+                <input type="money" name="money_deposit" class="form-control" placeholder="100,000,000" required>
+            </div>
+            <div class="form-group">
+                <span>Deposit date</span>
+                <input type="date" name="deposit_date" class="form-control" required>
+            </div>
+        </fieldset>
+        <button type="button" id="deposit-button" class="button" onclick="confirmSubmit()">Deposit</button>
+    </form>
+    <div id="pop-up" class="pop-up">
+        <div class="pop-up-content">
+            <div>
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2>Preview Information</h2>
+                <img
+                    src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__">
+            </div>
+            <legend>Customer's Information</legend>
+            <p id="confirmCId"></p>
+            <p id="confirmName"></p>
+            <p id="confirmAddress"></p>
+            <legend>Account's Information</legend>
+            <p id="confirmIDAccount">ID Account: MS0000000001</p>
+            <p id="confirmCreateDate"></p>
+            <p id="confirmTos"></p>
+            <p id="confirmRate"></p>
+            <p id="confirmMoney"></p>
+            <p id="comfirmDepositDate"></p>
+            <div class="buttons">
+                <button class="button" onclick="submitForm()">Submit</button>
+                <button class="button" onclick="closePopup()">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function confirmSubmit() {
+            var cusID = document.querySelector('[name="id_card"]').value;
+            var name = document.querySelector('[name="customer_name"]').value;
+            var address = document.querySelector('[name="customer_address"]').value;
+            var createDate = document.querySelector('[name="date_created"]').value;
+            var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
+            var rate = document.querySelector('[name="interest-rate"]').value;
+            var money = document.querySelector('[name="deposit_money"]').value;
+            var depositDate = document.querySelector('[name="deposit_date"]').value;
+
+            if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
+                alert('Please fill out all fields.');
+                return;
+            }
+
+            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
+            document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
+            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
+            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
+            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
+            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
+            document.getElementById('confirmMoney').innerText = 'Money deposited: ' + money + ' VND';
+            document.getElementById('confirmDepositDate').innerText = 'Deposited date: ' + depositDate;
+
+            var popup = document.getElementById('pop-up');
+            popup.style.display = "block";
+        }
+
+        function closePopup() {
+            var popup = document.getElementById('pop-up');
+            popup.style.display = "none";
+        }
+
+        function submitForm() {
+            document.getElementById('myForm').submit();
+        }
+    </script>
+</body>
+
+</html>

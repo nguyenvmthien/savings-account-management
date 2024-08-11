@@ -2,38 +2,43 @@ h2 {
   color: #101720;
   font-style: normal;
   font-weight: bold;
-  margin-left: 50px; }
+  margin-left: 50px;
+  font-size: 50px; }
+
+h1 {
+  font-size: 64px;
+  margin-left: 100px; }
 
 .question {
   display: flex;
   align-items: center; }
 
 .question img {
-  width: 200px;
+  width: 220px;
   margin-left: 100px; }
 
 .phone {
   display: flex;
   align-items: center;
   font-style: italic;
-  font-size: 20px;
+  font-size: 28px;
   margin-left: 50px; }
 
 .phone img {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   padding: 20px; }
 
 .address {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 28px;
   font-style: italic;
   margin-left: 50px; }
 
 .address img {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   padding: 20px; }
 
 .sentence {
