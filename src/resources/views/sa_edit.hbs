@@ -15,7 +15,7 @@
         </div>
     </div>
     <div>
-        <a href="http://localhost:3000/contact">
+        <a id="contact-link">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
@@ -37,5 +37,14 @@
         <h2>Tips for you</h2>
         <p>Do not make mistakes while entering information.</p>
     </div>
+    <script>
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+        });
+    </script>
 </body>
 </html>

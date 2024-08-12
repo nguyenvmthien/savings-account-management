@@ -8,7 +8,7 @@
 <body>
     <h1>Analysis</h1>
     <div>
-        <a href="http://localhost:3000/contact">
+        <a id="contact-link">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
@@ -51,5 +51,14 @@
             System will notify if the type is deleted successfully or unsuccessfully. Otherwise, click <span style="font-weight: bold">“No”</span>.
         </p>
     </div>
+    <script>
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+        });
+    </script>
 </body>
 </html>

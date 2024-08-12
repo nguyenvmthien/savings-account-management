@@ -12,7 +12,7 @@
     <div class="header-container">
         <div class="logo">MATA</div>
         <div class="contact-text">
-            <a href="http://localhost:3000/contact">Contact</a>
+            <a id="contact-link">Contact</a>
         </div>
     </div>
     <div class="text-container">
@@ -23,6 +23,13 @@
             <div class="primary-btn">START</div>
         </a>
     <script>
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+        });
     </script>
 </body>
 
