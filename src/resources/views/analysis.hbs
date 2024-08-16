@@ -1,55 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Account Type</title>
     <link rel="stylesheet" href="/css/analysis.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-    <h1>Analysis</h1>
+    <div class="header">
+        <h1>Analysis</h1>
+        <div class="row">
+            <h2>Find Account</h2>
+             <a href="http://localhost:3000/analysis/find-account">
+            <button type="submit" class="detail" id="csv_button">Detail</button>
+        </a>
+        </div>
+    </div>
     <div>
         <a href="http://localhost:3000/contact">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <div class="boxes">
-        <a href="http://localhost:3000/change-type/create">
-            <div class="box">
-                <img src="https://s3-alpha-sig.figma.com/img/f5bb/9f2d/501280a531c20d38d3c4348404f1476f?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Uv9l-7AAjNM~o6ckx8Xn6n-wxtYzqngzRyTblcGMaZWyAKZX5IyCvAN3sREhy7BTnDHYPcXc41b4Kh4yYbc9HDxOWF~ji6blmmfXGz9rz8r7xJTYgysueC9HTASIzEEkJSwdV2~ERuqB4IbpPwXZBJHpLSaOKMw9Re3sLxE9tsjJAKIf5dB-HRvZPtuWwRjOYPX6tQYrOF5crb4C0jFxTRXmXAaUOdjgZtdj~cOpqxy7P6UBhQaKFUtfhQU-MEFIFpPpknKCXROyTYjHq00OGwr5IxXMNIJhzjE5i-d842lPd0hYh9U~gn~wKCZHELDVhNmLoKh2H1l5ciwX4HgeRw__">
-                <p>Create</p>
-            </div>
-        </a>
-        <a href="http://localhost:3000/change-type/edit">
-            <div class="box">
-                <img style="margin-left: 65px;" src="https://s3-alpha-sig.figma.com/img/2ce0/abc4/405b435700dbc6216d9a9f20338f54ed?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=OHfYmk6-KpTP4Bq9FlBp6-CLQ7OA2DI2oCurV~SnZXykwC3Z5BdmXTQOSY7049A0irHqu19nbEHiYVgJswufHrq3wPg6NQ4nvRWmeTRLHj8H0mQzHO~QPFiu2tXhLl8CHAkoGJJWDRw~~92OLo7bDSU6TJAJME5rcldG9FropyTEk~AIz3FKeUbsiELC4GoAIUzP55JcVMRmauu~gaYu9vVlXJHTjbKRKK4Kbn9qAkw1Lbqhpd8kVo~VdPygyx22h1y5I-4KagDH~ui9dA-nXeXhsJBYUdMshWlc0Xxk4pHrhSycLw2P8bXWwyJH9LVQm57iBUKQej0wRMStvu5AzA__">
-                <p>Edit</p>
-            </div>
-        </a>
-        <a href="http://localhost:3000/change-type/delete">
-            <div class="box">
-                <img style="margin-left: 65px;" src="https://s3-alpha-sig.figma.com/img/838e/32cc/760ac5d96b33519a853883e9db569fbf?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=paHGEY2IFNjOtDA85o6mucfDY0ASOe3lA2wJKLMs2uEraXQuDQnvvXoZdWlSGUROSKsIWFyaHQvAIKoOvCErwOW3b7axOtWQlAM5gjNXTRabzsIYghosxcIoVifbTaWgFazLUQRtWbpHGTfISRobkiYIzY94BqILNj0zdMhaOSJXdJmOWhXtmESRa8BmZTnoUSHn3oIaDVz2ALjN2cNLog7AK5mkGluwPiKEBLOe5aoQjOXdVNouNHTSbdgSonqJOdPprvEYdO~kKV~MNkPnpIJdiUB0BSApRE9UOuk1-Q1FfmxDZSrSGWIe4RsFR9zQRR7gGP8orsr7VYNr~sDzBw__">
-                <p>Delete</p>
-            </div>
-        </a>
+
+    <div class="table-container">
+        <table class="account-table">
+            <caption>List of Accounts</caption>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>ID Account</th>
+                    <th>Type of Saving</th>
+                    <th>Customer's Name</th>
+                    <th>Balance (VND)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>MS1234</td>
+                    <td>3 months</td>
+                    <td>John Doe</td>
+                    <td>100,000 VND</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>MS5678</td>
+                    <td>Short Term</td>
+                    <td>Jane Smith</td>
+                    <td>200,000 VND</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>MS9101</td>
+                    <td>6 months</td>
+                    <td>Emily Davis</td>
+                    <td>300,000 VND</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>MS1213</td>
+                    <td>Non-term</td>
+                    <td>Michael Brown</td>
+                    <td>150,000 VND</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>MS1415</td>
+                    <td>1 year</td>
+                    <td>Sarah Wilson</td>
+                    <td>250,000 VND</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    <div class="message-box">
-        <img src="https://s3-alpha-sig.figma.com/img/83ac/922c/53ff8a2a4858f8a501318625c2e563ff?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GWBEektMkx6VsD08hEBKJFqaqGH0bPdxiee7iqkGFLo-iOmLX3SA~SOD55d8O~~IKa5vrH~DvbaWdeIhRknrjxdfsE4EJT6q-xClFRKPrPRnNoTjWPgZJNqd19PWUO7IIf68xR2g3AwUfl7HGpHbPkaMXn1zyPBTMct9Eb3IzHPo9LiscnukS-s4iEq8sVXS5XoJ6dt5Vfb8jfL16JW-KjFvMipInaoccOUHXTY~K2j1O6w35K-7QgtBvnYYT5zjg~DaVBIlT7om4PMLufP7EoNMpVKh59b3ndLoMc23HYEEOqNqhNIIYxAI-4imHyuElU5YqNUyMpywVjs~j~gezg__">
-        <h3>Instruction</h3>
-        <h2>Hi! You just receive a new message!</h2>
-        <p>
-            <span style="color: #16A596; font-weight: bold">Create new account</span>: Enter the new type’s requirement, click <span style="font-weight: bold">"Create"</span>, 
-            review the details in the pop-up window, and if everything is correct, click <span style="font-weight: bold">"Submit"</span>; 
-            if adjustments are needed, click <span style="font-weight: bold">"Cancel"</span> to make changes.
-        </p>
-        <p>
-            <span style="color: #16A596; font-weight: bold">Edit</span>: Choose the type of saving, adjust information and click <span style="font-weight: bold">"Edit"</span>. 
-            A preview will be shown for review. If the system can't update the information, you'll be notified to try again. Otherwise, a success message will appear.
-        </p>
-        <p>
-            <span style="color: #16A596; font-weight: bold">Delete</span>: Choose the type of savings, and click <span style="font-weight: bold">“Delete”</span>. 
-            Next, you are required to confirm that this type of savings will be deleted eternally. If this is the case, click <span style="font-weight: bold">“Yes”</span>.
-            System will notify if the type is deleted successfully or unsuccessfully. Otherwise, click <span style="font-weight: bold">“No”</span>.
-        </p>
+
+    <div class="section-container">
+        <div class="section-left">
+            <div class="row_1">
+                <p>Daily Report</p>
+                 <a href="http://localhost:3000/analysis/daily-report">
+                <button type="submit" class="detail_1" id="csv_button">Detail</button>
+                </a>
+                </div>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        <div class="section-right">
+            <div class="row_2">
+                <p>Monthly Report</p>
+                <a href="http://localhost:3000/analysis/monthly-report">
+                <button type="submit" class="detail_2" id="csv_button">Detail</button>
+                </a>
+            </div>
+                <div class="chart-container">
+                    <canvas id="doughnutChart"></canvas>             
+            </div>
+        </div>
     </div>
+    
+    <script>
+        // Script for the bar chart
+var ctxBar = document.getElementById('barChart').getContext('2d');
+var barChart = new Chart(ctxBar, {
+    type: 'bar',
+    data: {
+        labels: ['3 months', '6 months', 'Non-term'], // Giai đoạn
+        datasets: [
+            {
+                label: 'Total Income',
+                data: [100000, 80000, 58000],
+                backgroundColor: '#7FC2FF', // Màu sắc của cột
+                borderWidth: 1,
+                barThickness: 30 // Điều chỉnh kích thước của cột
+            },
+            {
+                label: 'Total Expense',
+                data: [50000, 120000, 140000],
+                backgroundColor: '#FF5F9E',
+                borderWidth: 1,
+                barThickness: 30 // Điều chỉnh kích thước của cột
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'right',
+                labels: {
+                    boxWidth: 20 // Kích thước của ô màu cho các chú thích
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function (context) {
+                        return context.dataset.label + ': ' + context.raw + ' VND';
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                stacked: false,
+                title: {
+                    display: true,
+                    text: 'Type of Savings'
+                }
+            },
+            y: {
+                stacked: false,
+                title: {
+                    display: true,
+                },
+            }
+        }
+    }
+});
+
+// Script for the doughnut chart
+ var ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+        var doughnutChart = new Chart(ctxDoughnut, {
+            type: 'doughnut',
+            data: {
+                labels: ['Deposited', 'Withdrawn'],
+                datasets: [{
+                    data: [75, 25],
+                    backgroundColor: ['#EF9C66', '#75A47F']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 20,
+                            padding: 20,
+                        }
+                    },
+                },
+                layout: {
+                    padding: 10
+                },
+                cutout: '70%'
+            }
+        });
+    </script>
 </body>
 </html>
