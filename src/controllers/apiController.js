@@ -35,14 +35,28 @@ class API_Controller {
     }
 
     getInformationAPI(req, res) {
-        // var id_account = req.body.id_account;
-        if (req.originalUrl == '/sa/edit') res.redirect('/sa/edit/account');
-        else if (req.originalUrl == '/sa/deposit')
-            res.redirect('/sa/deposit/account');
-        else if (req.originalUrl == '/sa/withdraw')
-            res.redirect('/sa/withdraw/account');
-        else console.log('Routing error');
-        return;
+        var id_account = req.query.id_account;
+        if(id_account == '123')
+        {
+            if (req.originalUrl == '/sa/edit/checkID') 
+                res.redirect('/sa/edit');
+            else if (req.originalUrl == '/sa/deposit/checkID')
+                res.redirect('/sa/deposit');
+            else if (req.originalUrl == '/sa/withdraw/checkID')
+                res.redirect('/sa/withdraw');
+            else 
+                console.log('Routing error');
+            res.json({error: "fail"});
+            return;
+        }
+
+        // if (req.originalUrl == '/sa/edit') res.redirect('/sa/edit/account');
+        // else if (req.originalUrl == '/sa/deposit')
+        //     res.redirect('/sa/deposit/account');
+        // else if (req.originalUrl == '/sa/withdraw')
+        //     res.redirect('/sa/withdraw/account');
+        // else console.log('Routing error');
+        // return;
     }
 
     getCurrentPrincipalAPI(req, res) {
