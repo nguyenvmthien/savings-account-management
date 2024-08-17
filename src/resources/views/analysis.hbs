@@ -14,9 +14,9 @@
         <h1>Analysis</h1>
         <div class="row">
             <h2>Find Account</h2>
-             <a href="http://localhost:3000/analysis/find-account">
-            <button type="submit" class="detail" id="csv_button">Detail</button>
-        </a>
+            <a id="find-link-detail">
+                <button type="submit" class="detail" id="csv_button">Detail</button>
+            </a>
         </div>
     </div>
     <div>
@@ -81,88 +81,88 @@
         <div class="section-left">
             <div class="row_1">
                 <p>Daily Report</p>
-                 <a href="http://localhost:3000/analysis/daily-report">
-                <button type="submit" class="detail_1" id="csv_button">Detail</button>
+                <a id="daily-link-detail">
+                    <button type="submit" class="detail_1" id="csv_button">Detail</button>
                 </a>
-                </div>
-                <div class="chart-container">
-                    <canvas id="barChart"></canvas>
-                </div>
             </div>
+            <div class="chart-container">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
         <div class="section-right">
             <div class="row_2">
                 <p>Monthly Report</p>
-                <a href="http://localhost:3000/analysis/monthly-report">
-                <button type="submit" class="detail_2" id="csv_button">Detail</button>
+                <a id="monthly-link-detail">
+                    <button type="submit" class="detail_2" id="csv_button">Detail</button>
                 </a>
             </div>
-                <div class="chart-container">
-                    <canvas id="doughnutChart"></canvas>             
+            <div class="chart-container">
+                <canvas id="doughnutChart"></canvas>
             </div>
         </div>
     </div>
-    
+
     <script>
         // Script for the bar chart
-var ctxBar = document.getElementById('barChart').getContext('2d');
-var barChart = new Chart(ctxBar, {
-    type: 'bar',
-    data: {
-        labels: ['3 months', '6 months', 'Non-term'], // Giai đoạn
-        datasets: [
-            {
-                label: 'Total Income',
-                data: [100000, 80000, 58000],
-                backgroundColor: '#7FC2FF', // Màu sắc của cột
-                borderWidth: 1,
-                barThickness: 30 // Điều chỉnh kích thước của cột
+        var ctxBar = document.getElementById('barChart').getContext('2d');
+        var barChart = new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['3 months', '6 months', 'Non-term'], // Giai đoạn
+                datasets: [
+                    {
+                        label: 'Total Income',
+                        data: [100000, 80000, 58000],
+                        backgroundColor: '#7FC2FF', // Màu sắc của cột
+                        borderWidth: 1,
+                        barThickness: 30 // Điều chỉnh kích thước của cột
+                    },
+                    {
+                        label: 'Total Expense',
+                        data: [50000, 120000, 140000],
+                        backgroundColor: '#FF5F9E',
+                        borderWidth: 1,
+                        barThickness: 30 // Điều chỉnh kích thước của cột
+                    }
+                ]
             },
-            {
-                label: 'Total Expense',
-                data: [50000, 120000, 140000],
-                backgroundColor: '#FF5F9E',
-                borderWidth: 1,
-                barThickness: 30 // Điều chỉnh kích thước của cột
-            }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'right',
-                labels: {
-                    boxWidth: 20 // Kích thước của ô màu cho các chú thích
-                }
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return context.dataset.label + ': ' + context.raw + ' VND';
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            boxWidth: 20 // Kích thước của ô màu cho các chú thích
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.dataset.label + ': ' + context.raw + ' VND';
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: 'Type of Savings'
+                        }
+                    },
+                    y: {
+                        stacked: false,
+                        title: {
+                            display: true,
+                        },
                     }
                 }
             }
-        },
-        scales: {
-            x: {
-                stacked: false,
-                title: {
-                    display: true,
-                    text: 'Type of Savings'
-                }
-            },
-            y: {
-                stacked: false,
-                title: {
-                    display: true,
-                },
-            }
-        }
-    }
-});
+        });
 
-// Script for the doughnut chart
- var ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+        // Script for the doughnut chart
+        var ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
         var doughnutChart = new Chart(ctxDoughnut, {
             type: 'doughnut',
             data: {
@@ -189,6 +189,24 @@ var barChart = new Chart(ctxBar, {
                 cutout: '70%'
             }
         });
+
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+            const findPath = "/analysis/find-account";
+            const fullFindUrl = `${currentDomain}${findPath}`;
+            document.getElementById("find-link-detail").href = fullFindUrl;
+            const dailyPath = "/analysis/daily-report";
+            const fullDailyUrl = `${currentDomain}${dailyPath}`;
+            document.getElementById("daily-link-detail").href = fullDailyUrl;
+            const monthlyPath = "/analysis/monthly-report";
+            const fullMonthlyUrl = `${currentDomain}${monthlyPath}`;
+            document.getElementById("monthly-link-detail").href = fullMonthlyUrl;
+        });
     </script>
 </body>
+
 </html>
