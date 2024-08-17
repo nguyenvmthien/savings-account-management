@@ -251,3 +251,5 @@ class Regulation_H {
         }
     }
 }
+
+module.exports = new Regulation_H();

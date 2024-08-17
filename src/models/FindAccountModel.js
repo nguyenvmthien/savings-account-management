@@ -44,4 +44,4 @@ class Find_Account_H {
     }
 }
 
-module.exports = Find_Account_H;
+module.exports = new Find_Account_H();

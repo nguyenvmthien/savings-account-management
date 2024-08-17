@@ -7,6 +7,89 @@ const analysisMonthlyModel = require('../models/AnalyzeMonthlyModel');
 const regulationModel = require('../models/RegulationModel');
 
 class API_Controller {
+    async getInterestRateAPI(req, res) {
+        console.log(req.query.type);
+
+        if (Object.keys(req.query).length === 0) {
+            console.log('No data');
+            return;
+        }
+
+        const typeOfSaving = req.query.type;
+        console.log(typeOfSaving);
+        try {
+            const result = await regulationModel.getCurrentTypeOfSaving();
+            // find interest rate of type of saving
+            const interestRate = result.find(
+                (element) => element.type === typeOfSaving
+            );
+
+            if (interestRate) {
+                res.json(interestRate);
+            }
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getNewestIDAccountAPI(req, res) {
+        try {
+            const result = await accountModel.getNewestIDAccount();
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getInformationAPI(req, res) {
+        if (req.originalUrl == '/sa/edit') res.redirect('/sa/edit/account');
+        else if (req.originalUrl == '/sa/deposit')
+            res.redirect('/sa/deposit/account');
+        else if (req.originalUrl == '/sa/withdraw')
+            res.redirect('/sa/withdraw/account');
+        else console.log('Routing error');
+
+        const id_account = req.query.id_account;
+
+        try {
+            const result = await accountModel.getInformationByIDAccount(id_account);
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getCurrentPrincipalAPI(req, res) {
+        const { id_account } = req.query;
+
+        if (!id_account) {
+            res.status(400).json({ error: 'Missing id_account parameter' });
+            return;
+        }
+
+        try {
+            const result = await accountModel.getCurrentPrincipal(id_account);
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+
+    async getCurrentBalanceAPI(req, res) {
+        const id_account = req.query.id_account;
+        if (!id_account) {
+            res.status(400).json({ error: 'Missing id_account parameter' });
+            return;
+        }
+        try {
+            const result = await accountModel.getCurrentBalance(id_account);
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
     async createReportDailyAPI(req, res) {
         const date = req.query.date;
         if (!date) {
@@ -42,90 +125,6 @@ class API_Controller {
         }
     }
 
-    async getMinDepMoneyAndMinWithDaysAPI(req, res) {
-        const type = req.query.type;
-        const applied_date = req.query.applied_date;
-        const applied_time = req.query.applied_time;
-
-        if (!type || !applied_date || !applied_time) {
-            res.status(400).json({ error: 'Missing parameter' });
-            return;
-        }
-
-        try {
-            const result = await regulationModel.getMinDepMoneyAndMinWitDays({
-                type,
-                applied_date,
-                applied_time,
-            });
-            res.json(result);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async getInterestRateAPI(req, res) {
-        console.log(req.query.type);
-
-        if (Object.keys(req.query).length === 0) {
-            console.log('No data');
-            return;
-        }
-
-        const typeOfSaving = req.query.type;
-        console.log(typeOfSaving);
-        try {
-            const result = await accountModel.getInterestRate(typeOfSaving);
-            console.log(result);
-            res.json(result);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async getNewestIDAccountAPI(req, res) {
-        try {
-            const result = await accountModel.getNewestIDAccount();
-            res.json(result);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async getInformationAPI(req, res) {
-        // var id_account = req.body.id_account;
-        if (req.originalUrl == '/sa/edit') res.redirect('/sa/edit/account');
-        else if (req.originalUrl == '/sa/deposit')
-            res.redirect('/sa/deposit/account');
-        else if (req.originalUrl == '/sa/withdraw')
-            res.redirect('/sa/withdraw/account');
-        else console.log('Routing error');
-
-        const id_account = req.query.id_account;
-
-        try {
-            const result = await accountModel.getInformation(id_account);
-            res.json(result);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
-    async getCurrentPrincipalAPI(req, res) {
-        const id_account = req.query.id_account;
-        if (!id_account) {
-            res.status(400).json({ error: 'Missing id_account parameter' });
-            return;
-        }
-
-        try {
-            const result = await accountModel.getCurrentPrincipal(id_account);
-            res.json(result);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    }
-
     async findAccountAPI(req, res) {
         const id_account = req.query.id_account;
         const id_card = req.query.id_card;
@@ -155,19 +154,26 @@ class API_Controller {
         }
     }
 
-    async getCurrentBalanceAPI(req, res) {
-        const id_account = req.query.id_account;
-        if (!id_account) {
-            res.status(400).json({ error: 'Missing id_account parameter' });
+    async getMinDepMoneyAndMinWithDaysAPI(req, res) {
+        const type = req.query.type;
+        const applied_date = req.query.applied_date;
+        const applied_time = req.query.applied_time;
+
+        if (!type || !applied_date || !applied_time) {
+            res.status(400).json({ error: 'Missing parameter' });
             return;
         }
+
         try {
-            const result = await accountModel.getCurrentBalance(id_account);
+            const result = await regulationModel.getMinDepMoneyAndMinWitDays({
+                type,
+                applied_date,
+                applied_time,
+            });
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }
-}
+    }}
 
 module.exports = new API_Controller();

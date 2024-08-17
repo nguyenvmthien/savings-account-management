@@ -1,5 +1,6 @@
+const regulationModel = require('../models/RegulationModel');
 class Regulation_Controller {
-    renderChangeTypeCreate(req, res) {
+    async renderChangeTypeCreate(req, res) {
         res.render('change_type_create');
     }
 
@@ -15,16 +16,67 @@ class Regulation_Controller {
         res.render('change_type');
     }
 
-    create(req, res) {
-        return;
+    async create(req, res) {
+        const {
+            type,
+            applied_date,
+            applied_time,
+            interest_rate,
+            min_des_money,
+            min_days_withdraw,
+        } = req.body;
+
+        try {
+            await regulationModel.create({
+                type,
+                applied_date,
+                applied_time,
+                interest_rate,
+                min_des_money,
+                min_days_withdraw,
+            });
+            res.render('change_type_create', { message: 'success' });
+        } catch {
+            console.error('Error creating regulation:', err);
+            throw err;
+        }
     }
 
-    edit(req, res) {
-        return;
+    async edit(req, res) {
+        const {
+            type,
+            applied_date,
+            applied_time,
+            interest_rate,
+            min_des_money,
+            min_days_withdraw,
+        } = req.body;
+
+        try {
+            await regulationModel.edit({
+                type,
+                applied_date,
+                applied_time,
+                interest_rate,
+                min_des_money,
+                min_days_withdraw,
+            });
+            res.render('change_type_edit', { message: 'success' });
+        } catch {
+            console.error('Error editing regulation:', err);
+            throw err;
+        }
     }
 
-    delete(req, res) {
-        return;
+    async delete(req, res) {
+        const { type, applied_date, applied_time } = req.body;
+        try {
+            await regulationModel.delete({ type, applied_date, applied_time });
+            res.render('change_type_delete', { message: 'success' });
+        } catch {
+            console.error('Error deleting regulation:', err);
+            throw err;
+        }
     }
 }
 
