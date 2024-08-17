@@ -18,7 +18,7 @@
         </div>
     </div>
     <div>
-        <a href="http://localhost:3000/contact">
+        <a id="contact-link">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
@@ -131,55 +131,56 @@
             </tbody>
         </table>
     </div>
+
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
 
     <script>
-       const config = {
-    type: 'doughnut',
-    data: {
-        labels: ['New accounts', 'Closed accounts'],
-        datasets: [{
-            data: [62, 38],
-            backgroundColor: ['#FFA500', '#32CD32'] // Colors for the slices
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: {
-                position: 'bottom', // Position the legend at the bottom
-                labels: {
-                    boxWidth: 20, // Width of the color box
-                    padding: 20, // Padding around the legend items
-                }
+        const config = {
+            type: 'doughnut',
+            data: {
+                labels: ['New', 'Closed'],
+                datasets: [{
+                    data: [62, 38],
+                    backgroundColor: ['#FFA500', '#32CD32'] // Colors for the slices
+                }]
             },
-            title: {
-                display: true,
-                text: 'Monthly account activity',
-                position: 'bottom', // Title position at the top
-                font: {
-                    size: 16, // Font size of the title
-                    weight: 'bold' // Font weight of the title
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom', // Position the legend at the bottom
+                        labels: {
+                            boxWidth: 25, // Width of the color box
+                            padding: 25, // Padding around the legend items
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Monthly account activity',
+                        position: 'bottom', // Title position at the bottom
+                        font: {
+                            size: 20, // Font size of the title
+                            weight: 400, // Font weight of the title
+                            family: 'Inter'
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
                 },
-                padding: {
-                    top: 10,
-                    bottom: 10
-                }
+                layout: {
+                    padding: 15 // Padding around the chart
+                },
+                cutout: '70%' // Adjust the thickness of the donut
             }
-        },
-        layout: {
-            padding: 20 // Padding around the chart
-        },
-        cutout: '70%', // Adjust the thickness of the donut
-    }
-};
+        };
 
-// Create the chart
-var ctx = document.getElementById('myChart').getContext('2d');
-var chart = new Chart(ctx, config);
-
+        // Create the chart
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, config);
     </script>
 </body>
 

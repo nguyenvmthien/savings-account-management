@@ -18,7 +18,7 @@
         </div>
     </div>
     <div>
-        <a href="http://localhost:3000/contact">
+        <a id="contact-link">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
@@ -35,8 +35,8 @@
         <button type="submit" class="btn-primary" id="submit_button">Delete</button>
 
         <div class="delete-message">
-            <img src="https://s3-alpha-sig.figma.com/img/5bf9/c131/5a2de4fc57cd0073111418d9bf74b517?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XXXupgh-mW5f4OiV4EFBU1x6vX7VguVuZzGDvmwybBfaUAb6M~1kIZbijzW5N2O-qRMgjUxB-oY5c~aYA8pUpqaXr7L4zCpVRdHiEaU3iwt2VCyQH2PpUS~OamDAGTffjD0xxpCGuCfZGHIxIGVGXC-oGJ5vvWKMp0pf518vPOtQ0btqP1SZrS5xJzqA0wHXLEltWbg~wz8Uubw26DgSsESp5NKLZMl8EQuTaY9vIhArSZ8KewCiyeWzVKS3wWBwndn~Q-nhz28QS3ahW~FXoyK1hpmGefIdjYT3vk3zhVEUP-OxV3lF~1Z0aHSrZvWevWnDRYWduNCZ~z1RbhLReA__" alt="Girl Image" class="boy-image">
-            <img src="https://s3-alpha-sig.figma.com/img/ce00/1f57/9bde5697283e8e8c617c2844c3491c3c?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PjS889YFAHrzHjIkwF9UMcAhLJzhQoi6QfjWIsMth7DUwXaau4ovMLOHPJw4jA8z1dWprcWc8T8wd3aoQpMWiSvNldGlu5p5lmsHSLvmUS~H5sVnjUZi5Ipe7ON2nz-nktf-Voq~4qgcePYfDPSPAi7c1czPE1P5~CGA~YrHkquJzD8q-p~e4Ed8NDMoOLQDW6FtEIqWAKy47jybUdHn44rfsBnqiAqsu2iETHBVyGHo~0EpXSrvC63RnEXNTcMej62glb7c1QKXOEcA9t1V4xQkFBWi4mYJ-nTWMa0O1hg9YK5Fi5JZOr6pncsNuo-3v77SClWC8uKxT9LTryMjmw__" alt="Money Image" class="light-image">
+            <img src="/images/change-type/boy.png" class="boy-image">
+            <img src="/images/sa/bulb.png" class="light-image">
             <div class="delete-text">
                 <h1> Tips for you </h1>
                 <h2> Every decision matters in the long run. </h2>
@@ -44,6 +44,15 @@
         </div>
 
     </div>
+    <script>
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+        });
+    </script>
 </body>
 
 </html>

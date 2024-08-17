@@ -1,15 +1,15 @@
 .welcome-box {
-    background-color: #E0FBE2; /* Màu nền xanh nhạt */
-    border-radius: 30px; /* Bo tròn các góc */
-    padding: 20px;
+    background-color: #E0FBE2; 
+    border-radius: 30px; 
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-left: 185px;
-    width: 45%;
-    height: 150px;
-    margin-top: 25px;
-    position: relative; /* Để định vị hình ảnh chính xác */
+    margin-left: 80px;
+    width: 50%;
+    height: 100px;
+    margin-top: 20px;
+    position: relative; 
     line-height: 1px;
 }
 
@@ -23,11 +23,11 @@
     position: relative;
 }
 
-.decorative-image {
+.welcome-box img {
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 50px; /* Thay đổi kích thước hình ảnh theo nhu cầu */
+    margin-top: -50px;
+    right: -180px;
+    width: 30%; /* Thay đổi kích thước hình ảnh theo nhu cầu */
     height: auto;
 }
 
@@ -39,10 +39,10 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-start;
-    margin-left: 185px;
-    width: 45%;
-    height: 150px;
-    margin-top: 30px;
+    margin-left: 80px;
+    width: 50%;
+    height: 100px;
+    margin-top: 20px;
     position: relative; /* Để định vị hình ảnh chính xác */
     line-height: 1px;
     border: 2px dashed #7B7575; /* Đường viền nét đứt thưa hơn */
@@ -82,10 +82,10 @@
     padding: 40px; /* Tăng padding */
     display: flex;
     align-items: center;
-    margin-left: 185px;
+    margin-left: 80px;
     width: 80%; /* Tăng chiều rộng */
-    height: 250px; /* Tăng chiều cao */
-    margin-top: 50px; /* Khoảng cách giữa welcome-box2 và welcome-box3 */
+    height: 180px; /* Tăng chiều cao */
+    margin-top: 40px; /* Khoảng cách giữa welcome-box2 và welcome-box3 */
     position: relative; /* Để định vị hình ảnh chính xác */
     border: 5px dashed #7B7575; /* Đường viền nét đứt thưa hơn */
     margin-bottom: 0px;
@@ -127,10 +127,11 @@
 
 .money-image {
     position: absolute;
-    top: -70px; /* Khoảng cách từ phía trên của welcome-box3 */
-    margin-left: 120px; /* Khoảng cách từ bên trái của welcome-box3 */
-    width: 130px; /* Thay đổi kích thước hình ảnh theo nhu cầu */
-    height: auto;
+    top: -30px; /* Khoảng cách từ phía trên của welcome-box3 */
+    margin-left: 150px; /* Khoảng cách từ bên trái của welcome-box3 */
+    width: 110px; /* Thay đổi kích thước hình ảnh theo nhu cầu */
+    height: 50%;
+    rotate: 20deg;
 }
 
 .welcome-text3 h1 {
@@ -141,7 +142,7 @@
     word-wrap: break-word;
     color: #6D5858;
     padding-top: 50px;
-    padding-left: 170px;
+    padding-left: 200px;
 }
 
 .welcome-text3 h2 {
@@ -155,6 +156,25 @@
 
 /* Style for the donut chart container */
 
+.chart-container {
+    position: absolute;
+    top: 50px;    /* Adjust the top position as needed */
+    right: 30px;  /* Adjust the right position as needed */
+    width: 300px;  
+    height: 300px; 
+    justify-content: center; 
+    align-items: center;   
+    background-color: #f9f9f9; /* Optional: background color for the chart container */
+    padding: 10px;          /* Optional: padding inside the container */
+    border: 2px dashed #7B7575; 
+    border-radius: 10px; /* Optional: rounded corners */
+}
+
+/* CSS for the chart canvas */
+.chart-container canvas {
+    width: 100% !important;  /* Make the chart fit its container */
+    height: 100% !important; /* Make the chart fit its container */
+}
 
 
 

@@ -16,7 +16,7 @@
         </div>
     </div>
     <div>
-        <a href="http://localhost:3000/contact">
+        <a id="contact-link">
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
@@ -193,6 +193,14 @@
             } else {
                 document.getElementById('rate').value = '0.x%';
             }
+        });
+
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
         });
     </script>
 </body>

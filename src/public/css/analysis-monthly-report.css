@@ -196,18 +196,17 @@ h2 {
 
 .chart-container {
   position: absolute;
-  top: -15px;
-  /* Adjust as needed */
-  right: 70px;
-  /* Adjust as needed */
-  width: 500px;
-  /* Adjust the width */
-  height: 250px;
-  /* Adjust the height */
-  color: #6D5858; }
+  top: -20px;
+  /* Adjust the top position as needed */
+  right: 100px;
+  /* Adjust the right position as needed */
+  width: 300px;
+  height: 300px;
+  align-items: center; }
 
-#myChart {
-  width: 120%;
+/* CSS for the chart canvas */
+.chart-container canvas {
+  width: 80% !important;
   /* Make the chart fit its container */
-  height: 120%;
+  height: 80% !important;
   /* Make the chart fit its container */ }
