@@ -1,4 +1,4 @@
-const pool = require('../../config/db');
+const pool = require('../config/db');
 
 class Regulation_H {
     async create({
@@ -251,3 +251,5 @@ class Regulation_H {
         }
     }
 }
+
+module.exports = new Regulation_H();

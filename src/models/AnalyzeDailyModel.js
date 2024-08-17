@@ -1,4 +1,4 @@
-const pool = require('../../config/db');
+const pool = require('../config/db');
 const moment = require('moment');
 class Analyze_Daily_H {
     async getAnalyzeDaily({ date }) {

@@ -1,6 +1,7 @@
+const analyzeMonthlyModel = require('../models/analyzeMonthlyModel');
 class Analyze_Monthly_Controller {
     renderSaAnalyzeMonthly(req, res) {
-        res.render('analysis_monthly_report');
+        res.render('analyze_monthly', { analyzeMonthly });
     }
 }
 

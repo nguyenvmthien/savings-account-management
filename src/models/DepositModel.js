@@ -1,4 +1,4 @@
-const pool = require('../../config/db');
+const pool = require('../config/db');
 
 class Deposit_H {
     async deposit({ id_account, money_deposit, deposit_date }) {
@@ -29,7 +29,10 @@ class Deposit_H {
                     );
 
                     //insert new deposit transaction
-                    if (money_deposit > account[0].min_des_money && deposit_date > account[0].open_date) {
+                    if (
+                        money_deposit > account[0].min_des_money &&
+                        deposit_date > account[0].open_date
+                    ) {
                         const dep_id = `DEP${Math.floor(Math.random() * 100000)
                             .toString()
                             .padStart(5, '0')}`;
