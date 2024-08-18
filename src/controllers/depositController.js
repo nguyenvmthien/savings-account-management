@@ -6,19 +6,7 @@ class Deposit_Controller {
 
     async renderSaDepositAccount(req, res) {
         const { id_account } = req.body;
-        if (!id_account) {
-            res.status(400).json({ error: 'Missing parameter' });
-            return;
-        }
-
-        try {
-            const accountInfo = await accountModel.getInformationByIDAccount({
-                id_account,
-            });
-            res.render('sa_deposit_account', { accountInfo });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+        res.render('sa_deposit_account');
     }
 
     async deposit(req, res) {

@@ -43,35 +43,21 @@ class API_Controller {
 
     async getInformationAPI(req, res) {
         const id_account = req.query.id_account;
+        console.log("id: " + id_account);
         if (!id_account) {
-            res.json({ error: 'Missing id_account parameter' });
             return;
         }
-        
+
         try {
             const result = await accountModel.getInformationByIDAccount(id_account);
             res.json(result);
+            return;
         } catch (error) {
-            if (req.originalUrl == '/sa/edit/checkID') 
-                res.redirect('/sa/edit');
-            else if (req.originalUrl == '/sa/deposit/checkID')
-                res.redirect('/sa/deposit');
-            else if (req.originalUrl == '/sa/withdraw/checkID')
-                res.redirect('/sa/withdraw');
-            else 
-                console.log('Routing error');
             res.json({ error: 'fail' });
             return;
         }
-
-        if (req.originalUrl == '/sa/edit') res.redirect('/sa/edit/account');
-        else if (req.originalUrl == '/sa/deposit')
-            res.redirect('/sa/deposit/account');
-        else if (req.originalUrl == '/sa/withdraw')
-            res.redirect('/sa/withdraw/account');
-        else console.log('Routing error');
     }
-
+ 
     async getCurrentPrincipalAPI(req, res) {
         const { id_account } = req.query;
 

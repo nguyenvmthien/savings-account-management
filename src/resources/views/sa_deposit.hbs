@@ -21,7 +21,7 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm" method="POST">
+    <form id="myForm" method="GET">
         <fieldset class="customer-information">
             <legend>Search for account</legend>
             <div class="form-group">
@@ -77,7 +77,8 @@
                         popup.style.display = "block";
                     }
                     else {
-                        document.getElementById('myForm').submit();
+                        const queryString = new URLSearchParams(data).toString();
+                        window.location.href = 'deposit/account?' + queryString;
                     }
                 })
                 .catch(error => {
