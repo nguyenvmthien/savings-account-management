@@ -77,7 +77,6 @@ class Regulation_Controller {
             console.error('Error deleting regulation:', err);
             throw err;
         }
->>>>>>> 4db96f545c319797a2c279ec1a8b2bf2d7cc89d0
     }
 }
 
