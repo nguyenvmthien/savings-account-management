@@ -1,5 +1,6 @@
+const regulationModel = require('../models/RegulationModel');
 class Regulation_Controller {
-    renderChangeTypeCreate(req, res) {
+    async renderChangeTypeCreate(req, res) {
         res.render('change_type_create');
     }
 
@@ -15,36 +16,68 @@ class Regulation_Controller {
         res.render('change_type');
     }
 
-    create(req, res) {
-        const {type, interest_rate, min_dep_money, min_days_withdraw, applied_time, applied_date}  = req.body;
-
-        console.log(
+    async create(req, res) {
+        const {
             type,
-            interest_rate,
-            min_dep_money,
-            min_days_withdraw,
+            applied_date,
             applied_time,
-            applied_date
-        );
+            interest_rate,
+            min_des_money,
+            min_days_withdraw,
+        } = req.body;
+
+        try {
+            await regulationModel.create({
+                type,
+                applied_date,
+                applied_time,
+                interest_rate,
+                min_des_money,
+                min_days_withdraw,
+            });
+            res.render('change_type_create', { message: 'success' });
+        } catch {
+            console.error('Error creating regulation:', err);
+            throw err;
+        }
     }
 
-    edit(req, res) {
-        const {type, interest_rate, min_dep_money, min_days_withdraw, applied_time, applied_date}  = req.body;
-        console.log(
-        type,
-        interest_rate,
-        min_dep_money,
-        min_days_withdraw,
-        applied_time,
-        applied_date
-        );
+    async edit(req, res) {
+        const {
+            type,
+            applied_date,
+            applied_time,
+            interest_rate,
+            min_des_money,
+            min_days_withdraw,
+        } = req.body;
+
+        try {
+            await regulationModel.edit({
+                type,
+                applied_date,
+                applied_time,
+                interest_rate,
+                min_des_money,
+                min_days_withdraw,
+            });
+            res.render('change_type_edit', { message: 'success' });
+        } catch {
+            console.error('Error editing regulation:', err);
+            throw err;
+        }
     }
 
-    delete(req, res) {
-        const {type} = req.body;
-        console.log (
-            type
-        )
+    async delete(req, res) {
+        const { type, applied_date, applied_time } = req.body;
+        try {
+            await regulationModel.delete({ type, applied_date, applied_time });
+            res.render('change_type_delete', { message: 'success' });
+        } catch {
+            console.error('Error deleting regulation:', err);
+            throw err;
+        }
+>>>>>>> 4db96f545c319797a2c279ec1a8b2bf2d7cc89d0
     }
 }
 

@@ -19,7 +19,7 @@
         <h3>Your trust</h3>
         <h4>Our Vision</h4>
     </div>
-        <a href="/home">
+        <a id="home-link-starting">
             <div class="primary-btn">START</div>
         </a>
     <script>
@@ -29,6 +29,9 @@
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+            const homePath = "/home";
+            const fullHomeUrl = `${currentDomain}${homePath}`;
+            document.getElementById("home-link-starting").href = fullHomeUrl;
         });
     </script>
 </body>
