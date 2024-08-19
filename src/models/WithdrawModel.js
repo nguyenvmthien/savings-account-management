@@ -16,7 +16,7 @@ class Withdraw_H {
         
         try {
             const [[{ acc_exists }]] = await connection.execute(
-                'SELECT COUNT(*) as acc_exists FROM saving-app.account WHERE acc_id = ?;',
+                'SELECT COUNT(*) as acc_exists FROM account WHERE acc_id = ?;',
                 [id_account]
             );
     
@@ -25,13 +25,13 @@ class Withdraw_H {
             const [[accountDetails], [balanceDetails]] = await Promise.all([
                 connection.execute(
                     'SELECT a.open_date, r.interest_rate, a.type ' +
-                    'FROM saving-app.account a ' +
-                    'JOIN saving-app.regulation r ON a.type = r.type ' +
+                    'FROM account a ' +
+                    'JOIN regulation r ON a.type = r.type ' +
                     'WHERE a.acc_id = ?;', 
                     [id_account]
                 ),
                 connection.execute(
-                    'SELECT principal, interest FROM saving-app.balance WHERE acc_id = ?;',
+                    'SELECT principal, interest FROM balance WHERE acc_id = ?;',
                     [id_account]
                 )
             ]);
@@ -52,7 +52,7 @@ class Withdraw_H {
     
                 const withdraw_id = `WIT${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
                 await connection.execute(
-                    'INSERT INTO saving-app.withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
+                    'INSERT INTO withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
                     [withdraw_id, id_account, money_withdraw, withdraw_date]
                 );
     
@@ -64,13 +64,13 @@ class Withdraw_H {
                 }
     
                 await connection.execute(
-                    'UPDATE saving-app.balance SET principal = ?, interest = ? WHERE acc_id = ?;',
+                    'UPDATE balance SET principal = ?, interest = ? WHERE acc_id = ?;',
                     [principal, interest, id_account]
                 );
     
                 if (Math.floor(principal + interest) === 0) {
                     await connection.execute(
-                        'UPDATE saving-app.account SET close_date = ? WHERE acc_id = ?;',
+                        'UPDATE account SET close_date = ? WHERE acc_id = ?;',
                         [withdraw_date, id_account]
                     );
                 }
@@ -88,7 +88,7 @@ class Withdraw_H {
                 interest = principal * number_of_maturities * interest_rate;
     
                 await connection.execute(
-                    'UPDATE saving-app.balance SET interest = ? WHERE acc_id = ?;',
+                    'UPDATE balance SET interest = ? WHERE acc_id = ?;',
                     [interest, id_account]
                 );
     
@@ -96,17 +96,17 @@ class Withdraw_H {
                 const withdraw_money = principal + interest;
     
                 await connection.execute(
-                    'INSERT INTO saving-app.withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
+                    'INSERT INTO withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
                     [withdraw_id, id_account, withdraw_money, withdraw_date]
                 );
     
                 await connection.execute(
-                    'UPDATE saving-app.balance SET principal = 0, interest = 0 WHERE acc_id = ?;',
+                    'UPDATE balance SET principal = 0, interest = 0 WHERE acc_id = ?;',
                     [id_account]
                 );
     
                 await connection.execute(
-                    'UPDATE saving-app.account SET close_date = ? WHERE acc_id = ?;',
+                    'UPDATE account SET close_date = ? WHERE acc_id = ?;',
                     [withdraw_date, id_account]
                 );
             }
