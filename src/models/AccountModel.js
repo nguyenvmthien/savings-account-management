@@ -148,12 +148,8 @@ class Account_H {
 
     // NEED CHECK WHEN b.interest IS NULL
     async getInformationByIDAccount(id_account) {
+        console.log("id in model: " + id_account);
         try {
-            // Validate input
-            if (!id_account) {
-                throw new Error('Account ID is required.');
-            }
-
             // Query to get account information, including customer details, regulation info, and balance
             const query = `
                 SELECT
@@ -174,7 +170,7 @@ class Account_H {
 
             // Execute the query
             const [rows, fields] = await pool.execute(query, [id_account]);
-
+            console.log(rows);
             // Check if the account exists and return the information
             if (rows.length === 0) {
                 throw new Error('Account not found.');
