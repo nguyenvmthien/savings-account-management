@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Account Type</title>
     <link rel="stylesheet" href="/css/change-type-edit.css">
 </head>
-
 <body>
     <div class="header">
         <div>
@@ -22,10 +20,11 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <div class="container">
-        <div class="type-group">
+    <form action="/change-type/edit" id="myForm" method="POST">
+        <div class="container">
+            <div class="type-group">
                 <label for="savingsType">Type</label>
-                <select class="form-control" id="savingsType">
+                <select class="form-control" name="type" id="savingsType">
                     <option value="" disabled selected>Term/Non-term</option>
                     <option value="non-term">Non-term</option>
                     <option value="term">Term</option>
@@ -35,30 +34,30 @@
 
         <div class="input-container">
             <div class="input-group">
+                <label for="interest-rate">Interest rate (%)</label>
                 <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
-                id="valid_interest_rate" class="valid">
+                    id="valid_interest_rate" class="valid">
                 <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
                     id="invalid_interest_rate" class="invalid">
-                <label for="interest-rate">Interest rate (%)</label>
-                <input type="text" class="input-field" id="interest-rate" placeholder="0.15">
+                <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
                 <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
+                <label for="min-deposit">Minimum deposit amount (VND)</label>
+                <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
                 <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
                     id="valid_min_deposit" class="valid">
                 <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
                     id="invalid_min_deposit" class="invalid">
-                <label for="min-deposit">Minimum deposit amount (VND)</label>
-                <input type="text" class="input-field" id="min-deposit" placeholder="100,000">
                 <p id="minDepositNotification" style="display: none; color: red;">It must be an integer</p>
             </div>
             <div class="input-group">
+                <label for="min-days">Minimum days to withdraw (days)</label>
+                <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
                 <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
                     id="valid_min_days" class="valid">
                 <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
                     id="invalid_min_days" class="invalid">
-                <label for="min-days">Minimum days to withdraw (days)</label>
-                <input type="text" class="input-field" id="min-days" placeholder="30">
                 <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
             </div>
         </div>
@@ -162,183 +161,117 @@
             </div>
             <div class="date">
                 <label for="app-date">Applied date</label>
-                <input type="date" class="date-control" id="app-date">
+                <input type="date" name="applied_date" class="date-control" id="app-date">
             </div>
         </div>
-
         <button type="submit" class="button" id="submit_button">Edit</button>
-    </div>
+    </form>
     <div class="pop-up" id="pop-up">
         <div class="pop-up-content" id="popup-content"></div>
     </div>
-
-    <div class="noti-pop-up" id="successPopup">
-        <div class="noti-pop-up-content">
-            <img src="https://s3-alpha-sig.figma.com/img/d9e2/8b99/f1308a9ef3cd45b22fa2b82a3270c28b?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=U4FY3MMHYdauC7UnR6s~KN7kJNIhZkWJlpiIv4OBX3vIlV-6GA4n2pEHB3GMuEGTj-KVkZH4w1~5NCL98Hln9~K86-EQXOCssXQ6WkNa8Xtx2qLGt01IJgkwHZRUmujAtxhOaZrIPLHHllGC3hYCn2ShGr1YSbLvugJkE7Cm6m2bQMPaiZCAdHb0gPRX6VmaKaUa3pDhu2j~EAMRDRs7lQka1x8TI7evkB5oJJ~4S5CA2SLa4u5sh9vvgNwBxF~cYtwKYyzTtipkWonyORgOtjZ2tnfF8ADEXx9d8glyegBEIIrin0YbFwwCgdpdrtrstCpn5L1bq8AMcmeRIlP0EQ__"
-                alt="Notification Icon">
-            <p class="edit-content">Edited Successfully</p>
-            <button class="button submit-btn" id="closeSuccessPopup">OK</button>
-        </div>
-    </div>
-
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const interestRateInput = document.getElementById("interest-rate");
-        const validInterestRateIcon = document.getElementById("valid_interest_rate");
-        const invalidInterestRateIcon = document.getElementById("invalid_interest_rate");
         const interestRateNotification = document.getElementById("interestRateNotification");
-
-        const minDepositInput = document.getElementById("min-deposit");
-        const validMinDepositIcon = document.getElementById("valid_min_deposit");
-        const invalidMinDepositIcon = document.getElementById("invalid_min_deposit");
         const minDepositNotification = document.getElementById("minDepositNotification");
-
-        const minDaysInput = document.getElementById("min-days");
-        const validMinDaysIcon = document.getElementById("valid_min_days");
-        const invalidMinDaysIcon = document.getElementById("invalid_min_days");
         const minDaysNotification = document.getElementById("minDaysNotification");
+        const validIcons = document.querySelectorAll(".valid");
+        const invalidIcons = document.querySelectorAll(".invalid");
 
-        // Real-time validation for interest rate
-        interestRateInput.addEventListener("input", function () {
-            const value = interestRateInput.value;
-            if (isNaN(value) || value === "") {
-                invalidInterestRateIcon.style.display = "block";
-                validInterestRateIcon.style.display = "none";
+        document.getElementById("submit_button").addEventListener("click", function (event) {
+            event.preventDefault(); // Prevent form from submitting
+            const savingsType = document.getElementById("savingsType").value;
+            const interestRate = document.getElementById("interest-rate").value;
+            const minDeposit = document.getElementById("min-deposit").value;
+            const minDays = document.getElementById("min-days").value;
+            const hour = document.getElementById("hourSelect").value;
+            const minute = document.getElementById("minSelect").value;
+            const date = document.getElementById("app-date").value;
+            let isValid = true;
+
+            // Kiểm tra interestRate
+            if (isNaN(interestRate)) {
                 interestRateNotification.style.display = "flex";
-                interestRateNotification.textContent = "It must be a number";
+                isValid = false;
+                invalidIcons.forEach(icon => icon.style.display = "flex");
+                validIcons.forEach(icon => icon.style.display = "none");
             } else {
                 interestRateNotification.style.display = "none";
-                invalidInterestRateIcon.style.display = "none";
-                validInterestRateIcon.style.display = "block";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display ="none");
             }
-        });
 
-        // Real-time validation for minimum deposit
-        minDepositInput.addEventListener("input", function () {
-            const value = minDepositInput.value;
-            if (isNaN(value) || value === "") {
-                validMinDepositIcon.style.display = "none";
-                invalidMinDepositIcon.style.display = "block";
+            // Kiểm tra minDeposit
+            if (isNaN(minDeposit)) {
                 minDepositNotification.style.display = "flex";
-                minDepositNotification.textContent = "It must be a number";
+                isValid = false;
+                validIcons.forEach(icon => icon.style.display = "none");
+                invalidIcons.forEach(icon => icon.style.display = "flex");
             } else {
                 minDepositNotification.style.display = "none";
-                validMinDepositIcon.style.display = "block";
-                invalidMinDepositIcon.style.display = "none";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display ="none");
             }
-        });
-
-        // Real-time validation for minimum days
-        minDaysInput.addEventListener("input", function () {
-            const value = minDaysInput.value;
-            if (isNaN(value) || !Number.isInteger(Number(value))) {
-                validMinDaysIcon.style.display = "none";
-                invalidMinDaysIcon.style.display = "block";
+            // Kiểm tra minDays
+            if (isNaN(minDays) || !Number.isInteger(Number(minDays))) {
                 minDaysNotification.style.display = "flex";
-                minDaysNotification.textContent = "It must be an integer";
+                isValid = false;
+                validIcons.forEach(icon => icon.style.display = "none");
+                invalidIcons.forEach(icon => icon.style.display = "flex");
             } else {
                 minDaysNotification.style.display = "none";
-                validMinDaysIcon.style.display = "block";
-                invalidMinDaysIcon.style.display = "none";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display ="none");
             }
-        });
+            // Kiểm tra các trường còn lại
+            if (!isValid || savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
+                alert("You have to meet all of the requirements");
+                return;
+            }
+            const popup = document.getElementById("pop-up");
+            const popupContent = document.getElementById("popup-content");
 
-    document.getElementById("submit_button").addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form from submitting
+            // Convert hour and minute to SQL time format
+            const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
 
-        const savingsType = document.getElementById("savingsType").value;
-        const interestRate = document.getElementById("interest-rate").value;
-        const minDeposit = document.getElementById("min-deposit").value;
-        const minDays = document.getElementById("min-days").value;
-        const hour = document.getElementById("hourSelect").value;
-        const minute = document.getElementById("minSelect").value;
-        const date = document.getElementById("app-date").value;
-
-        let isValid = true;
-
-
-        if (isNaN(interestRate) || interestRate === "") {
-            interestRateNotification.style.display = "flex";
-            isValid = false;
-        } else {
-            interestRateNotification.style.display = "none";
-        }
-
-        if (isNaN(minDeposit) || minDeposit === "") {
-            minDepositNotification.style.display = "flex";
-            isValid = false;
-        } else {
-            minDepositNotification.style.display = "none";
-        }
-
-        if (isNaN(minDays) || !Number.isInteger(Number(minDays))) {
-            minDaysNotification.style.display = "flex";
-            isValid = false;
-        } else {
-            minDaysNotification.style.display = "none";
-        }
-
-        if (!isValid) {
-            alert("You have to meet all of the requirements");
-            return;
-        }
-
-        if (savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
-            alert("You have to fill out all of the information to submit");
-            return;
-        }
-        const submitButton = document.getElementById("submit_button");
-        const popup = document.getElementById("pop-up");
-        const popupContent = document.getElementById("popup-content");
-        const successPopup = document.getElementById("successPopup");
-        const closeSuccessPopup = document.getElementById("closeSuccessPopup");
-        // Pop-up content
-        popupContent.innerHTML = `
-                <div>
-                    <h2>Preview Information</h2>
-                    <img src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__" alt="Image Preview">
-                    <legend>Saving's Information</legend>
-                    <p>Type of savings: ${savingsType}</p>
-                    <p>Interest rate: ${interestRate}%</p>
-                    <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
-                    <p>Minimum days to withdraw: ${minDays} days</p>
-                    <legend>Applicable Time</legend>
-                    <p>Applied time: ${hour}h ${minute}</p>
-                    <p>Applied date: ${date}</p>
-                    <div class="buttons">
-                        <button class="button submit-btn" id="confirm-edit">Submit</button>
-                        <button class="button cancel-btn" id="cancel-edit">Cancel</button>
-                    </div>
+            // Pop-up content
+            popupContent.innerHTML = `
+            <div>
+                <h2>Preview Information</h2>
+                <img src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__" alt="Image Preview">
+                <legend>Saving's Information</legend>
+                <p>Type of savings: ${savingsType}</p>
+                <p>Interest rate: ${interestRate}%</p>
+                <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
+                <p>Minimum days to withdraw: ${minDays} days</p>
+                <legend>Applicable Time</legend>
+                <p>Applied time: ${appliedTime}</p>
+                <p>Applied date: ${date}</p>
+                <div class="buttons">
+                    <button class="submit-btn" id="confirm-edit">Submit</button>
+                    <button class="cancel-btn" id="cancel-edit">Cancel</button>
                 </div>
-            `;
-
-        popup.style.display = "flex";
-
-        const confirmEdit = document.getElementById("confirm-edit");
-        const cancelEdit = document.getElementById("cancel-edit");
-
-        confirmEdit.addEventListener("click", function () {
-            popup.style.display = "none";
-            successPopup.style.display = "flex";
-        });
-
-        cancelEdit.addEventListener("click", function () {
-            popup.style.display = "none";
-        });
-
-        closeSuccessPopup.addEventListener("click", function () {
-            successPopup.style.display = "none";
+            </div>
+        `;
+            popup.style.display = "flex";
+            const confirmEdit = document.getElementById("confirm-edit");
+            const cancelEdit = document.getElementById("cancel-edit");
+            confirmEdit.addEventListener("click", function () {
+                // Create a hidden input to store the combined time value
+                const hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'applied_time';
+                hiddenInput.value = appliedTime;
+                // Append the hidden input to the form
+                document.getElementById("myForm").appendChild(hiddenInput);
+                // Submit the form
+                document.getElementById("myForm").submit();
+                popup.style.display = "none";
+            });
+            cancelEdit.addEventListener("click", function () {
+                popup.style.display = "none";
+            });
         });
     });
-    });
-    // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
-            const currentDomain = window.location.origin;
-            const contactPath = "/contact";
-            const fullContactUrl = `${currentDomain}${contactPath}`;
-            document.getElementById("contact-link").href = fullContactUrl;
-        });
 </script>
-
 </html>

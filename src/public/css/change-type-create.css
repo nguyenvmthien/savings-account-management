@@ -92,15 +92,35 @@ h2 {
   width: 65%; }
 
 .input-group {
-  flex: 1; }
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  /* Đặt các phần tử con theo cột */
+  position: relative; }
 
 .input-group label {
-  display: block;
   font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  margin-bottom: 5px;
-  font-weight: 500;
-  color: black; }
+  font-size: 15px;
+  /* Kích thước font cho label */
+  margin-bottom: 10px;
+  /* Khoảng cách giữa label và ô nhập */
+  color: black;
+  font-weight: 500; }
+
+.valid, .invalid {
+  margin-left: 120px;
+  position: absolute;
+  display: none;
+  /* Ẩn biểu tượng mặc định */
+  height: 15px;
+  width: 15px;
+  /* Sửa kích thước width */ }
+
+#valid_min_deposit, #invalid_min_deposit {
+  margin-left: 240px; }
+
+#valid_min_days, #invalid_min_days {
+  margin-left: 250px; }
 
 /* Định dạng cho các trường nhập liệu */
 .input-field {
@@ -172,11 +192,11 @@ h2 {
   bottom: 50px;
   right: 50px;
   width: 120px;
-  height: 60px;
+  height: 50px;
   background: #16A596;
   border-radius: 8px;
   color: #fff;
-  font-size: 20px;
+  font-size: 25px;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
   display: flex;
@@ -192,35 +212,80 @@ p[id$="Notification"] {
   font-size: 0.875rem;
   color: red; }
 
-.popup {
+.pop-up {
   display: none;
   position: fixed;
-  top: 0;
+  z-index: 2;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); }
+
+.pop-up-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: 3% auto;
+  padding: 0 20px;
+  width: 80%;
+  max-width: 600px;
+  border-style: dashed;
+  border-width: 2px;
+  border-color: #6D5858;
+  box-shadow: 15px 15px 4px 5px rgba(0, 0, 0, 0.25); }
+
+.popup-content h2 {
+  font-style: Inter;
+  margin-left: 50px;
+  font-size: 15px; }
+
+.popup-content img {
+  position: absolute;
+  top: 20px;
+  left: 10px;
+  height: 50px; }
+
+.buttons {
+  position: absolute;
+  /* Sử dụng để cố định vị trí của phần tử */
+  bottom: 20px;
+  /* Đặt phần tử cách biên dưới 20px */
+  right: 20px;
+  /* Đặt phần tử cách biên phải 20px */
+  display: flex;
+  /* Sử dụng flexbox để sắp xếp các nút */
+  gap: 20px;
+  /* Khoảng cách giữa các nút */ }
+
+.buttons button {
+  padding: 10px 20px;
+  /* Điều chỉnh kích thước của nút */
+  font-size: 16px;
+  /* Kích thước chữ */ }
+
+.pop-up button {
+  bottom: 50px;
+  right: 70px;
+  width: 120px;
+  /* Điều chỉnh kích thước nếu cần */
+  height: 40px;
+  /* Điều chỉnh kích thước nếu cần */
+  background: #16A596;
+  border-radius: 8px;
+  color: #fff;
+  /* Màu chữ trắng */
+  font-size: 20px;
+  /* Kích thước chữ */
+  font-family: 'Inter', sans-serif;
+  /* Phông chữ */
+  font-weight: bold;
+  /* Độ dày chữ */
+  display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; }
-
-.popup-content {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 0.5rem;
-  text-align: center; }
-
-.popup-button {
-  background-color: #007bff;
-  border: none;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
+  text-align: center;
+  text-decoration: none;
+  /* Loại bỏ gạch chân nếu có */
   cursor: pointer;
-  margin: 0.5rem; }
-
-.popup-button.cancel-btn {
-  background-color: #dc3545; }
-
-#closeSuccessPopup {
-  background-color: #28a745; }
+  border: none; }
