@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/deposit.css">
 </head>
+
 <body>
     <div class="header">
         <div>
@@ -19,16 +21,16 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm" method="POST">
+    <form id="myForm" method="GET">
         <fieldset class="customer-information">
             <legend>Search for account</legend>
             <div class="form-group">
                 <span>Type ID Account</span>
                 <img src="/images/valid-icon/valid.png">
-                <input type="text" name="id_account" class="form-control" placeholder="MSxxxxx" required>
+                <input id="id_account" type="text" name="id_account" class="form-control" placeholder="MSxxxxx">
             </div>
         </fieldset>
-        <button id="submit-button" class="button" onclick="">Search</button>
+        <button type="button" id="submit-button" class="button">Search</button>
     </form>
     <div class="message-box">
         <img id="message-box-icon" src="/images/sa/bulb.png">
@@ -36,14 +38,54 @@
         <h2>Tips for you</h2>
         <p>Do not make mistakes while entering information.</p>
     </div>
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2>ID cannot be found!</h2>
+                <h2>Please check again.</h2>
+            </div>
+            <div>
+                <img class="fail-icon" src="/images/noti-icon/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Cancel</button>
+        </div>
+    </div>
     <script>
         // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
         });
+
+        // Noti pop-up
+        function closeNotiPopup() {
+            var popup = document.getElementById('noti-pop-up');
+            popup.style.display = "none";
+        }
+
+        document.getElementById('submit-button').addEventListener('click', function () {
+            var id = document.getElementById('id_account').value;
+            console.log('Calling API with id:', id);
+            fetch('/sa/deposit/checkID?id_account=' + id)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Raw Data:', data);
+                    if (data.error == "fail") {
+                        var popup = document.getElementById('noti-pop-up');
+                        popup.style.display = "block";
+                    }
+                    else {
+                        const queryString = new URLSearchParams(data).toString();
+                        window.location.href = 'deposit/account?' + queryString;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking id account:', error);
+                });
+        });
     </script>
 </body>
+
 </html>

@@ -93,7 +93,7 @@ h2 {
 
 .table-container {
   width: 100%;
-  margin-top: 130px;
+  margin-top: 120px;
   border: 3px dashed #6D5858; }
 
 .account-table {
@@ -149,15 +149,19 @@ h2 {
   background-color: #440A67;
   /* Màu của đường kẻ */ }
 
+.account-table .total-row td {
+  padding-bottom: 10px;
+  /* Cách đường kẻ bảng một đoạn 10px */ }
+
 .chart-container {
   position: absolute;
   top: 40px;
   /* Adjust as needed */
-  right: 30px;
+  right: 40px;
   /* Adjust as needed */
-  width: 550px;
+  width: 500px;
   /* Adjust the width */
-  height: 350px;
+  height: 300px;
   /* Adjust the height */ }
 
 #myChart {
