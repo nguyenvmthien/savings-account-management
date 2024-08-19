@@ -3,131 +3,112 @@ const pool = require('../config/db');
 class Withdraw_H {
     // async withdraw({ id_account, money_withdraw, withdraw_date }) {
     //     try {
-    //
+    
     //     } catch {
     //         console.error('Error withdraw:', err);
     //         throw err;
     //     }
     // }
 
-    async insertWithdraw({ id_account, wit_money, wit_date }) {
+    async withdraw({ id_account, money_withdraw, withdraw_date }) {
         const connection = await pool.getConnection();
         await connection.beginTransaction();
+        
         try {
-            // Check if the account exists
-            const [existingAccount] = await connection.execute(
-                'SELECT COUNT(*) as acc_exists FROM `saving-app`.`account` WHERE acc_id = ?;',
+            const [[{ acc_exists }]] = await connection.execute(
+                'SELECT COUNT(*) as acc_exists FROM saving-app.account WHERE acc_id = ?;',
                 [id_account]
             );
     
-            if (existingAccount[0].acc_exists > 0) {
-                // Retrieve account details
-                const [accountDetails] = await connection.execute(
-                    `SELECT a.open_date, r.min_wit_time, r.interest_rate, a.type 
-                     FROM \`saving-app\`.account a 
-                     JOIN \`saving-app\`.regulation r ON a.type = r.type 
-                     WHERE a.acc_id = ?;`,
+            if (!acc_exists) throw new Error('Account does not exist');
+    
+            const [[accountDetails], [balanceDetails]] = await Promise.all([
+                connection.execute(
+                    'SELECT a.open_date, r.interest_rate, a.type ' +
+                    'FROM saving-app.account a ' +
+                    'JOIN saving-app.regulation r ON a.type = r.type ' +
+                    'WHERE a.acc_id = ?;', 
                     [id_account]
-                );
-    
-                const p_opened_date = accountDetails[0].open_date;
-                const p_interest_rate = accountDetails[0].interest_rate;
-                const p_type = accountDetails[0].type;
-    
-                const [balanceDetails] = await connection.execute(
-                    'SELECT principal, interest FROM `saving-app`.`balance` WHERE acc_id = ?;',
+                ),
+                connection.execute(
+                    'SELECT principal, interest FROM saving-app.balance WHERE acc_id = ?;',
                     [id_account]
+                )
+            ]);
+    
+            const { open_date, interest_rate, type: account_type } = accountDetails[0];
+            let { principal, interest } = balanceDetails[0];
+    
+            const time_difference = Math.floor(
+                (new Date(withdraw_date) - new Date(open_date)) / (1000 * 60 * 60 * 24)
+            );
+    
+            if (new Date(withdraw_date) <= new Date(open_date)) 
+                throw new Error('Invalid withdrawal date');
+    
+            if (account_type === 'Non-term') {
+                if (money_withdraw > principal + interest) 
+                    throw new Error('Error: Insufficient funds');
+    
+                const withdraw_id = `WIT${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
+                await connection.execute(
+                    'INSERT INTO saving-app.withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
+                    [withdraw_id, id_account, money_withdraw, withdraw_date]
                 );
     
-                let p_principal = balanceDetails[0].principal;
-                let p_interest = balanceDetails[0].interest;
-    
-                const time_difference = Math.floor(
-                    (new Date(wit_date) - new Date(p_opened_date)) / (1000 * 60 * 60 * 24)
-                );
-    
-                if (new Date(wit_date) > new Date(p_opened_date)) {
-                    if (p_type === 'Non-term') {
-                        if (wit_money <= p_principal + p_interest) {
-                            const p_withdraw_id = `WIT${Math.floor(
-                                Math.random() * 100000
-                            )
-                                .toString()
-                                .padStart(5, '0')}`;
-    
-                            await connection.execute(
-                                'INSERT INTO `saving-app`.`withdraw` (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
-                                [p_withdraw_id, id_account, wit_money, wit_date]
-                            );
-    
-                            if (time_difference >= 30) {
-                                p_principal -= wit_money / (1 + p_interest_rate);
-                                p_interest -= (wit_money * p_interest_rate) / (1 + p_interest_rate);
-                            } else {
-                                p_principal -= wit_money;
-                            }
-    
-                            await connection.execute(
-                                'UPDATE `saving-app`.`balance` SET principal = ?, interest = ? WHERE acc_id = ?;',
-                                [p_principal, p_interest, id_account]
-                            );
-    
-                            if (Math.floor(p_principal + p_interest) === 0) {
-                                await connection.execute(
-                                    'UPDATE `saving-app`.`account` SET close_date = ? WHERE acc_id = ?;',
-                                    [wit_date, id_account]
-                                );
-                            }
-                        } else {
-                            throw new Error('Error: Insufficient funds');
-                        }
-                    } else {
-                        // Calculate limit_days using the same logic as the the_limit_day procedure
-                        const [monthNumberResult] = await connection.execute(
-                            'SELECT CAST(SUBSTRING_INDEX(?, " ", 1) AS UNSIGNED) AS month_number;',
-                            [p_type]
-                        );
-                        const limit_days = monthNumberResult[0].month_number * 30;
-    
-                        if (time_difference >= limit_days && wit_money <= p_principal + p_interest) {
-                            const number_of_maturities = Math.floor(time_difference / limit_days);
-                            p_interest = p_principal * number_of_maturities * p_interest_rate;
-    
-                            await connection.execute(
-                                'UPDATE `saving-app`.`balance` SET interest = ? WHERE acc_id = ?;',
-                                [p_interest, id_account]
-                            );
-    
-                            const p_withdraw_id = `WIT${Math.floor(
-                                Math.random() * 100000
-                            )
-                                .toString()
-                                .padStart(5, '0')}`;
-                            const p_wit_money = p_principal + p_interest;
-    
-                            await connection.execute(
-                                'INSERT INTO `saving-app`.`withdraw` (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
-                                [p_withdraw_id, id_account, p_wit_money, wit_date]
-                            );
-    
-                            await connection.execute(
-                                'UPDATE `saving-app`.`balance` SET principal = 0, interest = 0 WHERE acc_id = ?;',
-                                [id_account]
-                            );
-    
-                            await connection.execute(
-                                'UPDATE `saving-app`.`account` SET close_date = ? WHERE acc_id = ?;',
-                                [wit_date, id_account]
-                            );
-                        } else {
-                            throw new Error('Error: Insufficient funds or time');
-                        }
-                    }
+                if (time_difference >= 30) {
+                    principal -= money_withdraw / (1 + interest_rate);
+                    interest -= (money_withdraw * interest_rate) / (1 + interest_rate);
                 } else {
-                    throw new Error('Invalid withdrawal date');
+                    principal -= money_withdraw;
+                }
+    
+                await connection.execute(
+                    'UPDATE saving-app.balance SET principal = ?, interest = ? WHERE acc_id = ?;',
+                    [principal, interest, id_account]
+                );
+    
+                if (Math.floor(principal + interest) === 0) {
+                    await connection.execute(
+                        'UPDATE saving-app.account SET close_date = ? WHERE acc_id = ?;',
+                        [withdraw_date, id_account]
+                    );
                 }
             } else {
-                throw new Error('Account does not exist');
+                const [[{ month_number }]] = await connection.execute(
+                    'SELECT CAST(SUBSTRING_INDEX(?, " ", 1) AS UNSIGNED) AS month_number;',
+                    [account_type]
+                );
+                const limit_days = month_number * 30;
+    
+                if (time_difference < limit_days || money_withdraw > principal + interest) 
+                    throw new Error('Error: Insufficient funds or time');
+    
+                const number_of_maturities = Math.floor(time_difference / limit_days);
+                interest = principal * number_of_maturities * interest_rate;
+    
+                await connection.execute(
+                    'UPDATE saving-app.balance SET interest = ? WHERE acc_id = ?;',
+                    [interest, id_account]
+                );
+    
+                const withdraw_id = `WIT${Math.floor(Math.random() * 100000).toString().padStart(5, '0')}`;
+                const withdraw_money = principal + interest;
+    
+                await connection.execute(
+                    'INSERT INTO saving-app.withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
+                    [withdraw_id, id_account, withdraw_money, withdraw_date]
+                );
+    
+                await connection.execute(
+                    'UPDATE saving-app.balance SET principal = 0, interest = 0 WHERE acc_id = ?;',
+                    [id_account]
+                );
+    
+                await connection.execute(
+                    'UPDATE saving-app.account SET close_date = ? WHERE acc_id = ?;',
+                    [withdraw_date, id_account]
+                );
             }
     
             await connection.commit();
