@@ -16,7 +16,6 @@ class Sites_Controller {
     }
 
     renderAnalysis(req, res) {
-        // need CODE here
         res.render('analysis');
     }
 
