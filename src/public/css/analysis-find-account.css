@@ -181,6 +181,10 @@ h2 {
   position: relative;
   /* Để sử dụng pseudo-element */ }
 
+.account-table .total-row td {
+  padding-bottom: 10px;
+  /* Cách đường kẻ bảng một đoạn 10px */ }
+
 .account-table tr::after {
   content: "";
   display: block;

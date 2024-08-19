@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Account Type</title>
     <link rel="stylesheet" href="/css/change-type-create.css">
 </head>
+
 <body>
     <div class="header">
         <div>
@@ -20,160 +22,192 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-   <div class="container">
+    <form action="/change-type/create" id="myForm" method="POST">
+    <div class="container">
         <div class="type-group">
             <div class="label-group">
                 <label for="savingsType">Type</label>
-                <select class="form-control" id="savingsType">
+                <select class="form-control"  id="savingsType">
                     <option value="" disabled selected>Term</option>
                     <option value="non-term">Non-term</option>
                     <option value="term">Term</option>
                 </select>
             </div>
-            <div class = "label-group-1">
-            <div class="term-group" id="termInputs" style="display: none;">
-                <label for="term-months">If term:</label>
-                <div class="input-group-1">
-                    <input type="text" class="term" id="term-months" placeholder="3">
-                    <input type="text" class="term-months" id="months" placeholder="months" disabled>
+            <div class="label-group-1">
+                <div class="term-group" id="termInputs" style="display: none;">
+                    <label for="term-months">If term:</label>
+                    <div class="input-group-1">
+                        <input type="text" class="term"  id="term-months" placeholder="3">
+                        <input type="text" class="term-months" id="months" placeholder="months" disabled>
+                    </div>
                 </div>
-            </div>
                 <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
             </div>
         </div>
     </div>
 
-            <div class="input-container">
-                <div class="input-group">
-                    <label for="interest-rate">Interest rate (%)</label>
-                    <input type="text" class="input-field" id="interest-rate" placeholder="0.15">
-                    <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
-                </div>
-                <div class="input-group">
-                    <label for="min-deposit">Minimum deposit amount (VND)</label>
-                    <input type="text" class="input-field" id="min-deposit" placeholder="100,000">
-                    <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
-                </div>
-                <div class="input-group">
-                    <label for="min-days">Minimum days to withdraw (days)</label>
-                    <input type="text" class="input-field" id="min-days" placeholder="30">
-                    <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
-                </div>
-            </div>
-        <div class="container">
+    <div class="input-container">
+        <div class="input-group">
+            <label for="interest-rate">Interest rate (%)</label>
+            <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
+                    id="valid_interest_rate" class="valid">
+            <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
+                    id="invalid_interest_rate" class="invalid">
+            <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
+            <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
+        </div>
+        <div class="input-group">
+            <label for="min-deposit">Minimum deposit amount (VND)</label>
+            <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
+                    id="valid_min_deposit" class="valid">
+                <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
+                    id="invalid_min_deposit" class="invalid">
+            <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
+            <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
+        </div>
+        <div class="input-group">
+            <label for="min-days">Minimum days to withdraw (days)</label>
+            <img src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__"
+                    id="valid_min_days" class="valid">
+                <img src="https://s3-alpha-sig.figma.com/img/7d74/c7ef/853b2dfd61b620d0719c71c885f40ae4?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Y5Wdu~pjaV8lHQg4mHB88z1Fd5W7hywcRvTlH5j1UN55K94en6dcB~WJO5if1AjeAY4YzAVWvI-721P9DAYxPODJnN~gYeSFEYELTHZLla~FIJaqtF9oA-DeBnExcDKI96qHGseZVqr0yf5W~-LnOnBFeZ9hlOq65xY6r3KHy6iG-NN3g45ZQ5W93n-dmAE2OTs35Xo0Y4kdgLNRx1SD5UkZtYkB9rUAjogFr-i9bZSH6rP7OFpvX5TL~7sVIBgQ36kRnMs-oGi6YPILbKx6WUc5jvk4VUMMkiPbB0KF~sXgBN10rwQiKgzwpYHF6RKjbQYQXxX5SIAzegLLMqnYDQ__"
+                    id="invalid_min_days" class="invalid">
+            <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
+            <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
+        </div>
+    </div>
+    <div class="container">
         <div class="time-container">
             <div class="time-info">
                 <label for="hourSelect" class="time-label">Applied time</label>
                 <div class="time-selectors">
                     <select class="date-control" id="hourSelect">
                         <option value="" disabled selected>hour</option>
-                        <!-- Options for hours -->
+                        <!-- Các tùy chọn giờ -->
                         <option value="0">0</option>
                         <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
                         <!-- More options -->
                         <option value="23">23</option>
                     </select>
                     <select class="date-control" id="minSelect">
                         <option value="" disabled selected>Min</option>
                         <!-- Options for minutes -->
+                        <!-- Các tùy chọn phút -->
                         <option value="1">1</option>
                         <option value="2">2</option>
-                        <!-- More options -->
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="31">31</option>
+                        <option value="32">32</option>
+                        <option value="33">33</option>
+                        <option value="34">34</option>
+                        <option value="35">35</option>
+                        <option value="36">36</option>
+                        <option value="37">37</option>
+                        <option value="38">38</option>
+                        <option value="39">39</option>
+                        <option value="40">40</option>
+                        <option value="41">41</option>
+                        <option value="42">42</option>
+                        <option value="43">43</option>
+                        <option value="44">44</option>
+                        <option value="45">45</option>
+                        <option value="46">46</option>
+                        <option value="47">47</option>
+                        <option value="48">48</option>
+                        <option value="49">49</option>
+                        <option value="50">50</option>
+                        <option value="51">51</option>
+                        <option value="52">52</option>
+                        <option value="53">53</option>
+                        <option value="54">54</option>
+                        <option value="55">55</option>
+                        <option value="56">56</option>
+                        <option value="57">57</option>
+                        <option value="58">58</option>
                         <option value="59">59</option>
                     </select>
                 </div>
             </div>
             <div class="day">
                 <label for="app-date">Applied date</label>
-                <input type="date" class="date-control" id="app-date">
+                <input type="date" name="applied_date" class="date-control" id="app-date">
             </div>
         </div>
     </div>
-           
-        <button type="submit" class="btn-primary" id="submit_button">Create</button>
-    </div>
-    <div class="popup" id="popup">
-        <div class="popup-content" id="popup-content">
-            <button class="popup-button submit-btn" id="submit">Submit</button>
-            <button class="popup-button cancel-btn" id="cancel">Cancel</button>
-        </div>
-    </div>
-
-    <div class="popup" id="successPopup">
-        <div class="popup-content">
-            Created Successfully
-            <button class="popup-button submit-btn" id="closeSuccessPopup">OK</button>
-        </div>
+    <button type="submit" class="btn-primary" id="submit_button">Create</button>
+    </form>
+    <div class="pop-up" id="pop-up">
+        <div class="pop-up-content" id="popup-content"></div>
     </div>
 </body>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+
+    document.addEventListener("DOMContentLoaded", function () {
         const termInputs = document.getElementById("termInputs");
         const termMonths = document.getElementById("term-months");
         const termNotification = document.getElementById("termNotification");
-        
-        const interestRateInput = document.getElementById("interest-rate");
         const interestRateNotification = document.getElementById("interestRateNotification");
-        
-        const minDepositInput = document.getElementById("min-deposit");
         const minDepositNotification = document.getElementById("minDepositNotification");
-        
-        const minDaysInput = document.getElementById("min-days");
         const minDaysNotification = document.getElementById("minDaysNotification");
+        const validIcons = document.querySelectorAll(".valid");
+        const invalidIcons = document.querySelectorAll(".invalid");
 
         // Show or hide term inputs based on savings type
-        document.getElementById("savingsType").addEventListener("change", function() {
+        document.getElementById("savingsType").addEventListener("change", function () {
             const savingsType = document.getElementById("savingsType").value;
             termInputs.style.display = savingsType == "term" ? "block" : "none";
         });
 
-        // Real-time validation for term months input
-        termMonths.addEventListener("input", function() {
-            const value = termMonths.value;
-            if (isNaN(value) || !Number.isInteger(Number(value))) {
-                termNotification.style.display = "flex";
-                termNotification.textContent = "It must be an integer";
-            } else {
-                termNotification.style.display = "none";
-            }
-        });
-
-        // Real-time validation for interest rate
-        interestRateInput.addEventListener("input", function() {
-            const value = interestRateInput.value;
-            if (isNaN(value) || value === "") {
-                interestRateNotification.style.display = "flex";
-                interestRateNotification.textContent = "It must be a number";
-            } else {
-                interestRateNotification.style.display = "none";
-            }
-        });
-
-        // Real-time validation for minimum deposit
-        minDepositInput.addEventListener("input", function() {
-            const value = minDepositInput.value;
-            if (isNaN(value) || value === "") {
-                minDepositNotification.style.display = "flex";
-                minDepositNotification.textContent = "It must be a number";
-            } else {
-                minDepositNotification.style.display = "none";
-            }
-        });
-
-        // Real-time validation for minimum days
-        minDaysInput.addEventListener("input", function() {
-            const value = minDaysInput.value;
-            if (isNaN(value) || !Number.isInteger(Number(value))) {
-                minDaysNotification.style.display = "flex";
-                minDaysNotification.textContent = "It must be an integer";
-            } else {
-                minDaysNotification.style.display = "none";
-            }
-        });
-
-        document.getElementById("submit_button").addEventListener("click", function(event) {
+        document.getElementById("submit_button").addEventListener("click", function (event) {
             event.preventDefault(); // Prevent form from submitting
-
             const savingsType = document.getElementById("savingsType").value;
             const interestRate = document.getElementById("interest-rate").value;
             const minDeposit = document.getElementById("min-deposit").value;
@@ -181,91 +215,126 @@
             const hour = document.getElementById("hourSelect").value;
             const minute = document.getElementById("minSelect").value;
             const date = document.getElementById("app-date").value;
-
             let isValid = true;
 
-            if (savingsType === "term") {
-                const termMonths = termMonths.value;
-                if (isNaN(termMonths) || !Number.isInteger(Number(termMonths))) {
-                    termNotification.style.display = "flex";
-                    isValid = false;
-                } else {
-                    termNotification.style.display = "none";
-                }
-            }
-
-            if (isNaN(interestRate) || interestRate === "") {
+            // Kiểm tra interestRate
+            if (isNaN(interestRate)) {
                 interestRateNotification.style.display = "flex";
                 isValid = false;
+                invalidIcons.forEach(icon => icon.style.display = "flex");
+                validIcons.forEach(icon => icon.style.display = "none");
             } else {
                 interestRateNotification.style.display = "none";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display = "none");
             }
 
-            if (isNaN(minDeposit) || minDeposit === "") {
+            // Kiểm tra minDeposit
+            if (isNaN(minDeposit)) {
                 minDepositNotification.style.display = "flex";
                 isValid = false;
+                validIcons.forEach(icon => icon.style.display = "none");
+                invalidIcons.forEach(icon => icon.style.display = "flex");
             } else {
                 minDepositNotification.style.display = "none";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display = "none");
             }
 
+            // Kiểm tra minDays
             if (isNaN(minDays) || !Number.isInteger(Number(minDays))) {
                 minDaysNotification.style.display = "flex";
                 isValid = false;
+                validIcons.forEach(icon => icon.style.display = "none");
+                invalidIcons.forEach(icon => icon.style.display = "flex");
             } else {
                 minDaysNotification.style.display = "none";
+                validIcons.forEach(icon => icon.style.display = "flex");
+                invalidIcons.forEach(icon => icon.style.display = "none");
             }
 
-            if (!isValid) {
+            // Kiểm tra các trường còn lại
+            if (!isValid || savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
                 alert("You have to meet all of the requirements");
                 return;
             }
 
-            if (savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
-                alert("You have to fill out all of the information to submit");
-                return;
-            }
+            const popup = document.getElementById("pop-up");
+            const popupContent = document.getElementById("popup-content");
+
+            // Convert hour and minute to SQL time format
+            const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
+
+            // Determine savings type display
+            let savingsTypeDisplay = savingsType === "term" ? `${termMonths.value} months` : "Non-term";
 
             // Pop-up content
-            const popupContent = `
-                <p>Type of savings: ${savingsType}</p>
-                <p>Interest rate: ${interestRate}%</p>
-                <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
-                <p>Minimum days to withdraw: ${minDays} days</p>
-                <p>Applied time: ${hour}h ${minute}</p>
-                <p>Applied date: ${date}</p>
-                <div class="popup-buttons">
-                    <button class="popup-button submit-btn" id="confirmSubmit">Submit</button>
-                    <button class="popup-button cancel-btn" id="cancelSubmit">Cancel</button>
-                </div>
-            `;
-
-            const popup = document.getElementById("popup");
-            const popupContentContainer = document.getElementById("popup-content");
-            popupContentContainer.innerHTML = popupContent;
+            popupContent.innerHTML = `
+        <div>
+            <h2>Preview Information</h2>
+            <img src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__" alt="Image Preview">
+            <legend>Saving's Information</legend>
+            <p>Type of savings: ${savingsTypeDisplay}</p>
+            <p>Interest rate: ${interestRate}%</p>
+            <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
+            <p>Minimum days to withdraw: ${minDays} days</p>
+            <legend>Applicable Time</legend>
+            <p>Applied time: ${appliedTime}</p>
+            <p>Applied date: ${date}</p>
+            <div class="buttons">
+                <button class="submit-btn" id="confirm-edit">Submit</button>
+                <button class="cancel-btn" id="cancel-edit">Cancel</button>
+            </div>
+        </div>
+        `;
             popup.style.display = "flex";
+        const confirmEdit = document.getElementById("confirm-edit");
+        const cancelEdit = document.getElementById("cancel-edit");
 
-            document.getElementById("cancelSubmit").addEventListener("click", function() {
-                popupContentContainer.innerHTML = "";
-                popup.style.display = "none";
-            });
+        confirmEdit.addEventListener("click", function () {
+            const form = document.getElementById("myForm");
 
-            document.getElementById("confirmSubmit").addEventListener("click", function() {
-                popup.style.display = "none";
-                document.getElementById("successPopup").style.display = "flex";
-            });
+            // Set the savings type appropriately based on selection
+            if (savingsType === "term") {
+                const termInput = document.createElement('input');
+                termInput.type = 'hidden';
+                termInput.name = 'type';
+                termInput.value = `${termMonths.value} months`;
+                form.appendChild(termInput);
+            } else {
+                const nonTermInput = document.createElement('input');
+                nonTermInput.type = 'hidden';
+                nonTermInput.name = 'type';
+                nonTermInput.value = 'non-term';
+                form.appendChild(nonTermInput);
+            }
 
-            document.getElementById("closeSuccessPopup").addEventListener("click", function() {
-                document.getElementById("successPopup").style.display = "none";
-            });
+            // Create a hidden input to store the combined time value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'applied_time';
+            hiddenInput.value = appliedTime;
+
+            // Append the hidden input to the form
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+            popup.style.display = "none";
+        });
+
+        cancelEdit.addEventListener("click", function () {
+            popup.style.display = "none";
         });
     });
-
+});
     // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
-            const currentDomain = window.location.origin;
-            const contactPath = "/contact";
-            const fullContactUrl = `${currentDomain}${contactPath}`;
-            document.getElementById("contact-link").href = fullContactUrl;
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentDomain = window.location.origin;
+        const contactPath = "/contact";
+        const fullContactUrl = `${currentDomain}${contactPath}`;
+        document.getElementById("contact-link").href = fullContactUrl;
+    });
 </script>
+
 </html>

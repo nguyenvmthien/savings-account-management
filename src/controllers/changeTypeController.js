@@ -16,15 +16,35 @@ class Regulation_Controller {
     }
 
     create(req, res) {
-        return;
+        const {type, interest_rate, min_dep_money, min_days_withdraw, applied_time, applied_date}  = req.body;
+
+        console.log(
+            type,
+            interest_rate,
+            min_dep_money,
+            min_days_withdraw,
+            applied_time,
+            applied_date
+        );
     }
 
     edit(req, res) {
-        return;
+        const {type, interest_rate, min_dep_money, min_days_withdraw, applied_time, applied_date}  = req.body;
+        console.log(
+        type,
+        interest_rate,
+        min_dep_money,
+        min_days_withdraw,
+        applied_time,
+        applied_date
+        );
     }
 
     delete(req, res) {
-        return;
+        const {type} = req.body;
+        console.log (
+            type
+        )
     }
 }
 
