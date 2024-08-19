@@ -5,7 +5,6 @@ class Deposit_Controller {
     }
 
     async renderSaDepositAccount(req, res) {
-        const { id_account } = req.body;
         res.render('sa_deposit_account');
     }
 

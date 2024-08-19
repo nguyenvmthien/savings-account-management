@@ -63,7 +63,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <span>Interest rate</span>
+                <span>Interest rate (%)</span>
                 <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x%" disabled>
             </div>
         </fieldset>
@@ -184,14 +184,14 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);
-                        document.getElementById('rate').value = data.interestRate + '%';
+                        document.getElementById('rate').value = data.interestRate;
                     })
                     .catch(error => {
                         console.error('Error fetching interest rate:', error);
-                        document.getElementById('rate').value = '0.x%';
+                        document.getElementById('rate').value = '0.x';
                     });
             } else {
-                document.getElementById('rate').value = '0.x%';
+                document.getElementById('rate').value = '0.x';
             }
         });
 
