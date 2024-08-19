@@ -21,7 +21,7 @@ class API_Controller {
             const result = await regulationModel.getCurrentTypeOfSaving();
             // find interest rate of type of saving
             const interestRate = result.find(
-                (element) => element.type === typeOfSaving
+                (element) => element.type === typeOfSaving,
             );
 
             if (interestRate) {
@@ -43,13 +43,14 @@ class API_Controller {
 
     async getInformationAPI(req, res) {
         const id_account = req.query.id_account;
-        console.log("id: " + id_account);
+        console.log('id: ' + id_account);
         if (!id_account) {
             return;
         }
 
         try {
-            const result = await accountModel.getInformationByIDAccount(id_account);
+            const result =
+                await accountModel.getInformationByIDAccount(id_account);
             res.json(result);
             return;
         } catch (error) {
@@ -57,7 +58,7 @@ class API_Controller {
             return;
         }
     }
- 
+
     async getCurrentPrincipalAPI(req, res) {
         const { id_account } = req.query;
 
@@ -73,7 +74,6 @@ class API_Controller {
             res.status(500).json({ error: error.message });
         }
     }
-
 
     async getCurrentBalanceAPI(req, res) {
         const id_account = req.query.id_account;
@@ -173,6 +173,25 @@ class API_Controller {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }}
+    }
+
+    async getNewestIDDepositAPI(req, res) {
+        try {
+            const result = await depositModel.getNewestIDDeposit();
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getNewestIDWithdrawAPI(req, res) {
+        try {
+            const result = await withdrawModel.getNewestIDWithdraw();
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+}
 
 module.exports = new API_Controller();

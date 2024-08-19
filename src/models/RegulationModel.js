@@ -6,10 +6,17 @@ class Regulation_H {
         applied_date,
         applied_time,
         interest_rate,
-        min_des_money,
+        min_dep_money,
         min_days_withdraw,
     }) {
         try {
+            console.log(`type: ${type}`);
+            console.log(`applied_date: ${applied_date}`);
+            console.log(`applied_time: ${applied_time}`);
+            console.log(`interest_rate: ${interest_rate}`);
+            console.log(`min_dep_money: ${min_dep_money}`);
+            console.log(`min_days_withdraw: ${min_days_withdraw}`);
+
             //Hello,  this is the concerning factor in the file
             const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
@@ -19,19 +26,20 @@ class Regulation_H {
             try {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
+                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_applied_date],
                 );
+                console.log(existingRegulation);
                 //If regulation doesn't exist
                 if (existingRegulation.length === 0) {
                     const deleted = 0;
                     await connection.execute(
-                        'INSERT INTO deposit (type, apply_date, interest_rate, min_des_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
+                        'INSERT INTO regulation (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
                         [
                             type,
                             real_applied_date,
                             interest_rate,
-                            min_des_money,
+                            min_dep_money,
                             min_days_withdraw,
                             0,
                         ],
@@ -39,6 +47,8 @@ class Regulation_H {
 
                     await connection.commit();
                 }
+                
+                await connection.commit();
             } catch (err) {
                 //errors appear during creating
                 await connection.rollback();
@@ -71,7 +81,7 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
+                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_applied_date],
                 );
 
@@ -107,7 +117,7 @@ class Regulation_H {
         applied_date,
         applied_time,
         interest_rate,
-        min_des_money,
+        min_dep_money,
         min_days_withdraw,
     }) {
         try {
@@ -118,29 +128,47 @@ class Regulation_H {
             const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
+            console.log(`type: ${type}`);
+            console.log(`applied_date: ${applied_date}`);
+            console.log(`applied_time: ${applied_time}`);
+            console.log(`interest_rate: ${interest_rate}`);
+            console.log(`min_dep_money: ${min_dep_money}`);
+            console.log(`min_days_withdraw: ${min_days_withdraw}`);
+
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and applied_time = ? and deleted = 0;',
-                    [type, real_applied_date],
+                    'SELECT * FROM regulation WHERE type = ? and deleted = ?;',
+                    [type, 0],
                 );
+
+                console.log(existingRegulation);
 
                 //if regulation exists
                 if (existingRegulation.length > 0) {
                     //delete regulation
-                    this.delete({ type, applied_date, applied_time });
+                    const deleted = 1;       
+                    await connection.execute(
+                        'UPDATE regulation SET deleted = ? WHERE type = ?;',
+                        [1, type],
+                    );
+                    console.log('Deleted regulation');
 
                     //create regulation
-                    this.create({
-                        type,
-                        applied_date,
-                        interest_rate,
-                        min_des_money,
-                        min_days_withdraw,
-                    });
+                    await connection.execute(
+                        'INSERT INTO regulation (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
+                        [
+                            type,
+                            real_applied_date,
+                            interest_rate,
+                            min_dep_money,
+                            min_days_withdraw,
+                            0,
+                        ],
+                    );
 
                     await connection.commit();
                 }
@@ -225,10 +253,10 @@ class Regulation_H {
             //SQL query to get min_dep_money & min_wit_days
             const query = `
             SELECT 
-                min_des_money AS minimum_amount_to_deposit,
+                min_dep_money AS minimum_amount_to_deposit,
                 min_wit_time AS mimium_days_to_witdraw
             FROM regulation
-            WHERE type = ? and applied_time = ? and deleted = 0;
+            WHERE type = ? and apply_date = ? and deleted = 0;
             `;
 
             const [rows, fields] = await pool.execute(query, [
@@ -244,7 +272,7 @@ class Regulation_H {
             }
         } catch (err) {
             console.error(
-                'Error getting min_des_money and min_days_withdraw:',
+                'Error getting min_dep_money and min_days_withdraw:',
                 err,
             );
             throw err;
