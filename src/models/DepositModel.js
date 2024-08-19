@@ -14,13 +14,14 @@ class Deposit_H {
                     'SELECT * FROM account WHERE acc_id = ?;',
                     [id_account],
                 );
+                console.log('check exist account successful');
                 // if account exists
                 if (existingAccount.length > 0) {
                     //get the opened_date
                     const [account] = await connection.execute(
                         `
                         SELECT a.open_date, r.min_des_money
-                        FROM account a join regulation on a.type = r.type
+                        FROM account a join regulation r on a.type = r.type
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1;
@@ -28,6 +29,7 @@ class Deposit_H {
                         [id_account],
                     );
 
+                    console.log('get open date');
                     //insert new deposit transaction
                     if (
                         money_deposit > account[0].min_des_money &&
@@ -72,6 +74,9 @@ class Deposit_H {
                 throw err;
             } finally {
                 //final step
+                if(connection) {
+                    return;
+                }
                 connection.release();
             }
         } catch (err) {
@@ -99,3 +104,5 @@ class Deposit_H {
         }
     }
 }
+
+module.exports = new Deposit_H();

@@ -68,12 +68,24 @@
     padding: 0 16px;
 }
 
+#success-icon {
+    display: none;
+    margin: 20px;
+}
+
+#success-message {
+    display: none;
+    margin: 20px;
+}
+
 #fail-icon {
-    display: inline;
+    display: none;
+    margin: 20px;
 }
 
 #fail-message {
-    display: inline;
+    display: none;
+    margin: 20px;
 }
 
 #pop-up-button {

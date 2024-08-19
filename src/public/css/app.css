@@ -250,13 +250,17 @@ select {
   margin: 10px; }
 
 #success-icon {
-  display: none; }
+  display: none;
+  margin: 20px; }
 
 #success-message {
-  display: none; }
+  display: none;
+  margin: 20px; }
 
 #fail-icon {
-  display: none; }
+  display: none;
+  margin: 20px; }
 
 #fail-message {
-  display: none; }
+  display: none;
+  margin: 20px; }

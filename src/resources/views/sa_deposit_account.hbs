@@ -26,33 +26,35 @@
             <legend>Customer's information</legend>
             <div class="form-group">
                 <span>Customer's name</span>
-                <input id="customer_name" type="text" name="customer_name" class="form-control" disabled>
+                <input id="customer_name" type="text" name="customer_name" class="form-control" readonly>
             </div>
         </fieldset>
         <fieldset class="account-information">
             <legend>Account's information</legend>
             <div class="form-group">
                 <span>ID Account</span>
-                <input id="id_account" type="text" name="id_account" class="form-control" disabled>
+                <input id="id_account" type="text" name="id_account" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
-                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" placeholder="Non-term" disabled>
+                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" placeholder="Non-term"
+                    readonly>
             </div>
             <div class="form-group">
                 <span>Interest rate (%)</span>
-                <input id="interest_rate" name="interest_rate" type="text" class="form-control" disabled>
+                <input id="interest_rate" name="interest_rate" type="text" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Current amount (VND)</span>
-                <input id="balance" name="current_amount" type="text" class="form-control" disabled>
+                <input id="balance" name="current_amount" type="text" class="form-control" readonly>
             </div>
         </fieldset>
         <fieldset class="deposit-information">
             <legend>Deposit information</legend>
             <div class="form-group">
-                <span>Money deposited</span>
-                <input type="money" name="money_deposit" class="form-control" placeholder="100,000,000" required>
+                <span>Money deposited (VND)</span>
+                <input id="money_deposit" type="money" name="money_deposit" class="form-control"
+                    placeholder="100,000,000" required>
             </div>
             <div class="form-group">
                 <span>Deposit date</span>
@@ -64,53 +66,54 @@
     <div id="pop-up" class="pop-up">
         <div class="pop-up-content">
             <div>
-                <span class="close" onclick="closePopup()">&times;</span>
                 <h2>Preview Information</h2>
-                <img
-                    src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__">
+                <img src="/images/popup/doublecheck.png">
             </div>
             <legend>Customer's Information</legend>
             <p id="confirmCId"></p>
             <p id="confirmName"></p>
             <p id="confirmAddress"></p>
             <legend>Account's Information</legend>
-            <p id="confirmIDAccount">ID Account: MS0000000001</p>
+            <p id="confirmIDAccount"></p>
             <p id="confirmCreateDate"></p>
             <p id="confirmTos"></p>
             <p id="confirmRate"></p>
-            <p id="confirmMoney"></p>
-            <p id="comfirmDepositDate"></p>
+            <p id="confirmCurrentAmount"></p>
+            <legend>Deposit Information</legend>
+            <p id="confirmDepositedMoney"></p>
+            <p id="confirmDepositDate"></p>
             <div class="buttons">
                 <button class="button" onclick="submitForm()">Submit</button>
                 <button class="button" onclick="closePopup()">Cancel</button>
             </div>
         </div>
     </div>
+
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <div>
+                    <h2 id="success-message">Deposited Successfully!</h2>
+                </div>
+                <div>
+                    <h2 id="fail-message">Failed to Deposit!</h2>
+                </div>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
+    </div>
+
     <script>
         function confirmSubmit() {
-            var cusID = document.querySelector('[name="id_card"]').value;
-            var name = document.querySelector('[name="customer_name"]').value;
-            var address = document.querySelector('[name="customer_address"]').value;
-            var createDate = document.querySelector('[name="date_created"]').value;
-            var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
-            var rate = document.querySelector('[name="interest-rate"]').value;
-            var money = document.querySelector('[name="deposit_money"]').value;
-            var depositDate = document.querySelector('[name="deposit_date"]').value;
+            var money_deposit = document.querySelector('[name="money_deposit"]').value;
+            var deposit_date = document.querySelector('[name="deposit_date"]').value;
 
-            if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
-                alert('Please fill out all fields.');
-                return;
-            }
-
-            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
-            document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
-            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
-            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
-            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
-            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
-            document.getElementById('confirmMoney').innerText = 'Money deposited: ' + money + ' VND';
-            document.getElementById('confirmDepositDate').innerText = 'Deposited date: ' + depositDate;
-
+            document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + deposit_date;
+            document.getElementById('confirmDepositedMoney').innerText = 'Money deposited: ' + money_deposit + ' VND';
             var popup = document.getElementById('pop-up');
             popup.style.display = "block";
         }
@@ -120,8 +123,60 @@
             popup.style.display = "none";
         }
 
+        function closeNotiPopup() {
+            var popup = document.getElementById('noti-pop-up');
+            popup.style.display = "none";
+        }
+
         function submitForm() {
-            document.getElementById('myForm').submit();
+            closePopup();
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // Hiển thị pop-up
+                    var popup = document.getElementById('noti-pop-up');
+                    popup.style.display = "block";
+
+                    // Kiểm tra thông điệp trả về từ server 
+                    if (data.message == "success") {
+                        document.getElementById('success-icon').style.display = "inline";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "inline";
+                        document.getElementById('fail-message').style.display = "none";
+                    } else if (data.message == "fail") {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "inline";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "inline";
+                    } else {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "none";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            // Ngăn form khỏi việc submit thông thường
+            return false;
         }
 
         // Redirect
@@ -133,6 +188,7 @@
 
             const params = new URLSearchParams(window.location.search);
 
+            // Get data account and display to screen
             const accountData = {
                 id_account: params.get('id_account'),
                 id_card: params.get('id_card'),
@@ -149,7 +205,17 @@
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
             document.getElementById('interest_rate').value = accountData.interest_rate;
             document.getElementById('balance').value = accountData.balance;
+
+            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
+            document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
+            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + accountData.customer_address;
+            document.getElementById('confirmIDAccount').innerText = 'ID Account: ' + accountData.id_account;
+            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
+            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
+            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
+            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.balance + ' VND';
         });
+
     </script>
 </body>
 
