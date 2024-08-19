@@ -8,7 +8,21 @@ class Withdraw_Controller {
     }
 
     withdraw(req, res) {
-        return;
+        const { id_account, money_withdraw, withdraw_date } = req.body;
+
+        try {
+            withdrawModel.withdraw({
+                id_account,
+                money_withdraw,
+                withdraw_date
+            });
+            res.status(200).send('Withdraw successful');
+        }
+        catch {
+            console.error('Error withdraw:', err);
+            res.status(500).json({ error: err.message });
+        }
+
     }
 }
 
