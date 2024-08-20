@@ -31,18 +31,26 @@ class Deposit_H {
 
                     console.log('get open date');
                     //insert new deposit transaction
+                    // print to check condition if
+                    console.log(money_deposit);
+                    console.log(account[0].min_dep_money);
+                    console.log(deposit_date);
+                    console.log(account[0].open_date);
                     if (
                         money_deposit > account[0].min_dep_money &&
                         deposit_date > account[0].open_date
                     ) {
+                        console.log('check money and date successful');
                         const dep_id = `DEP${Math.floor(Math.random() * 100000)
                             .toString()
                             .padStart(5, '0')}`;
-
+                        console.log('generate dep_id successful');
                         await connection.execute(
                             'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, ?);',
                             [dep_id, id_account, money_deposit, deposit_date],
                         );
+
+                        console.log('insert deposit successful');
 
                         const [balance] = await connection.execute(
                             `
@@ -54,7 +62,7 @@ class Deposit_H {
                                 `,
                             [id_account],
                         );
-
+                        
                         const cur_principle =
                             balance[0].principle + money_deposit;
 
@@ -63,8 +71,14 @@ class Deposit_H {
                             'UPDATE balance SET principle = ? WHERE acc_id = ?;',
                             [cur_principle, id_account],
                         );
-
+                        console.log('update balance successful');
                         await connection.commit();
+
+                        // print to debug
+                        console.log('commit successful');
+
+                        // add the deposit information to the response
+                        return { message: 'success' };
                     }
                 }
             } catch (err) {
@@ -73,11 +87,10 @@ class Deposit_H {
                 console.error('Error during transaction:', err);
                 throw err;
             } finally {
-                //final step
-                if(connection) {
-                    return;
-                }
+                //release the connection
                 connection.release();
+                // add the deposit information to the response
+                return { message: 'fail' };
             }
         } catch (err) {
             //throw error if there is something wrong
