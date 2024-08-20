@@ -139,7 +139,8 @@
         function closeNotiPopup() {
             var popup = document.getElementById('noti-pop-up');
             popup.style.display = "none";
-            window.location.href = "/sa/deposit";
+            if(document.getElementById('success-icon').style.display == "inline")
+                window.location.href = "/sa/deposit";
         }
 
         function submitForm() {
