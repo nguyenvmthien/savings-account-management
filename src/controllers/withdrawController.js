@@ -14,15 +14,13 @@ class Withdraw_Controller {
             withdrawModel.withdraw({
                 id_account,
                 money_withdraw,
-                withdraw_date
+                withdraw_date,
             });
             res.status(200).send('Withdraw successful');
-        }
-        catch {
+        } catch {
             console.error('Error withdraw:', err);
             res.status(500).json({ error: err.message });
         }
-
     }
 }
 

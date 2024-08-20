@@ -87,11 +87,11 @@ class Account_H {
                 throw err;
             } finally {
                 // Release the connection back to the pool
-                if (connection) {
-                    connection.release();
-                    console.log('released');
-                    return { message: 'success' };
-                }
+                // if (connection) {
+                //     connection.release();
+                //     console.log('released');
+                //     return { message: 'success' };
+                // }
                 console.log('done');
             }
         } catch (err) {
@@ -148,7 +148,7 @@ class Account_H {
 
     // NEED CHECK WHEN b.interest IS NULL
     async getInformationByIDAccount(id_account) {
-        console.log("id in model: " + id_account);
+        console.log('id in model: ' + id_account);
         try {
             // Query to get account information, including customer details, regulation info, and balance
             const query = `
@@ -161,8 +161,8 @@ class Account_H {
                     a.type AS type_of_saving,
                     CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
-                    b.principal,
-                    b.interest
+                    b.principal AS principal,
+                    b.interest AS interest
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN regulation r ON a.type = r.type 
@@ -233,11 +233,12 @@ class Account_H {
         try {
             const query = `
                 SELECT MAX(acc_id) AS newest_id_account
-                FROM account;
+                FROM account
+                WHERE acc_id LIKE 'MS%' AND LENGTH(acc_id) = 12;
             `;
 
             const [rows, fields] = await pool.execute(query);
-
+            console.log(rows);
             return rows[0].newest_id_account;
             // get newest id_account
         } catch (err) {

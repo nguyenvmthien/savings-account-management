@@ -37,7 +37,7 @@ class Deposit_H {
                     console.log(deposit_date);
                     console.log(account[0].open_date);
                     if (
-                        money_deposit > account[0].min_dep_money &&
+                        money_deposit >= account[0].min_des_money &&
                         deposit_date > account[0].open_date
                     ) {
                         console.log('check money and date successful');

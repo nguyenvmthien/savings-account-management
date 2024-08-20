@@ -1,3 +1,4 @@
+const accountModel = require('../models/AccountModel');
 class Create_Account_Controller {
     renderSaCreate(req, res) {
         res.render('sa_create');
@@ -21,13 +22,27 @@ class Create_Account_Controller {
             id_card,
             customer_name,
             customer_address,
-            id_account,
             money,
             type_of_saving,
             date_created,
         );
-        id_account = accountModel.getNewestIDAccount();
-        accountModel.create({
+        // get next id_account, format id_account: MS + 10 digits
+        const pre_id_account = await accountModel.getNewestIDAccount();
+        console.log(pre_id_account);
+
+        // Split id_account into prefix and number
+        const prefix = 'MS';
+        const number = pre_id_account.slice(prefix.length); // Slice after the prefix
+
+        // Increase id_account
+        const next_number = (parseInt(number, 10) + 1)
+            .toString()
+            .padStart(number.length, '0');
+        const id_account = prefix + next_number;
+
+        console.log(id_account);
+        // create account
+        await accountModel.create({
             id_card,
             customer_name,
             customer_address,
