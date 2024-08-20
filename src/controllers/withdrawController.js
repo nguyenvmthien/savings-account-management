@@ -15,7 +15,7 @@ class Withdraw_Controller {
             const result = await withdrawModel.withdraw({
                 id_account,
                 money_withdraw,
-                withdraw_date
+                withdraw_date,
             });
             res.json(result);
         }
@@ -23,7 +23,6 @@ class Withdraw_Controller {
             console.error('Error withdraw:', err);
             res.status(500).json({ error: err.message });
         }
-
     }
 }
 

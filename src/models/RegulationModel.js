@@ -10,6 +10,13 @@ class Regulation_H {
         min_days_withdraw,
     }) {
         try {
+            console.log(`type: ${type}`);
+            console.log(`applied_date: ${applied_date}`);
+            console.log(`applied_time: ${applied_time}`);
+            console.log(`interest_rate: ${interest_rate}`);
+            console.log(`min_dep_money: ${min_dep_money}`);
+            console.log(`min_days_withdraw: ${min_days_withdraw}`);
+
             //Hello,  this is the concerning factor in the file
             const real_apply_date = `${apply_date} ${apply_time}`;
             // check check
@@ -21,12 +28,14 @@ class Regulation_H {
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_apply_date],
+
                 );
+                console.log(existingRegulation);
                 //If regulation doesn't exist
                 if (existingRegulation.length === 0) {
                     const deleted = 0;
                     await connection.execute(
-                        'INSERT INTO deposit (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
+                        'INSERT INTO regulation (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
                         [
                             type,
                             real_apply_date,
@@ -39,6 +48,8 @@ class Regulation_H {
 
                     await connection.commit();
                 }
+                
+                await connection.commit();
             } catch (err) {
                 //errors appear during creating
                 await connection.rollback();
@@ -71,8 +82,8 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_apply_date],
+                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
+                    [type, real_applied_date],
                 );
 
                 //if regulation exists
@@ -104,8 +115,8 @@ class Regulation_H {
 
     async edit({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -115,8 +126,15 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
+
+            console.log(`type: ${type}`);
+            console.log(`applied_date: ${applied_date}`);
+            console.log(`applied_time: ${applied_time}`);
+            console.log(`interest_rate: ${interest_rate}`);
+            console.log(`min_dep_money: ${min_dep_money}`);
+            console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             const connection = await pool.getConnection();
             await connection.beginTransaction();
@@ -124,24 +142,34 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_apply_date],
+                    'SELECT * FROM regulation WHERE type = ? and deleted = ?;',
+                    [type, 0],
                 );
+
+                console.log(existingRegulation);
 
                 //if regulation exists
                 if (existingRegulation.length > 0) {
                     //delete regulation
-                    this.delete({ type, apply_date, apply_time });
+                    const deleted = 1;       
+                    await connection.execute(
+                        'UPDATE regulation SET deleted = ? WHERE type = ?;',
+                        [1, type],
+                    );
+                    console.log('Deleted regulation');
 
                     //create regulation
-                    this.create({
-                        type,
-                        apply_date,
-                        interest_rate,
-                        min_dep_money,
-                        min_days_withdraw,
-                    });
-
+                    await connection.execute(
+                        'INSERT INTO regulation (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
+                        [
+                            type,
+                            real_applied_date,
+                            interest_rate,
+                            min_dep_money,
+                            min_days_withdraw,
+                            0,
+                        ],
+                    );
                     await connection.commit();
                 }
             } catch (err) {
