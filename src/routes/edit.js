@@ -4,8 +4,8 @@ const editController = require('../controllers/editController');
 const apiController = require('../controllers/apiController');
 
 router.get('/account', editController.renderSaEditAccount);
-router.post('/', apiController.getInformationAPI);
+router.get('/checkID', apiController.getInformationAPI);
 router.get('/', editController.renderSaEdit);
-router.put('/', editController.edit);
+router.post('/account', editController.edit);
 
 module.exports = router;

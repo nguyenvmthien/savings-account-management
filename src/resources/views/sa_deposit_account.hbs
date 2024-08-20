@@ -144,7 +144,7 @@
 
         function submitForm() {
             closePopup();
-            document.getElementById('money_deposit').value.replace(/,/g, '');
+            document.getElementById('money_deposit').value = document.getElementById('money_deposit').value.replace(/,/g, '');
             const form = document.getElementById('myForm');
             const formData = new FormData(form);
 
@@ -152,7 +152,7 @@
             formData.forEach((value, key) => {
                 formObject[key] = value;
             });
-
+            console.log(formObject);
             fetch(form.action, {
                 method: 'POST',
                 headers: {

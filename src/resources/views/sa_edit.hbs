@@ -19,16 +19,18 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm" method="POST">
+    <form id="myForm" method="GET">
         <fieldset class="customer-information">
             <legend>Search for account</legend>
             <div class="form-group">
                 <span>Type ID Account</span>
-                <img src="/images/valid-icon/valid.png">
-                <input type="text" name="id_account" class="form-control" placeholder="MSxxxxx" required>
+                <img src="/images/valid-icon/valid.png" id="valid_id">
+                <img src="/images/valid-icon/invalid.png" id="invalid_id">
+                <input id="id_account" type="text" name="id_account" class="form-control" placeholder="MSxxxxx">
+                <p class="error-message" id="id_error_message">Must be a string of 12 characters, starting with "MS" and the following characters must be numbers</p>
             </div>
         </fieldset>
-        <button id="submit-button" class="button" onclick="">Search</button>
+        <button type="button" id="submit-button" class="button" onclick="">Search</button>
     </form>
     <div class="message-box">
         <img id="message-box-icon" src="/images/sa/bulb.png">
@@ -36,13 +38,79 @@
         <h2>Tips for you</h2>
         <p>Do not make mistakes while entering information.</p>
     </div>
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2 id="message">ID cannot be found!</h2>
+                <h2>Please check again.</h2>
+            </div>
+            <div>
+                <img src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Cancel</button>
+        </div>
+    </div>
     <script>
+        var isIDValid = false;
         // Redirect
         document.addEventListener("DOMContentLoaded", function() {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+        });
+
+        // Noti pop-up
+        function closeNotiPopup() {
+            var popup = document.getElementById('noti-pop-up');
+            popup.style.display = "none";
+        }
+
+        document.getElementById('submit-button').addEventListener('click', function () {
+            if(isIDValid) {
+                var id = document.getElementById('id_account').value;
+                console.log('Calling API with id:', id);
+                fetch('/sa/deposit/checkID?id_account=' + id)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Raw Data:', data);
+                        if (data.error == "fail") {
+                            var popup = document.getElementById('noti-pop-up');
+                            popup.style.display = "block";
+                        }
+                        else if(data.type_of_saving != "Non-term") {
+                            document.getElementById('message').innerHTML = "This account does not support additional deposits.";
+                            var popup = document.getElementById('noti-pop-up');
+                            popup.style.display = "block";
+                        }
+                        else {
+                            const queryString = new URLSearchParams(data).toString();
+                            window.location.href = 'edit/account?' + queryString;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking id account:', error);
+                    });
+            }
+            else {
+                return;
+            }
+        });
+        // Valid input
+        document.getElementById('id_account').addEventListener('input', function () {
+            const regex = /^MS\d{10}$/;
+            if (regex.test(this.value)) {
+                document.getElementById('id_error_message').style.display = 'none';
+                document.getElementById('valid_id').style.display = "inline";
+                document.getElementById('invalid_id').style.display = "none";
+                isIDValid = true;
+            }
+            else {
+                document.getElementById('id_error_message').style.display = 'inline';
+                document.getElementById('valid_id').style.display = "none";
+                document.getElementById('invalid_id').style.display = "inline";
+                isIDValid = false;
+            }
         });
     </script>
 </body>

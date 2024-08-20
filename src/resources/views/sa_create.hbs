@@ -25,46 +25,53 @@
             <legend>Customer's information</legend>
             <div class="form-group">
                 <span>Customer's ID card</span>
-                <img
-                    src="/images/valid-icon/valid.png">
-                <input type="text" pattern="^\d+(\.\d{1,2})?$" name="id_card" class="form-control" placeholder="123456789"
-                    title="ID must have 9 numbers" required>
+                <img src="/images/valid-icon/valid.png" id="valid_id_card">
+                <img src="/images/valid-icon/invalid.png" id="invalid_id_card">
+                <input id="id_card" type="tel" name="id_card" class="form-control" placeholder="123456789">
+                <p class="error-message" id="id_card_error_message">Must be 9 numbers</p>
             </div>
             <div class="form-group">
                 <span>Customer's name</span>
-                <input type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A" pattern="[A-Za-zÀ-ỹ\s]+">
+                <img src="/images/valid-icon/valid.png" id="valid_name">
+                <img src="/images/valid-icon/invalid.png" id="invalid_name">
+                <input id="name" type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A">
+                <p class="error-message" id="name_error_message">Must be letters</p>
             </div>
             <div class="form-group address-box">
                 <span>Customer's address</span>
-                <input type="text" name="customer_address" class="form-control" placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
+                <img src="/images/valid-icon/valid.png" id="valid_address">
+                <img src="/images/valid-icon/invalid.png" id="invalid_address">
+                <input id="address" type="text" name="customer_address" class="form-control"
+                    placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
+                <p class="error-message" id="address_error_message">Cannot be empty</p>
             </div>
         </fieldset>
         <fieldset class="account-information">
             <legend>Account's information</legend>
             <div class="form-group">
                 <span>ID Account</span>
-                <input type="text" name="id_account" class="form-control" placeholder="MS0000000001" disabled>
+                <input id="id_account" type="text" name="id_account" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Date create account</span>
-                <input type="date" name="date_created" class="form-control" placeholder="">
+                <input id="date" type="date" name="date_created" class="form-control" placeholder="">
             </div>
             <div class="form-group">
                 <span>Money (VND)</span>
-                <input type="text" name="money" class="form-control" placeholder="100,000">
+                <img src="/images/valid-icon/valid.png" id="valid_money">
+                <img src="/images/valid-icon/invalid.png" id="invalid_money">
+                <input id="money" type="text" name="money" class="form-control" placeholder="100,000">
+                <p class="error-message" id="money_error_message">Must be greater than or equal to 100,000</p>
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
                 <select name="type_of_saving" class="form-control" id="tos-input">
                     <option value="">--Type of saving--</option>
-                    <option value="3 months">3 months</option>
-                    <option value="6 months">6 months</option>
-                    <option value="Non-term">Non-term</option>
                 </select>
             </div>
             <div class="form-group">
                 <span>Interest rate (%)</span>
-                <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x%" disabled>
+                <input id="rate" name="interest-rate" type="text" class="form-control" value="0.x" readonly>
             </div>
         </fieldset>
         <button type="button" id="submit-button" class="button" onclick="confirmSubmit()">Create</button>
@@ -81,7 +88,7 @@
             <p id="confirmName"></p>
             <p id="confirmAddress"></p>
             <legend>Account's Information</legend>
-            <p id="confirmIDAccount">ID Account: MS00001</p>
+            <p id="confirmIDAccount"></p>
             <p id="confirmCreateDate"></p>
             <p id="confirmTos"></p>
             <p id="confirmRate"></p>
@@ -96,42 +103,52 @@
     <div id="noti-pop-up" class="noti-pop-up">
         <div class="noti-pop-up-content">
             <div>
-                <h2 id="success-message">Create Successfully</h2>
-                <h2 id="fail-message">ID cannot be found! Please check again</h2>
-                <img id="success-icon"
-                    src="/images/noti-icon/success.png">
-                <img id="fail-icon" 
-                    src="/images/noti-icon/fail.png">
-            </div> 
-            <button class="button" onclick="closeNotiPopup()">Close</button>
-        </div>   
+                <h2 id="success-message">Created Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to Create new account!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
     </div>
 
     <script>
+        var isIDCardValid = false;
+        var isNameValid = false;
+        var isAddressValid = false;
+        var isMoneyValid = false;
+        var isDateValid = false;
+        var isTypeValid = false;
         function confirmSubmit() {
-            var cusID = document.querySelector('[name="id_card"]').value;
-            var name = document.querySelector('[name="customer_name"]').value;
-            var address = document.querySelector('[name="customer_address"]').value;
-            var createDate = document.querySelector('[name="date_created"]').value;
-            var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
-            var rate = document.querySelector('[name="interest-rate"]').value;
-            var money = document.querySelector('[name="money"]').value;
+            if (isIDCardValid && isNameValid && isAddressValid && isMoneyValid && isDateValid && isTypeValid) {
+                var cusID = document.querySelector('[name="id_card"]').value;
+                var name = document.querySelector('[name="customer_name"]').value;
+                var address = document.querySelector('[name="customer_address"]').value;
+                var createDate = document.querySelector('[name="date_created"]').value;
+                var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
+                var rate = document.querySelector('[name="interest-rate"]').value;
+                var money = document.querySelector('[name="money"]').value;
 
-            if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
-                alert('Please fill out all fields.');
+                document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
+                document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
+                document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
+                document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
+                document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
+                document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
+                document.getElementById('confirmMoney').innerText = 'Money: ' + money + ' VND';
+
+                var popup = document.getElementById('pop-up');
+                popup.style.display = "block";
+            }
+            else {
                 return;
             }
-
-            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
-            document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
-            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
-            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
-            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
-            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
-            document.getElementById('confirmMoney').innerText = 'Money: ' + money + ' VND';
-
-            var popup = document.getElementById('pop-up');
-            popup.style.display = "block";
         }
 
         function closePopup() {
@@ -142,48 +159,72 @@
         function closeNotiPopup() {
             var popup = document.getElementById('noti-pop-up');
             popup.style.display = "none";
+            if (document.getElementById('success-icon').style.display == "inline")
+                window.location.href = "/sa/create";
         }
 
         function submitForm() {
-            document.getElementById('myForm').submit();
             closePopup();
-            const mes = "success";
-            console.log(mes);
-            var popup = document.getElementById('noti-pop-up');
-            popup.style.display = "block";
-            if(mes == "success")
-            {
-                document.getElementById('success-icon').style.display = "inline";
-                document.getElementById('fail-icon').style.display = "none";
-                document.getElementById('success-message').style.display = "inline";
-                document.getElementById('fail-message').style.display = "none";
-            }
-            else if (mes == "fail")
-            {
-                document.getElementById('success-icon').style.display = "none";
-                document.getElementById('fail-icon').style.display = "inline";
-                document.getElementById('success-message').style.display = "none";
-                document.getElementById('fail-message').style.display = "inline";
-            }
-            else
-            {
-                document.getElementById('success-icon').style.display = "none";
-                document.getElementById('fail-icon').style.display = "none";
-                document.getElementById('success-message').style.display = "none";
-                document.getElementById('fail-message').style.display = "none";
-            }
+            document.getElementById('money').value = document.getElementById('money').value.replace(/,/g, '');
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            console.log(formObject);
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    // Hiển thị pop-up
+                    var popup = document.getElementById('noti-pop-up');
+                    popup.style.display = "block";
+
+                    if (data.message == "success") {
+                        document.getElementById('success-icon').style.display = "inline";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "inline";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    } else if (data.message == "fail") {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "inline";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "inline";
+                        document.getElementById('fail-message2').style.display = "inline";
+                    } else {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            return false;
         }
 
+        // Get interest rate
         document.getElementById('tos-input').addEventListener('change', function () {
             var typeOfSaving = this.value;
             console.log(typeOfSaving);
             if (typeOfSaving !== "") {
                 console.log('Calling API with type:', typeOfSaving);
-                fetch('/sa/create/getInterestRate?type=' + typeOfSaving)
+                fetch('/sa/create/getInterestRateAPI?type=' + typeOfSaving)
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);
-                        document.getElementById('rate').value = data.interestRate;
+                        document.getElementById('rate').value = data.interest_rate;
                     })
                     .catch(error => {
                         console.error('Error fetching interest rate:', error);
@@ -195,11 +236,114 @@
         });
 
         // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+        });
+
+        // Get current type of savings
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch('/sa/create/getCurrentTypeAPI')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Raw Data:', data);
+                    const selectElement = document.getElementById('tos-input');
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.type;
+                        option.textContent = item.type;
+                        selectElement.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error getting current type:', error);
+                });
+        });
+
+        // Generate ID Account
+
+        // Valid input
+        document.getElementById('id_card').addEventListener('input', function () {
+            const regex = /^\d{9}$/;
+            if (regex.test(this.value)) {
+                document.getElementById('id_card_error_message').style.display = 'none';
+                document.getElementById('valid_id_card').style.display = "inline";
+                document.getElementById('invalid_id_card').style.display = "none";
+                isIDCardValid = true;
+            }
+            else {
+                document.getElementById('id_card_error_message').style.display = 'inline';
+                document.getElementById('valid_id_card').style.display = "none";
+                document.getElementById('invalid_id_card').style.display = "inline";
+                isIDCardValid = false;
+            }
+        });
+
+        document.getElementById('name').addEventListener('input', function () {
+            const regex = /^[A-Za-zÀ-ỹ\s]+$/;
+            if (regex.test(this.value)) {
+                document.getElementById('name_error_message').style.display = 'none';
+                document.getElementById('valid_name').style.display = "inline";
+                document.getElementById('invalid_name').style.display = "none";
+                isNameValid = true;
+            }
+            else {
+                document.getElementById('name_error_message').style.display = 'inline';
+                document.getElementById('valid_name').style.display = "none";
+                document.getElementById('invalid_name').style.display = "inline";
+                isNameValid = false;
+            }
+        });
+
+        document.getElementById('address').addEventListener('input', function () {
+            const regex = /^[A-Za-zÀ-ỹ0-9,\s]+$/;
+            if (regex.test(this.value)) {
+                document.getElementById('address_error_message').style.display = 'none';
+                document.getElementById('valid_address').style.display = "inline";
+                document.getElementById('invalid_address').style.display = "none";
+                isAddressValid = true;
+            }
+            else {
+                document.getElementById('address_error_message').style.display = 'inline';
+                document.getElementById('valid_address').style.display = "none";
+                document.getElementById('invalid_address').style.display = "inline";
+                isAddressValid = false;
+            }
+        });
+
+        document.getElementById('date').addEventListener('input', function () {
+            if(this.value == "")
+                isDateValid = false;
+            else
+                isDateValid = true;
+        });
+
+        document.getElementById('tos-input').addEventListener('input', function () {
+            if(this.value == "")
+                isTypeValid = false;
+            else
+                isTypeValid = true;
+        });
+
+        document.getElementById('money').addEventListener('input', function () {
+            let value = this.value.replace(/[^0-9.]/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.value = value;
+            const money = document.getElementById('money').value.replace(/,/g, '');
+            if (money >= 100000) {
+                document.getElementById('money_error_message').style.display = 'none';
+                document.getElementById('valid_money').style.display = "inline";
+                document.getElementById('invalid_money').style.display = "none";
+                isMoneyValid = true;
+            }
+            else {
+                document.getElementById('money_error_message').style.display = 'inline';
+                document.getElementById('valid_money').style.display = "none";
+                document.getElementById('invalid_money').style.display = "inline";
+                isMoneyValid = false;
+            }
         });
     </script>
 </body>

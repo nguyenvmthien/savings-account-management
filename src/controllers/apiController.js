@@ -8,15 +8,7 @@ const regulationModel = require('../models/RegulationModel');
 
 class API_Controller {
     async getInterestRateAPI(req, res) {
-        console.log(req.query.type);
-
-        if (Object.keys(req.query).length === 0) {
-            console.log('No data');
-            return;
-        }
-
         const typeOfSaving = req.query.type;
-        console.log(typeOfSaving);
         try {
             const result = await regulationModel.getCurrentTypeOfSaving();
             // find interest rate of type of saving

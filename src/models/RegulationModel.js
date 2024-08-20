@@ -195,16 +195,15 @@ class Regulation_H {
             // SQL query to get all current types of savings
             const query = `
                 SELECT
-                    type AS type_of_regulation,
-                    apply_date AS apply_date_of_regulation,
-                    interest_rate AS interest_rate_of_regulation
+                    type,
+                    apply_date,
+                    interest_rate
                 FROM regulation
-                WHERE deleted > 0;
+                WHERE deleted = 0;
             `;
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
-
             if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;
