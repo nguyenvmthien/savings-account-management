@@ -60,12 +60,6 @@
   box-sizing: border-box;
   padding: 0 16px; }
 
-#fail-icon {
-  display: inline; }
-
-#fail-message {
-  display: inline; }
-
 #pop-up-button {
   position: absolute;
   bottom: 20px;

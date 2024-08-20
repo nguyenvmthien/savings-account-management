@@ -155,10 +155,9 @@ class API_Controller {
 
     async getMinDepMoneyAndMinWithDaysAPI(req, res) {
         const type = req.query.type;
-        const applied_date = req.query.applied_date;
-        const applied_time = req.query.applied_time;
+        const apply_date = req.query.apply_date;
 
-        if (!type || !applied_date || !applied_time) {
+        if (!type || !apply_date) {
             res.status(400).json({ error: 'Missing parameter' });
             return;
         }
@@ -166,8 +165,7 @@ class API_Controller {
         try {
             const result = await regulationModel.getMinDepMoneyAndMinWitDays({
                 type,
-                applied_date,
-                applied_time,
+                apply_date
             });
             res.json(result);
         } catch (error) {
@@ -175,20 +173,42 @@ class API_Controller {
         }
     }
 
-    async getNewestIDDepositAPI(req, res) {
+    async getAllDepositTransactionAPI(req, res) {
         try {
-            const result = await depositModel.getNewestIDDeposit();
+            const result = await depositModel.getAllDepositTransaction();
             res.json(result);
-        } catch (error) {
+        }
+        catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
 
-    async getNewestIDWithdrawAPI(req, res) {
+    async getAllWithdrawTransactionAPI(req, res) {
         try {
-            const result = await withdrawModel.getNewestIDWithdraw();
+            const result = await withdrawModel.getAllWithdrawTransaction();
             res.json(result);
-        } catch (error) {
+        }
+        catch {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getCurrentTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getCurrentTypeOfSaving();
+            res.json(result);
+        }
+        catch {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAllTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getAllTypeOfSaving();
+            res.json(result);
+        }
+        catch {
             res.status(500).json({ error: error.message });
         }
     }
