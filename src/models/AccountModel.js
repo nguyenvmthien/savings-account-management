@@ -323,7 +323,7 @@ class Account_H {
                 totalAmount += interest;
             }
 
-            return totalAmount;
+            return {totalAmount, lastDepositDate};
         } catch (err) {
             console.error('Error getting current balance:', err);
             throw err;

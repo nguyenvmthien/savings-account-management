@@ -37,8 +37,7 @@
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
-                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" placeholder="Non-term"
-                    readonly>
+                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Interest rate (%)</span>
@@ -281,7 +280,7 @@
         document.getElementById('deposit_date').addEventListener('change', function () {
             const dateDeposit = document.getElementById('deposit_date').value;
             const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
-            console.log(getDifferenceInDays(dateDeposit, dateCreate));
+            // console.log(getDifferenceInDays(dateDeposit, dateCreate));
             if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
                 document.getElementById('dep_date_error_message').style.display = 'none';
                 document.getElementById('valid_dep_date').style.display = "inline";
