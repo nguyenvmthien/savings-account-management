@@ -3,8 +3,8 @@ const pool = require('../config/db');
 class Regulation_H {
     async create({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -18,7 +18,7 @@ class Regulation_H {
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -66,14 +66,14 @@ class Regulation_H {
         }
     }
 
-    async delete({ type, apply_date, apply_time }) {
+    async delete({ type, applied_date, applied_time }) {
         //We need apply_date & apply time for the primary key
 
         try {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -115,8 +115,8 @@ class Regulation_H {
 
     async edit({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -126,16 +126,8 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_applied_date = `${applied} ${applied}`;
             // check check
-
-            console.log(`type: ${type}`);
-            console.log(`applied_date: ${applied_date}`);
-            console.log(`applied_time: ${applied_time}`);
-            console.log(`interest_rate: ${interest_rate}`);
-            console.log(`min_dep_money: ${min_dep_money}`);
-            console.log(`min_days_withdraw: ${min_days_withdraw}`);
-
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 

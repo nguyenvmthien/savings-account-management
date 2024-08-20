@@ -324,7 +324,7 @@ class Account_H {
                 totalAmount += interest;
             }
 
-            return totalAmount;
+            return { totalAmount, lastDepositDate };
         } catch (err) {
             console.error('Error getting current balance:', err);
             throw err;
@@ -346,7 +346,7 @@ class Account_H {
                     a.acc_id,
                     a.type AS type_of_saving,
                     c.name AS customer_name,
-                    b.cur_balance AS balance
+                    b.principal + b.interest AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN balance b ON a.acc_id = b.acc_id
