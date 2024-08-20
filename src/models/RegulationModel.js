@@ -138,7 +138,7 @@ class Regulation_H {
                         type,
                         apply_date,
                         interest_rate,
-                        min_dep_money   ,
+                        min_dep_money,
                         min_days_withdraw,
                     });
 
@@ -225,8 +225,8 @@ class Regulation_H {
             //SQL query to get min_dep_money & min_wit_days
             const query = `
             SELECT 
-                min_dep_money AS minimum_amount_to_deposit,
-                min_wit_time AS mimium_days_to_witdraw
+                min_dep_money,
+                min_wit_time
             FROM regulation
             WHERE type = ? and apply_date = ? and deleted = 0;
             `;

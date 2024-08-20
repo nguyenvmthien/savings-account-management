@@ -17,6 +17,7 @@ class Deposit_Controller {
         }
         try {
             const result = await depositModel.deposit({
+
                 id_account,
                 money_deposit,
                 deposit_date,
