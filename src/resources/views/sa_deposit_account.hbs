@@ -114,16 +114,21 @@
     </div>
 
     <script>
-        const isDepMoneyValid = false;
-        const isDepDateValid = false;
+        var isDepMoneyValid = false;
+        var isDepDateValid = false;
         function confirmSubmit() {
-            var money_deposit = document.querySelector('[name="money_deposit"]').value;
-            var deposit_date = document.querySelector('[name="deposit_date"]').value;
+            if (isDepMoneyValid && isDepDateValid) {
+                var money_deposit = document.querySelector('[name="money_deposit"]').value;
+                var deposit_date = document.querySelector('[name="deposit_date"]').value;
 
-            document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + deposit_date;
-            document.getElementById('confirmDepositedMoney').innerText = 'Money deposited: ' + money_deposit + ' VND';
-            var popup = document.getElementById('pop-up');
-            popup.style.display = "block";
+                document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + deposit_date;
+                document.getElementById('confirmDepositedMoney').innerText = 'Money deposited: ' + money_deposit + ' VND';
+                var popup = document.getElementById('pop-up');
+                popup.style.display = "block";
+            }
+            else {
+                return;
+            }
         }
 
         function closePopup() {
@@ -134,7 +139,8 @@
         function closeNotiPopup() {
             var popup = document.getElementById('noti-pop-up');
             popup.style.display = "none";
-            window.location.href = "/sa/deposit";
+            if(document.getElementById('success-icon').style.display == "inline")
+                window.location.href = "/sa/deposit";
         }
 
         function submitForm() {
@@ -230,32 +236,34 @@
             document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
             document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.principal + ' VND';
 
-            fetch('/sa/deposit/getMinDepMoneyAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date.slice(0,10) + ' ' + accountData.apply_date.slice(11, 19))
+            fetch('/sa/deposit/getMinDepMoneyAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date.slice(0, 10) + ' ' + accountData.apply_date.slice(11, 19))
                 .then(response => response.json())
                 .then(data => {
                     console.log('Raw Data:', data);
                     minDepMoney = data.min_dep_money;
+                    document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney}`;
+                    document.getElementById('dep_date_error_message').innerText = `Must be after opened date`;
                 })
                 .catch(error => {
                     console.error('Error get min deposit money:', error);
                 });
-
-            document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney}`;
-            document.getElementById('dep_date_error_message').innerText = `Must be after opened date`;
         });
 
         // Valid input
         document.getElementById('money_deposit').addEventListener('input', function () {
             const moneyDeposit = document.getElementById('money_deposit').value;
+            console.log(minDepMoney);
             if (moneyDeposit >= minDepMoney) {
                 document.getElementById('dep_money_error_message').style.display = 'none';
                 document.getElementById('valid_dep_money').style.display = "inline";
                 document.getElementById('invalid_dep_money').style.display = "none";
+                isDepMoneyValid = true;
             }
             else {
                 document.getElementById('dep_money_error_message').style.display = 'inline';
                 document.getElementById('valid_dep_money').style.display = "none";
                 document.getElementById('invalid_dep_money').style.display = "inline";
+                isDepMoneyValid = false;
             }
         });
 
@@ -274,15 +282,17 @@
             const dateDeposit = document.getElementById('deposit_date').value;
             const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
             console.log(getDifferenceInDays(dateDeposit, dateCreate));
-            if (getDifferenceInDays(dateDeposit, dateCreate) >= 0 ) {
+            if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
                 document.getElementById('dep_date_error_message').style.display = 'none';
                 document.getElementById('valid_dep_date').style.display = "inline";
                 document.getElementById('invalid_dep_date').style.display = "none";
+                isDepDateValid = true;
             }
             else {
                 document.getElementById('dep_date_error_message').style.display = 'inline';
                 document.getElementById('valid_dep_date').style.display = "none";
                 document.getElementById('invalid_dep_date').style.display = "inline";
+                isDepDateValid = false;
             }
         });
     </script>
