@@ -171,6 +171,46 @@ class API_Controller {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }}
+    }
+
+    async getAllDepositTransactionAPI(req, res) {
+        try {
+            const result = await depositModel.getAllDepositTransaction();
+            res.json(result);
+        }
+        catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAllWithdrawTransactionAPI(req, res) {
+        try {
+            const result = await withdrawModel.getAllWithdrawTransaction();
+            res.json(result);
+        }
+        catch {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getCurrentTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getCurrentTypeOfSaving();
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAllTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getAllTypeOfSaving();
+            res.json(result);
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+}
+
 
 module.exports = new API_Controller();

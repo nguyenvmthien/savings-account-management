@@ -217,6 +217,7 @@ class Regulation_H {
             throw err;
         }
     }
+    
     async getMinDepMoneyAndMinWitDays({ type, apply_date }) {
         console.log(type + apply_date);
         try {

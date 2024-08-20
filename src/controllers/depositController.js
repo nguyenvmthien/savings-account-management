@@ -16,12 +16,14 @@ class Deposit_Controller {
             return;
         }
         try {
-            await depositModel.deposit({
+            const result = await depositModel.deposit({
+
                 id_account,
                 money_deposit,
                 deposit_date,
             });
-            res.json({message: "success" });
+            res.json(result);
+            // res.json({message: "success" });
         } catch (error) {
             res.json({ message: "fail" });
         }
