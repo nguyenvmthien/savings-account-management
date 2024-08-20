@@ -115,8 +115,8 @@ class Regulation_H {
 
     async edit({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -126,7 +126,7 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
             console.log(`type: ${type}`);
