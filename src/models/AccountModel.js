@@ -157,22 +157,24 @@ class Account_H {
                     c.name AS customer_name,
                     c.address AS customer_address,
                     a.acc_id AS id_account,
-                    a.open_date AS date_created,
+                    CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) AS date_created,
                     a.type AS type_of_saving,
+                    CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
                     b.principal AS principal,
                     b.interest AS interest
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
-                JOIN regulation r ON a.type = r.type AND a.apply_date = r.apply_date
+                JOIN regulation r ON a.type = r.type 
+                    AND CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) = CONVERT_TZ(r.apply_date, '+00:00', @@session.time_zone)
                 JOIN balance b ON a.acc_id = b.acc_id
                 WHERE a.acc_id = ?;
             `;
 
             // Execute the query
             const [rows, fields] = await pool.execute(query, [id_account]);
-            console.log(rows);
             // Check if the account exists and return the information
+            console.log(rows);
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }

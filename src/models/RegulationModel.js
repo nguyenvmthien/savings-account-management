@@ -3,8 +3,8 @@ const pool = require('../config/db');
 class Regulation_H {
     async create({
         type,
-        applied_date,
-        applied_time,
+        apply_date,
+        apply_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -18,7 +18,7 @@ class Regulation_H {
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied_date} ${applied_time}`;
+            const real_apply_date = `${apply_date} ${apply_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -27,7 +27,8 @@ class Regulation_H {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_applied_date],
+                    [type, real_apply_date],
+
                 );
                 console.log(existingRegulation);
                 //If regulation doesn't exist
@@ -37,7 +38,7 @@ class Regulation_H {
                         'INSERT INTO regulation (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
                         [
                             type,
-                            real_applied_date,
+                            real_apply_date,
                             interest_rate,
                             min_dep_money,
                             min_days_withdraw,
@@ -65,14 +66,14 @@ class Regulation_H {
         }
     }
 
-    async delete({ type, applied_date, applied_time }) {
-        //We need applied_date & applied time for the primary key
+    async delete({ type, apply_date, apply_time }) {
+        //We need apply_date & apply time for the primary key
 
         try {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied_date} ${applied_time}`;
+            const real_apply_date = `${apply_date} ${apply_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -91,7 +92,7 @@ class Regulation_H {
                     const deleted = 1;
                     await connection.execute(
                         'UPDATE regulation SET deleted = ? WHERE type = ? AND apply_date = ?;',
-                        [deleted, type, real_applied_date],
+                        [deleted, type, real_apply_date],
                     );
 
                     await connection.commit();
@@ -114,8 +115,8 @@ class Regulation_H {
 
     async edit({
         type,
-        applied_date,
-        applied_time,
+        apply_date,
+        apply_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -125,7 +126,7 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied_date} ${applied_time}`;
+            const real_apply_date = `${apply_date} ${apply_time}`;
             // check check
 
             console.log(`type: ${type}`);
@@ -169,7 +170,6 @@ class Regulation_H {
                             0,
                         ],
                     );
-
                     await connection.commit();
                 }
             } catch (err) {
@@ -190,13 +190,13 @@ class Regulation_H {
     async getCurrentTypeOfSaving() {
         try {
             // get CURRENT type of saving
-            // return type, applied_date, interest_rate
+            // return type, apply_date, interest_rate
 
             // SQL query to get all current types of savings
             const query = `
                 SELECT
                     type AS type_of_regulation,
-                    apply_date AS applied_date_of_regulation,
+                    apply_date AS apply_date_of_regulation,
                     interest_rate AS interest_rate_of_regulation
                 FROM regulation
                 WHERE deleted > 0;
@@ -220,13 +220,13 @@ class Regulation_H {
     async getAllTypeOfSaving() {
         try {
             // get all type of saving
-            // return type, applied_date, interest_rate
+            // return type, apply_date, interest_rate
 
             // SQL query to get all types of savings
             const query = `
                 SELECT
                     type AS type_of_regulation,
-                    apply_date AS applied_date_of_regulation,
+                    apply_date AS apply_date_of_regulation,
                     interest_rate AS interest_rate_of_regulation
                 FROM regulation;
             `;
@@ -245,28 +245,28 @@ class Regulation_H {
             throw err;
         }
     }
-    async getMinDepMoneyAndMinWitDays({ type, applied_date, applied_time }) {
+    
+    async getMinDepMoneyAndMinWitDays({ type, apply_date }) {
+        console.log(type + apply_date);
         try {
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
             //SQL query to get min_dep_money & min_wit_days
             const query = `
             SELECT 
-                min_dep_money AS minimum_amount_to_deposit,
-                min_wit_time AS mimium_days_to_witdraw
+                min_dep_money,
+                min_wit_time
             FROM regulation
             WHERE type = ? and apply_date = ? and deleted = 0;
             `;
 
             const [rows, fields] = await pool.execute(query, [
                 type,
-                real_applied_date,
+                apply_date,
             ]);
-
+            console.log(rows);
             if (rows.length > 0) {
-                // Access the first row and the all_deposit_transaction column
-                return rows[0].all_deposit_transation;
+                return rows[0];
             } else {
                 throw new Error('There is nothing here.');
             }

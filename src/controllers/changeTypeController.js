@@ -25,7 +25,7 @@ class Regulation_Controller {
             min_dep_money,
             min_days_withdraw,
         } = req.body;
-
+        console.log(req.body);
         try {
             await regulationModel.create({
                 type,
