@@ -41,7 +41,7 @@
     <div id="noti-pop-up" class="noti-pop-up">
         <div class="noti-pop-up-content">
             <div>
-                <h2>ID cannot be found!</h2>
+                <h2 id="message">ID cannot be found!</h2>
                 <h2>Please check again.</h2>
             </div>
             <div>
@@ -73,6 +73,11 @@
                 .then(data => {
                     console.log('Raw Data:', data);
                     if (data.error == "fail") {
+                        var popup = document.getElementById('noti-pop-up');
+                        popup.style.display = "block";
+                    }
+                    else if(data.type_of_saving != "Non-term") {
+                        document.getElementById('message').innerHTML = "This account does not support additional deposits.";
                         var popup = document.getElementById('noti-pop-up');
                         popup.style.display = "block";
                     }
