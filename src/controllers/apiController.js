@@ -155,10 +155,9 @@ class API_Controller {
 
     async getMinDepMoneyAndMinWithDaysAPI(req, res) {
         const type = req.query.type;
-        const applied_date = req.query.applied_date;
-        const applied_time = req.query.applied_time;
+        const apply_date = req.query.apply_date;
 
-        if (!type || !applied_date || !applied_time) {
+        if (!type || !apply_date) {
             res.status(400).json({ error: 'Missing parameter' });
             return;
         }
@@ -166,8 +165,7 @@ class API_Controller {
         try {
             const result = await regulationModel.getMinDepMoneyAndMinWitDays({
                 type,
-                applied_date,
-                applied_time,
+                apply_date
             });
             res.json(result);
         } catch (error) {

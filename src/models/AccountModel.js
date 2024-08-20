@@ -159,8 +159,10 @@ class Account_H {
                     a.acc_id AS id_account,
                     a.open_date AS date_created,
                     a.type AS type_of_saving,
+                    a.apply_date,
                     r.interest_rate,
-                    b.principal + b.interest AS balance
+                    b.principal,
+                    b.interest
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN regulation r ON a.type = r.type AND a.apply_date = r.apply_date
@@ -170,8 +172,8 @@ class Account_H {
 
             // Execute the query
             const [rows, fields] = await pool.execute(query, [id_account]);
-            console.log(rows);
             // Check if the account exists and return the information
+            console.log(rows);
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }

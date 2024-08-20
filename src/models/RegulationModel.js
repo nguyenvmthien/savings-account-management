@@ -19,7 +19,7 @@ class Regulation_H {
             try {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and apply_time = ? and deleted = 0;',
+                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_apply_date],
                 );
                 //If regulation doesn't exist
@@ -71,7 +71,7 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and apply_time = ? and deleted = 0;',
+                    'SELECT * FROM account WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_apply_date],
                 );
 
@@ -124,7 +124,7 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM account WHERE type = ? and apply_time = ? and deleted = 0;',
+                    'SELECT * FROM account WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_apply_date],
                 );
 
@@ -217,10 +217,10 @@ class Regulation_H {
             throw err;
         }
     }
-    async getMinDepMoneyAndMinWitDays({ type, apply_date, apply_time }) {
+    async getMinDepMoneyAndMinWitDays({ type, apply_date }) {
+        console.log(type + apply_date);
         try {
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
             // check check
             //SQL query to get min_dep_money & min_wit_days
             const query = `
@@ -228,17 +228,16 @@ class Regulation_H {
                 min_des_money AS minimum_amount_to_deposit,
                 min_wit_time AS mimium_days_to_witdraw
             FROM regulation
-            WHERE type = ? and apply_time = ? and deleted = 0;
+            WHERE type = ? and apply_date = ? and deleted = 0;
             `;
 
             const [rows, fields] = await pool.execute(query, [
                 type,
-                real_apply_date,
+                apply_date,
             ]);
-
+            console.log(rows);
             if (rows.length > 0) {
-                // Access the first row and the all_deposit_transaction column
-                return rows[0].all_deposit_transation;
+                return rows[0];
             } else {
                 throw new Error('There is nothing here.');
             }

@@ -46,19 +46,25 @@
             </div>
             <div class="form-group">
                 <span>Current amount (VND)</span>
-                <input id="balance" name="current_amount" type="text" class="form-control" readonly>
+                <input id="principal" name="current_amount" type="text" class="form-control" readonly>
             </div>
         </fieldset>
         <fieldset class="deposit-information">
             <legend>Deposit information</legend>
             <div class="form-group">
                 <span>Money deposited (VND)</span>
+                <img src="/images/valid-icon/valid.png" id="valid_dep_money">
+                <img src="/images/valid-icon/invalid.png" id="invalid_dep_money">
                 <input id="money_deposit" type="money" name="money_deposit" class="form-control"
                     placeholder="100,000,000" required>
+                <p class="error-message" id="dep_money_error_message"></p>
             </div>
             <div class="form-group">
                 <span>Deposit date</span>
-                <input type="date" name="deposit_date" class="form-control" required>
+                <img src="/images/valid-icon/valid.png" id="valid_dep_date">
+                <img src="/images/valid-icon/invalid.png" id="invalid_dep_date">
+                <input id="deposit_date" type="date" name="deposit_date" class="form-control" required>
+                <p class="error-message" id="dep_date_error_message"></p>
             </div>
         </fieldset>
         <button type="button" id="deposit-button" class="button" onclick="confirmSubmit()">Deposit</button>
@@ -92,12 +98,12 @@
     <div id="noti-pop-up" class="noti-pop-up">
         <div class="noti-pop-up-content">
             <div>
-                <div>
-                    <h2 id="success-message">Deposited Successfully!</h2>
-                </div>
-                <div>
-                    <h2 id="fail-message">Failed to Deposit!</h2>
-                </div>
+                <h2 id="success-message">Deposited Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to deposit!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
             </div>
             <div>
                 <img id="success-icon" src="/images/popup/success.png">
@@ -159,16 +165,19 @@
                         document.getElementById('fail-icon').style.display = "none";
                         document.getElementById('success-message').style.display = "inline";
                         document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
                     } else if (data.message == "fail") {
                         document.getElementById('success-icon').style.display = "none";
                         document.getElementById('fail-icon').style.display = "inline";
                         document.getElementById('success-message').style.display = "none";
                         document.getElementById('fail-message').style.display = "inline";
+                        document.getElementById('fail-message2').style.display = "inline";
                     } else {
                         document.getElementById('success-icon').style.display = "none";
                         document.getElementById('fail-icon').style.display = "none";
                         document.getElementById('success-message').style.display = "none";
                         document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
                     }
                 })
                 .catch(error => {
@@ -179,6 +188,8 @@
             return false;
         }
 
+        const minDepMoney = 100000;
+        const minWitDays = 15;
         // Redirect
         document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
@@ -197,14 +208,16 @@
                 date_created: params.get('date_created'),
                 type_of_saving: params.get('type_of_saving'),
                 interest_rate: params.get('interest_rate'),
-                balance: params.get('balance')
+                principal: params.get('principal'),
+                interest: params.get('interest'),
+                apply_date: params.get('apply_date')
             };
 
             document.getElementById('id_account').value = accountData.id_account;
             document.getElementById('customer_name').value = accountData.customer_name;
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
             document.getElementById('interest_rate').value = accountData.interest_rate;
-            document.getElementById('balance').value = accountData.balance;
+            document.getElementById('principal').value = accountData.principal;
 
             document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
             document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
@@ -213,9 +226,63 @@
             document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
             document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
             document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
-            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.balance + ' VND';
+            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.principal + ' VND';
+
+            fetch('/sa/deposit/getMinDepMoneyAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Raw Data:', data);
+                    minDepMoney = data.minimum_amount_to_deposit;
+                    minWitDays = data.mimium_days_to_witdraw;
+                })
+                .catch(error => {
+                    console.error('Error checking id account:', error);
+                });
+
+            document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney}`;
+            document.getElementById('dep_date_error_message').innerText = `At least ${minWitDays} day(s) from opened date`;
         });
 
+        // Valid input
+        document.getElementById('money_deposit').addEventListener('input', function () {
+            const moneyDeposit = document.getElementById('money_deposit').value;
+            if (moneyDeposit >= minDepMoney) {
+                document.getElementById('dep_money_error_message').style.display = 'none';
+                document.getElementById('valid_dep_money').style.display = "inline";
+                document.getElementById('invalid_dep_money').style.display = "none";
+            }
+            else {
+                document.getElementById('dep_money_error_message').style.display = 'inline';
+                document.getElementById('valid_dep_money').style.display = "none";
+                document.getElementById('invalid_dep_money').style.display = "inline";
+            }
+        });
+
+        function getDifferenceInDays(dateString1, dateString2) {
+            const date1 = new Date(dateString1);
+            const date2 = new Date(dateString2);
+
+            const timeDifference = date1 - date2; // milisec
+
+            const differenceInDays = timeDifference / (1000 * 60 * 60 * 24);
+
+            return differenceInDays;
+        }
+
+        document.getElementById('deposit_date').addEventListener('change', function () {
+            const dateDeposit = document.getElementById('deposit_date').value;
+            const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
+            if (getDifferenceInDays(dateDeposit, dateCreate) > minWitDays) {
+                document.getElementById('dep_date_error_message').style.display = 'none';
+                document.getElementById('valid_dep_date').style.display = "inline";
+                document.getElementById('invalid_dep_date').style.display = "none";
+            }
+            else {
+                document.getElementById('dep_date_error_message').style.display = 'inline';
+                document.getElementById('valid_dep_date').style.display = "none";
+                document.getElementById('invalid_dep_date').style.display = "inline";
+            }
+        });
     </script>
 </body>
 

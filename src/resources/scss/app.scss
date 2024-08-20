@@ -130,14 +130,6 @@ select {
     background-color: #e9ecef;
 }
 
-.error {
-    color: red;
-}
-
-.success {
-    color: green;
-}
-
 .button {
     font-family: Inter;
     background-color: #16A596;
@@ -275,6 +267,7 @@ select {
     font-style: normal;
     font-size: 45px;
     margin: 20px;
+    text-align: center;
 }
 
 .noti-pop-up-content img {
@@ -290,6 +283,7 @@ select {
 #success-message {
     display: none;
     margin: 20px;
+    line-height: 200%;
 }
 
 #fail-icon {
@@ -300,4 +294,15 @@ select {
 #fail-message {
     display: none;
     margin: 20px;
+    line-height: 150%;
+}
+
+.error-message {
+    color: red;
+    margin-top: 0;
+    display: none;
+}
+
+.form-group > img {
+    display: none;
 }
