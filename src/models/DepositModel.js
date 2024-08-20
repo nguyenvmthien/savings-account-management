@@ -20,7 +20,7 @@ class Deposit_H {
                     //get the opened_date
                     const [account] = await connection.execute(
                         `
-                        SELECT a.open_date, r.min_des_money
+                        SELECT a.open_date, r.min_dep_money
                         FROM account a join regulation r on a.type = r.type
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
@@ -32,7 +32,7 @@ class Deposit_H {
                     console.log('get open date');
                     //insert new deposit transaction
                     if (
-                        money_deposit > account[0].min_des_money &&
+                        money_deposit > account[0].min_dep_money &&
                         deposit_date > account[0].open_date
                     ) {
                         const dep_id = `DEP${Math.floor(Math.random() * 100000)

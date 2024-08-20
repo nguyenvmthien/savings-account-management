@@ -6,7 +6,7 @@ class Regulation_H {
         apply_date,
         apply_time,
         interest_rate,
-        min_des_money,
+        min_dep_money,
         min_days_withdraw,
     }) {
         try {
@@ -26,12 +26,12 @@ class Regulation_H {
                 if (existingRegulation.length === 0) {
                     const deleted = 0;
                     await connection.execute(
-                        'INSERT INTO deposit (type, apply_date, interest_rate, min_des_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
+                        'INSERT INTO deposit (type, apply_date, interest_rate, min_dep_money, min_wit_time, deleted) VALUES (?, ?, ?, ?, ?, ?);',
                         [
                             type,
                             real_apply_date,
                             interest_rate,
-                            min_des_money,
+                            min_dep_money,
                             min_days_withdraw,
                             0,
                         ],
@@ -107,7 +107,7 @@ class Regulation_H {
         apply_date,
         apply_time,
         interest_rate,
-        min_des_money,
+        min_dep_money,
         min_days_withdraw,
     }) {
         try {
@@ -138,7 +138,7 @@ class Regulation_H {
                         type,
                         apply_date,
                         interest_rate,
-                        min_des_money,
+                        min_dep_money   ,
                         min_days_withdraw,
                     });
 
@@ -225,7 +225,7 @@ class Regulation_H {
             //SQL query to get min_dep_money & min_wit_days
             const query = `
             SELECT 
-                min_des_money AS minimum_amount_to_deposit,
+                min_dep_money AS minimum_amount_to_deposit,
                 min_wit_time AS mimium_days_to_witdraw
             FROM regulation
             WHERE type = ? and apply_date = ? and deleted = 0;
@@ -243,7 +243,7 @@ class Regulation_H {
             }
         } catch (err) {
             console.error(
-                'Error getting min_des_money and min_days_withdraw:',
+                'Error getting min_dep_money and min_days_withdraw:',
                 err,
             );
             throw err;
