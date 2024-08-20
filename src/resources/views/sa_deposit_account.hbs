@@ -144,6 +144,7 @@
 
         function submitForm() {
             closePopup();
+            document.getElementById('money_deposit').value.replace(/,/g, '');
             const form = document.getElementById('myForm');
             const formData = new FormData(form);
 
@@ -250,7 +251,10 @@
 
         // Valid input
         document.getElementById('money_deposit').addEventListener('input', function () {
-            const moneyDeposit = document.getElementById('money_deposit').value;
+            let value = this.value.replace(/[^0-9.]/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.value = value;
+            const moneyDeposit = document.getElementById('money_deposit').value.replace(/,/g, '');
             console.log(minDepMoney);
             if (moneyDeposit >= minDepMoney) {
                 document.getElementById('dep_money_error_message').style.display = 'none';

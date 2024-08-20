@@ -54,7 +54,7 @@
                 <span>Money withdrawn (VND)</span>
                 <img src="/images/valid-icon/valid.png" id="valid_wit_money">
                 <img src="/images/valid-icon/invalid.png" id="invalid_wit_money">
-                <input id="money_withdraw" type="money" name="money_withdraw" class="form-control"
+                <input id="money_withdraw" type="text" name="money_withdraw" class="form-control"
                     placeholder="100,000,000" required>
                 <p class="error-message" id="wit_money_error_message"></p>
             </div>
@@ -143,6 +143,7 @@
 
         function submitForm() {
             closePopup();
+            document.getElementById('money_withdraw').value.replace(/,/g, '');
             const form = document.getElementById('myForm');
             const formData = new FormData(form);
 
@@ -265,7 +266,10 @@
 
         // Valid input
         document.getElementById('money_withdraw').addEventListener('input', function () {
-            const moneyWithdraw = document.getElementById('money_withdraw').value;
+            let value = this.value.replace(/[^0-9.]/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.value = value;
+            const moneyWithdraw = document.getElementById('money_withdraw').value.replace(/,/g, '');
             if (subtractStrings(moneyWithdraw, document.getElementById('confirmCurrentAmount').innerText.slice(16)) <= 0) {
                 document.getElementById('wit_money_error_message').style.display = 'none';
                 document.getElementById('valid_wit_money').style.display = "inline";
