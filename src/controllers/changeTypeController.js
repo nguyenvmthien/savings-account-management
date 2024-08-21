@@ -48,7 +48,7 @@ class Regulation_Controller {
             applied_date,
             applied_time,
             interest_rate,
-            min_des_money,
+            min_dep_money,
             min_days_withdraw,
         } = req.body;
 
@@ -58,7 +58,7 @@ class Regulation_Controller {
                 applied_date,
                 applied_time,
                 interest_rate,
-                min_des_money,
+                min_dep_money,
                 min_days_withdraw,
             });
             res.render('change_type_edit', { message: 'success' });

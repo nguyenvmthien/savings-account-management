@@ -126,8 +126,14 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied} ${applied}`;
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
+            console.log('Type:', type);
+            console.log('Real Applied Date:', real_applied_date);
+            console.log('Interest Rate:', interest_rate);
+            console.log('Min Deposit Money:', min_dep_money);
+            console.log('Min Days Withdraw:', min_days_withdraw);
+
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 
@@ -148,7 +154,10 @@ class Regulation_H {
                         'UPDATE regulation SET deleted = ? WHERE type = ?;',
                         [1, type],
                     );
+                    // this.delete(existingRegulation[0]);
+                    await connection.commit();
                     console.log('Deleted regulation');
+                    
 
                     //create regulation
                     await connection.execute(
@@ -162,7 +171,8 @@ class Regulation_H {
                             0,
                         ],
                     );
-                    await connection.commit();
+                    // this.create([type, real_applied_date, interest_rate, min_dep_money, min_days_withdraw]);
+                     await connection.commit();
                 }
             } catch (err) {
                 //throw error
