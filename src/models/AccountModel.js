@@ -18,18 +18,26 @@ class Account_H {
             await connection.beginTransaction();
 
             try {
+                console.log('begin transaction');
                 // Check if the customer already exists
                 const [existingCustomer] = await connection.execute(
                     'SELECT * FROM customer WHERE cus_id = ?',
                     [id_card],
                 );
 
+                // check infor of customer from existingCustomer
+                if (existingCustomer[0].name != customer_name || existingCustomer[0].address != customer_address) {
+                    console.log('customer information is not correct');
+                    return { message: 'fail' };
+                }
+
                 if (existingCustomer.length === 0) {
                     // Insert the new customer
-                    await connection.execute(
+                    const result = await connection.execute(
                         'INSERT INTO customer (cus_id, name, address) VALUES (?, ?, ?)',
                         [id_card, customer_name, customer_address],
                     );
+                    console.log(result, 'inserted new customer');
 
                     console.log('inserted new customer');
                 }
@@ -87,12 +95,7 @@ class Account_H {
                 throw err;
             } finally {
                 // Release the connection back to the pool
-                if (connection) {
-                    connection.release();
-                    console.log('released');
-                    return { message: 'success' };
-                }
-                console.log('done');
+                connection.release();
             }
         } catch (err) {
             console.error('Error creating account:', err);
@@ -143,7 +146,6 @@ class Account_H {
             }
         } catch (err) {
             return {message: "fail"};
-            throw err;
         }
     }
 
@@ -289,6 +291,7 @@ class Account_H {
 
             const {
                 type,
+                open_date,
                 principal,
                 last_deposit_date,
                 interest_rate,
@@ -296,18 +299,21 @@ class Account_H {
             } = rows[0];
 
             // Calculate the difference between the withdrawal date and the last deposit date
+            const openDate = new Date(open_date);
             const lastDepositDate = new Date(last_deposit_date);
             const withdrawDate = new Date(withdraw_date);
-            const diffTime = Math.abs(withdrawDate - lastDepositDate);
+            const diffTimeCheck = Math.abs(withdrawDate - lastDepositDate);
+            const diffDaysCheck = Math.ceil(diffTimeCheck / (1000 * 60 * 60 * 24)); // Difference in days
+            const diffTime = Math.abs(withdrawDate - openDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
 
             // If the difference in days is greater than or equal to the minimum withdrawal date
             let totalAmount = principal;
 
-            if (diffDays >= min_wit_date) {
+            if (diffDaysCheck >= min_wit_date) {
                 let interest = 0;
 
-                if (type === 'non-term') {
+                if (type === 'Non-term') {
                     // For non-term accounts: interest = principal * interest_rate
                     interest = principal * (interest_rate / 100);
                 } else {
@@ -315,12 +321,15 @@ class Account_H {
                     // Extract the term in months from the type string
                     const termMatch = type.match(/(\d+)\s*month/);
                     const months = termMatch ? parseInt(termMatch[1]) : 1; // Default to 1 month if parsing fails
-
+                    
+                    // get int number of maturities
+                    const number_of_maturities = Math.floor(diffDays / (months * 30));
+        
                     // Calculate interest based on the term
                     interest =
                         principal *
                         (interest_rate / 100) *
-                        (diffDays / (months * 30)); // Approximating 1 month as 30 days
+                        (number_of_maturities); // Approximating 1 month as 30 days
                 }
 
                 totalAmount += interest;

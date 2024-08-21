@@ -42,7 +42,7 @@ class Create_Account_Controller {
 
         console.log(id_account);
         // create account
-        await accountModel.create({
+        const result = await accountModel.create({
             id_card,
             customer_name,
             customer_address,
@@ -51,7 +51,7 @@ class Create_Account_Controller {
             type_of_saving,
             date_created,
         });
-        res.json({ message: 'success' });
+        res.json(result);
     }
 }
 
