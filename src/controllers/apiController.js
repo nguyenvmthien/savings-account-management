@@ -21,7 +21,7 @@ class API_Controller {
             const result = await regulationModel.getCurrentTypeOfSaving();
             // find interest rate of type of saving
             const interestRate = result.find(
-                (element) => element.type === typeOfSaving
+                (element) => element.type === typeOfSaving,
             );
 
             if (interestRate) {
@@ -43,13 +43,14 @@ class API_Controller {
 
     async getInformationAPI(req, res) {
         const id_account = req.query.id_account;
-        console.log("id: " + id_account);
+        console.log('id: ' + id_account);
         if (!id_account) {
             return;
         }
 
         try {
-            const result = await accountModel.getInformationByIDAccount(id_account);
+            const result =
+                await accountModel.getInformationByIDAccount(id_account);
             res.json(result);
             return;
         } catch (error) {
@@ -57,7 +58,7 @@ class API_Controller {
             return;
         }
     }
- 
+
     async getCurrentPrincipalAPI(req, res) {
         const { id_account } = req.query;
 
@@ -73,7 +74,6 @@ class API_Controller {
             res.status(500).json({ error: error.message });
         }
     }
-
 
     async getCurrentBalanceAPI(req, res) {
         const id_account = req.query.id_account;
@@ -155,10 +155,9 @@ class API_Controller {
 
     async getMinDepMoneyAndMinWithDaysAPI(req, res) {
         const type = req.query.type;
-        const applied_date = req.query.applied_date;
-        const applied_time = req.query.applied_time;
+        const apply_date = req.query.apply_date;
 
-        if (!type || !applied_date || !applied_time) {
+        if (!type || !apply_date) {
             res.status(400).json({ error: 'Missing parameter' });
             return;
         }
@@ -166,13 +165,53 @@ class API_Controller {
         try {
             const result = await regulationModel.getMinDepMoneyAndMinWitDays({
                 type,
-                applied_date,
-                applied_time,
+                apply_date
             });
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    }}
+    }
+
+    async getAllDepositTransactionAPI(req, res) {
+        try {
+            const result = await depositModel.getAllDepositTransaction();
+            res.json(result);
+        }
+        catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAllWithdrawTransactionAPI(req, res) {
+        try {
+            const result = await withdrawModel.getAllWithdrawTransaction();
+            res.json(result);
+        }
+        catch(error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getCurrentTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getCurrentTypeOfSaving();
+            res.json(result);
+        }
+        catch(error) {
+            res.status(500).json({ error: error.message });
+        }
+    }
+
+    async getAllTypeOfSavingAPI(req, res) {
+        try {
+            const result = await regulationModel.getAllTypeOfSaving();
+            res.json(result);
+        }
+        catch {
+            res.status(500).json({ error: error.message });
+        }
+    }
+}
 
 module.exports = new API_Controller();

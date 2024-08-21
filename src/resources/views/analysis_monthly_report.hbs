@@ -14,7 +14,7 @@
         <h1>Analysis</h1>
         <div class="row">
             <h2>Monthly Report</h2>
-            <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+            <button type="button" class="btn-CSV" id="csv_button">Export CSV</button>
         </div>
     </div>
     <div>
@@ -24,13 +24,13 @@
     </div>
     <div class="filters">
         <div class="filter-group">
-            <label for="month-report">Month</label>
-            <input type="date" id="month-report" name="month-report">
+            <label for="month-report">Month (MM/YYYY)</label>
+            <input type="text" id="month-report" name="month-report" placeholder="MM/YYYY">
         </div>
         <div class="filter-group">
             <label for="type-saving">Type of Saving</label>
             <select id="type-saving" name="type-saving">
-                <option value="3months" disabled>3 months</option>
+                <option value="">Select Type</option>
                 <option value="3months">3 months</option>
                 <option value="6months">6 months</option>
                 <option value="non-term">Non-term</option>
@@ -42,107 +42,162 @@
         <div class="caption-container">
             <span class="table-title">Monthly Account Activity Report</span>
             <div class="filter-info">
-                <span class="filter-label">Type of Savings: --</span>
-                <span class="filter-label">Month: --</span>
+                <span class="filter-label" id="type-saving-info">Type of Savings: --</span>
+                <span class="filter-label" id="month-info">Month: --</span>
             </div>
         </div>
-       <table class="account-table">
-    <caption>Deposit and Transaction Activity Report on 27/12/2023</caption>
-    <thead>
-        <tr>
-            <th>No</th>
-            <th>Day</th>
-            <th>Number of New Accounts</th>
-            <th>Number of Closed Accounts</th>
-            <th>Difference</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>27/12/2023</td>
-            <td>5</td>
-            <td>2</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>28/12/2023</td>
-            <td>4</td>
-            <td>1</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>29/12/2023</td>
-            <td>6</td>
-            <td>3</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>30/12/2023</td>
-            <td>7</td>
-            <td>2</td>
-            <td>5</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>31/12/2023</td>
-            <td>8</td>
-            <td>4</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>6</td>
-            <td>01/01/2024</td>
-            <td>9</td>
-            <td>5</td>
-            <td>4</td>
-        </tr>
-        <tr>
-            <td>7</td>
-            <td>02/01/2024</td>
-            <td>5</td>
-            <td>2</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>03/01/2024</td>
-            <td>4</td>
-            <td>3</td>
-            <td>1</td>
-        </tr>
-        <tr>
-            <td>9</td>
-            <td>04/01/2024</td>
-            <td>6</td>
-            <td>3</td>
-            <td>3</td>
-        </tr>
-        <tr>
-            <td>10</td>
-            <td>05/01/2024</td>
-            <td>7</td>
-            <td>2</td>
-            <td>5</td>
-        </tr>
-    </tbody>
-</table>
+        <table class="account-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Day</th>
+                    <th>Number of New Accounts</th>
+                    <th>Number of Closed Accounts</th>
+                    <th>Difference</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be inserted here dynamically -->
+            </tbody>
+        </table>
     </div>
 
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
-
     <script>
-        const config = {
+        document.addEventListener('DOMContentLoaded', function() {
+        const selectElement = document.getElementById('type-saving');
+
+        // Fetch options from API
+        fetch('/analysis/monthly-report/getTypeAPI') // Replace with your API endpoint
+            .then(response => response.json())
+            .then(data => {
+                    data.forEach(option => {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.value;
+                    optionElement.textContent = option.text;
+                    selectElement.appendChild(optionElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching options:', error);
+            });
+    });
+        document.getElementById('create').addEventListener('click', function () {
+            var monthInput = document.getElementById('month-report').value;
+            var typeSaving = document.getElementById('type-saving').value;
+
+            // Hiển thị thông tin tháng và loại tiết kiệm
+            document.getElementById('month-info').textContent = 'Month: ' + monthInput;
+            document.getElementById('type-saving-info').textContent = 'Type of Savings: ' + (typeSaving || '--');
+            var spilt_month_year = monthInput.split('/');
+            var month = spilt_month_year[0];
+            var year = spilt_month_year[1];
+
+            if (monthInput && typeSaving) {
+                // Gửi yêu cầu fetch
+                fetch('/analysis/monthly-report/createReportAPI?month=' + encodeURIComponent(month) + '&year=' + encodeURIComponent(year) + '&type_of_saving=' + encodeURIComponent(typeSaving))
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Dữ liệu trả về:', data); // In dữ liệu trả về ra console
+
+                        // Clear the previous data
+                        const tbody = document.querySelector('.account-table tbody');
+                        tbody.innerHTML = '';
+
+                        // Variables to hold data for chart
+                        let newAccounts = 0;
+                        let closedAccounts = 0;
+
+                        // Populate table with new data
+                        data.forEach((item, index) => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.date}</td>
+                        <td>${item.number_of_new_account}</td>
+                        <td>${item.number_of_closed_account}</td>
+                        <td>${item.difference}</td>
+                    `;
+                            tbody.appendChild(row);
+
+                            // Accumulate values for chart
+                            newAccounts += item.number_of_new_account;
+                            closedAccounts += item.number_of_closed_account;
+                        });
+
+                        // Update chart data
+                        chart.data.datasets[0].data = [newAccounts, closedAccounts];
+                        chart.update();
+
+                        // Update report date
+                        document.getElementById('report-date').textContent = new Date().toLocaleDateString('en-GB');
+                    })
+                    .catch(error => {
+                        console.error('Error fetching report data:', error);
+                    });
+            } else {
+                alert('Please select both month and type of saving.');
+            }
+        });
+
+        document.getElementById('csv_button').addEventListener('click', function () {
+            var monthInput = document.getElementById('month-report').value;
+            var spilt_month_year = monthInput.split('/');
+            var month = spilt_month_year[0];
+            var year = spilt_month_year[1];
+            var typeSaving = document.getElementById('type-saving').value;
+
+            if (month && year && typeSaving) {
+                fetch('/analysis/monthly-report/createReportAPI?month=' + encodeURIComponent(month) + '&year=' + encodeURIComponent(year) + '&type_of_saving=' + encodeURIComponent(typeSaving))
+                    // Gửi yêu cầu fetch
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                            console.log(response);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Dữ liệu CSV:', data); // In dữ liệu CSV ra console
+
+                        let csvContent = "data:text/csv;charset=utf-8,";
+                        csvContent += "No,Day,Number of New Accounts,Number of Closed Accounts,Difference\n";
+
+                        data.forEach((item, index) => {
+                            csvContent += `${index + 1},${item.date},${item.number_of_new_account},${item.number_of_closed_account},${item.difference}\n`;
+                        });
+
+                        // Create a link and trigger the download
+                        const encodedUri = encodeURI(csvContent);
+                        const link = document.createElement('a');
+                        link.setAttribute('href', encodedUri);
+                        link.setAttribute('download', 'monthly_report.csv');
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    })
+                    .catch(error => {
+                        console.error('Error exporting CSV data:', error);
+                    });
+            } else {
+                alert('Please select both month and type of saving.');
+            }
+        });
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['New', 'Closed'],
+                labels: ['New Accounts', 'Closed Accounts'],
                 datasets: [{
-                    data: [62, 38],
+                    data: [0, 0], // Initially empty, will be populated later
                     backgroundColor: ['#FFA500', '#32CD32'] // Colors for the slices
                 }]
             },
@@ -150,19 +205,19 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        position: 'bottom', // Position the legend at the bottom
+                        position: 'bottom',
                         labels: {
-                            boxWidth: 25, // Width of the color box
-                            padding: 25, // Padding around the legend items
+                            boxWidth: 25,
+                            padding: 25
                         }
                     },
                     title: {
                         display: true,
                         text: 'Monthly account activity',
-                        position: 'bottom', // Title position at the bottom
+                        position: 'bottom',
                         font: {
-                            size: 20, // Font size of the title
-                            weight: 400, // Font weight of the title
+                            size: 20,
+                            weight: 400,
                             family: 'Inter'
                         },
                         padding: {
@@ -172,15 +227,19 @@
                     }
                 },
                 layout: {
-                    padding: 15 // Padding around the chart
+                    padding: 15
                 },
-                cutout: '70%' // Adjust the thickness of the donut
+                cutout: '70%'
             }
-        };
+        });
 
-        // Create the chart
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, config);
+        // Redirect
+        document.addEventListener("DOMContentLoaded", function () {
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+        });
     </script>
 </body>
 

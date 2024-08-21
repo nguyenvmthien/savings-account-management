@@ -4,6 +4,7 @@ const findAccountController = require('../controllers/findAccountController');
 const apiController = require('../controllers/apiController');
 
 router.get('/createReportAPI', apiController.findAccountAPI);
+router.get('/getTypeAPI', apiController.getCurrentTypeOfSavingAPI);
 router.get('/', findAccountController.renderSaFindAccount);
 
 module.exports = router;

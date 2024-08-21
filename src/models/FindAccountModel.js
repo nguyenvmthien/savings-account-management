@@ -9,7 +9,7 @@ class Find_Account_H {
     }) {
         try {
             let baseQuery = `
-                SELECT acc_id, account.type, customer.name, balance.cur_balance
+                SELECT account.acc_id, account.type, customer.name, balance.cur_balance
                 FROM account 
                 JOIN customer ON account.cus_id = customer.cus_id
                 JOIN regulation ON account.type = regulation.type AND account.apply_date = regulation.apply_date

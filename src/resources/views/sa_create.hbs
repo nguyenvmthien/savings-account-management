@@ -180,7 +180,7 @@
             console.log(typeOfSaving);
             if (typeOfSaving !== "") {
                 console.log('Calling API with type:', typeOfSaving);
-                fetch('/sa-create/getInterestRate?type=' + typeOfSaving)
+                fetch('/sa/create/getInterestRate?type=' + typeOfSaving)
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);

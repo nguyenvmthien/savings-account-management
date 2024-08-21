@@ -87,11 +87,11 @@ class Account_H {
                 throw err;
             } finally {
                 // Release the connection back to the pool
-                if (connection) {
-                    connection.release();
-                    console.log('released');
-                    return { message: 'success' };
-                }
+                // if (connection) {
+                //     connection.release();
+                //     console.log('released');
+                //     return { message: 'success' };
+                // }
                 console.log('done');
             }
         } catch (err) {
@@ -148,7 +148,7 @@ class Account_H {
 
     // NEED CHECK WHEN b.interest IS NULL
     async getInformationByIDAccount(id_account) {
-        console.log("id in model: " + id_account);
+        console.log('id in model: ' + id_account);
         try {
             // Query to get account information, including customer details, regulation info, and balance
             const query = `
@@ -157,21 +157,24 @@ class Account_H {
                     c.name AS customer_name,
                     c.address AS customer_address,
                     a.acc_id AS id_account,
-                    a.open_date AS date_created,
+                    CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) AS date_created,
                     a.type AS type_of_saving,
+                    CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
-                    b.principal + b.interest AS balance
+                    b.principal AS principal,
+                    b.interest AS interest
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
-                JOIN regulation r ON a.type = r.type AND a.apply_date = r.apply_date
+                JOIN regulation r ON a.type = r.type 
+                    AND CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) = CONVERT_TZ(r.apply_date, '+00:00', @@session.time_zone)
                 JOIN balance b ON a.acc_id = b.acc_id
                 WHERE a.acc_id = ?;
             `;
 
             // Execute the query
             const [rows, fields] = await pool.execute(query, [id_account]);
-            console.log(rows);
             // Check if the account exists and return the information
+            console.log(rows);
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }
@@ -230,11 +233,12 @@ class Account_H {
         try {
             const query = `
                 SELECT MAX(acc_id) AS newest_id_account
-                FROM account;
+                FROM account
+                WHERE acc_id LIKE 'MS%' AND LENGTH(acc_id) = 12;
             `;
 
             const [rows, fields] = await pool.execute(query);
-
+            console.log(rows);
             return rows[0].newest_id_account;
             // get newest id_account
         } catch (err) {

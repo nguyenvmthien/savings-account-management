@@ -22,7 +22,7 @@ class Regulation_Controller {
             applied_date,
             applied_time,
             interest_rate,
-            min_des_money,
+            min_dep_money,
             min_days_withdraw,
         } = req.body;
 
@@ -32,11 +32,11 @@ class Regulation_Controller {
                 applied_date,
                 applied_time,
                 interest_rate,
-                min_des_money,
+                min_dep_money,
                 min_days_withdraw,
             });
             res.render('change_type_create', { message: 'success' });
-        } catch {
+        } catch (err) {
             console.error('Error creating regulation:', err);
             throw err;
         }
@@ -48,7 +48,7 @@ class Regulation_Controller {
             applied_date,
             applied_time,
             interest_rate,
-            min_des_money,
+            min_dep_money,
             min_days_withdraw,
         } = req.body;
 
@@ -58,7 +58,7 @@ class Regulation_Controller {
                 applied_date,
                 applied_time,
                 interest_rate,
-                min_des_money,
+                min_dep_money,
                 min_days_withdraw,
             });
             res.render('change_type_edit', { message: 'success' });
@@ -77,7 +77,6 @@ class Regulation_Controller {
             console.error('Error deleting regulation:', err);
             throw err;
         }
->>>>>>> 4db96f545c319797a2c279ec1a8b2bf2d7cc89d0
     }
 }
 
