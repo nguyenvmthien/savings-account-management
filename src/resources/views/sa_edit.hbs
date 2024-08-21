@@ -78,11 +78,6 @@
                             var popup = document.getElementById('noti-pop-up');
                             popup.style.display = "block";
                         }
-                        else if(data.type_of_saving != "Non-term") {
-                            document.getElementById('message').innerHTML = "This account does not support additional deposits.";
-                            var popup = document.getElementById('noti-pop-up');
-                            popup.style.display = "block";
-                        }
                         else {
                             const queryString = new URLSearchParams(data).toString();
                             window.location.href = 'edit/account?' + queryString;
