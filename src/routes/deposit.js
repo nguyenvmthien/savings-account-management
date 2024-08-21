@@ -4,7 +4,6 @@ const depositController = require('../controllers/depositController');
 const apiController = require('../controllers/apiController');
 
 router.get('/getMinDepMoneyAPI', apiController.getMinDepMoneyAndMinWithDaysAPI);
-router.get('/getCurrentPrincipalAPI', apiController.getCurrentPrincipalAPI);
 router.get('/checkID', apiController.getInformationAPI);
 router.get('/account', depositController.renderSaDepositAccount);
 router.get('/', depositController.renderSaDeposit);
