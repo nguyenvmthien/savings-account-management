@@ -37,12 +37,16 @@ class Withdraw_H {
             ]);
     
             const { open_date, interest_rate, type: account_type } = accountDetails[0];
+            
+            const dateCreated = new Date(open_date).toISOString().split('T')[0];
+            const witDate = new Date(withdraw_date).toISOString().split('T')[0];
+            
             let { principal, interest } = balanceDetails[0];
     
             const time_difference = Math.floor(
-                (new Date(withdraw_date) - new Date(open_date)) / (1000 * 60 * 60 * 24)
+                (new Date(witDate) - new Date(open_date)) / (1000 * 60 * 60 * 24)
             );
-    
+            
             if (new Date(withdraw_date) <= new Date(open_date)) 
                 throw new Error('Invalid withdrawal date');
     
