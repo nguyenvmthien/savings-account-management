@@ -115,8 +115,8 @@ class Regulation_H {
 
     async edit({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -126,7 +126,7 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
             console.log(`type: ${type}`);
@@ -195,16 +195,15 @@ class Regulation_H {
             // SQL query to get all current types of savings
             const query = `
                 SELECT
-                    type AS type_of_regulation,
-                    apply_date AS apply_date_of_regulation,
-                    interest_rate AS interest_rate_of_regulation
+                    type,
+                    apply_date,
+                    interest_rate
                 FROM regulation
-                WHERE deleted > 0;
+                WHERE deleted = 0;
             `;
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
-
             if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;

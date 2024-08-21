@@ -6,7 +6,7 @@ class Create_Account_Controller {
 
     async create(req, res) {
         if (Object.keys(req.body).length === 0) {
-            //console.log('No data');
+            res.json("Missing Parameter");
             return;
         }
 
@@ -51,7 +51,7 @@ class Create_Account_Controller {
             type_of_saving,
             date_created,
         });
-        res.render('sa_create', { message: 'success' });
+        res.json({ message: 'success' });
     }
 }
 
