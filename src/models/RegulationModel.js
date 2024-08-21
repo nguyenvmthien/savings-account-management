@@ -3,22 +3,23 @@ const pool = require('../config/db');
 class Regulation_H {
     async create({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
     }) {
         try {
             console.log(`type: ${type}`);
-            console.log(`applied_date: ${apply_date}`);
-            console.log(`applied_time: ${apply_time}`);
+            console.log(`applied_date: ${applied_date}`);
+            console.log(`applied_time: ${applied_time}`);
             console.log(`interest_rate: ${interest_rate}`);
             console.log(`min_dep_money: ${min_dep_money}`);
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+
+            const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -66,14 +67,15 @@ class Regulation_H {
         }
     }
 
-    async delete({ type, apply_date, apply_time }) {
+    async delete({ type, applied_date, applied_time }) {
         //We need apply_date & apply time for the primary key
 
         try {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -92,7 +94,7 @@ class Regulation_H {
                     const deleted = 1;
                     await connection.execute(
                         'UPDATE regulation SET deleted = ? WHERE type = ? AND apply_date = ?;',
-                        [deleted, type, real_apply_date],
+                        [deleted, type, real_applied_date],
                     );
 
                     await connection.commit();
@@ -115,8 +117,8 @@ class Regulation_H {
 
     async edit({
         type,
-        apply_date,
-        apply_time,
+        applied_date,
+        applied_time,
         interest_rate,
         min_dep_money,
         min_days_withdraw,
@@ -126,16 +128,8 @@ class Regulation_H {
             // update old regulation with delete = 1
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${apply_date} ${apply_time}`;
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
-
-            console.log(`type: ${type}`);
-            console.log(`applied_date: ${applied_date}`);
-            console.log(`applied_time: ${applied_time}`);
-            console.log(`interest_rate: ${interest_rate}`);
-            console.log(`min_dep_money: ${min_dep_money}`);
-            console.log(`min_days_withdraw: ${min_days_withdraw}`);
-
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 
@@ -195,16 +189,15 @@ class Regulation_H {
             // SQL query to get all current types of savings
             const query = `
                 SELECT
-                    type AS type_of_regulation,
-                    apply_date AS apply_date_of_regulation,
-                    interest_rate AS interest_rate_of_regulation
+                    type,
+                    apply_date,
+                    interest_rate
                 FROM regulation
                 WHERE deleted = 0;
             `;
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
-
             if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;

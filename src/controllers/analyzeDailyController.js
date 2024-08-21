@@ -1,4 +1,4 @@
-const analyzeDailyModel = require('../models/analyzeDailyModel');
+const analyzeDailyModel = require('../models/AnalyzeDailyModel');
 class Analyze_Daily_Controller {
     renderSaAnalyzeDaily(req, res) {
         res.render('analysis_daily_report');

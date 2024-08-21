@@ -20,53 +20,51 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm" method="PUT">
+    <form id="myForm" method="POST">
         <fieldset class="customer-information">
             <legend>Customer's information</legend>
             <div class="form-group">
                 <span>Customer's ID card</span>
-                <img
-                    src="https://s3-alpha-sig.figma.com/img/322e/abb9/8f9d08e405e2f5fef7c23821052df891?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Z~DgUeN~tpMmu0rJhnnU2GIr9xSIhVkLFWobeq2YC1aiIln7gKI-S1nMmn7F7GAfe8xVEmaA3lMMl9TskBsPExubhl7Myw42dj~7GOgDbZh1m~f6xev0IaSP3rn7RPG98dzEG00BEdQ7YhdPIeAhSmC86H8dsEGar-dyPos6J9EQSbZiI6QH2AiU51ynUivDFLRqeniysZmGvr~mPB2G13d4smyXyCVcIJ2-nW7v6RZn1sPSgqWnfDOpvUtEk17a8Edxg0R~rlxA~3s6rgpIBExpWr1Wq679Mdn97Y5LGHLnrzVfyNlhSRFi3NIhSeRvcjUxxthmAdBy8WHQk4S7OA__">
-                <input type="number" name="id_card" class="form-control" placeholder="123456789"
-                    title="ID must have 9 numbers" disabled>
+                <input id="id_card" type="number" name="id_card" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Customer's name</span>
-                <input type="text" name="customer_name" class="form-control" placeholder="Nguyễn Văn A"
-                    pattern="[A-Za-zÀ-ỹ\s]+">
+                <img src="/images/valid-icon/valid.png" id="valid_name">
+                <img src="/images/valid-icon/invalid.png" id="invalid_name">
+                <input id="name" type="text" name="customer_name" class="form-control">
+                <p class="error-message" id="name_error_message">Must be letters</p>
             </div>
             <div class="form-group address-box">
                 <span>Customer's address</span>
-                <input type="text" name="customer_address" class="form-control"
+                <img src="/images/valid-icon/valid.png" id="valid_address">
+                <img src="/images/valid-icon/invalid.png" id="invalid_address">
+                <input id="address" type="text" name="customer_address" class="form-control"
                     placeholder="Số nhà, Đường, Phường/Xã/Thị trấn, Quận/Huyện, Tỉnh/Thành phố">
+                <p class="error-message" id="address_error_message">Cannot be empty</p>
             </div>
         </fieldset>
         <fieldset class="account-information">
             <legend>Account's information</legend>
             <div class="form-group">
                 <span>ID Account</span>
-                <input type="text" name="id_account" class="form-control" placeholder="MS0000000001" disabled>
+                <input id="id_account" type="text" name="id_account" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Date create account</span>
-                <input type="date" name="date_created" class="form-control" placeholder="" disabled>
+                <input id="date" type="date" name="date_created" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Money (VND)</span>
-                <input type="text" name="money" class="form-control" placeholder="100,000" disabled>
+                <input id="money" type="text" name="money" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
-                <select name="type_of_saving" class="form-control" id="tos-input" disabled>
-                    <option value="">--Type of saving--</option>
-                    <option value="3 thang">3 months</option>
-                    <option value="6 thang">6 months</option>
-                    <option value="Khong thoi han">Non-term</option>
-                </select>
+                <input name="type_of_saving" class="form-control" id="tos-input" readonly>
+                </input>
             </div>
             <div class="form-group">
                 <span>Interest rate</span>
-                <input id="rate" name="interest_rate" type="text" class="form-control" value="0.x%" disabled>
+                <input id="rate" name="interest_rate" type="text" class="form-control" readonly>
             </div>
         </fieldset>
         <button type="button" id="submit-button" class="button" onclick="confirmSubmit()">Edit</button>
@@ -74,17 +72,15 @@
     <div id="pop-up" class="pop-up">
         <div class="pop-up-content">
             <div>
-                <span class="close" onclick="closePopup()">&times;</span>
                 <h2>Preview Information</h2>
-                <img
-                    src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__">
+                <img src="/images/popup/doublecheck.png">
             </div>
             <legend>Customer's Information</legend>
             <p id="confirmCId"></p>
             <p id="confirmName"></p>
             <p id="confirmAddress"></p>
             <legend>Account's Information</legend>
-            <p id="confirmIDAccount">ID Account: MS0000000001</p>
+            <p id="confirmIDAccount"></p>
             <p id="confirmCreateDate"></p>
             <p id="confirmTos"></p>
             <p id="confirmRate"></p>
@@ -95,31 +91,39 @@
             </div>
         </div>
     </div>
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2 id="success-message">Editted Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to Edit!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
+    </div>
     <script>
+        var isNameValid = true;
+        var isAddressValid = true;
         function confirmSubmit() {
-            var cusID = document.querySelector('[name="id_card"]').value;
-            var name = document.querySelector('[name="customer_name"]').value;
-            var address = document.querySelector('[name="customer_address"]').value;
-            var createDate = document.querySelector('[name="date_created"]').value;
-            var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
-            var rate = document.querySelector('[name="interest_rate"]').value;
-            var money = document.querySelector('[name="money"]').value;
+            if (isNameValid && isAddressValid) {
+                var name = document.querySelector('[name="customer_name"]').value;
+                var address = document.querySelector('[name="customer_address"]').value;;
 
-            if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
-                alert('Please fill out all fields.');
+                document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
+                document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
+                var popup = document.getElementById('pop-up');
+                popup.style.display = "block";
+            }
+            else {
                 return;
             }
-
-            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
-            document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
-            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
-            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
-            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
-            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
-            document.getElementById('confirmMoney').innerText = 'Money: ' + money + ' VND';
-
-            var popup = document.getElementById('pop-up');
-            popup.style.display = "block";
         }
 
         function closePopup() {
@@ -127,8 +131,65 @@
             popup.style.display = "none";
         }
 
+        function closeNotiPopup() {
+            var popup = document.getElementById('noti-pop-up');
+            popup.style.display = "none";
+            if(document.getElementById('success-icon').style.display == "inline")
+                window.location.href = "/sa/edit";
+        }
+
         function submitForm() {
-            document.getElementById('myForm').submit();
+            closePopup();
+            document.getElementById('money').value = document.getElementById('money').value.replace(/,/g, '');
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // Hiển thị pop-up
+                    var popup = document.getElementById('noti-pop-up');
+                    popup.style.display = "block";
+
+                    if (data.message == "success") {
+                        document.getElementById('success-icon').style.display = "inline";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "inline";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    } else if (data.message == "fail") {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "inline";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "inline";
+                        document.getElementById('fail-message2').style.display = "inline";
+                    } else {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            // Ngăn form khỏi việc submit thông thường
+            return false;
         }
 
         // Redirect
@@ -137,6 +198,73 @@
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+
+            const params = new URLSearchParams(window.location.search);
+
+            // Get data account and display to screen
+            const accountData = {
+                id_account: params.get('id_account'),
+                id_card: params.get('id_card'),
+                customer_name: params.get('customer_name'),
+                customer_address: params.get('customer_address'),
+                date_created: params.get('date_created'),
+                type_of_saving: params.get('type_of_saving'),
+                interest_rate: params.get('interest_rate'),
+                interest: params.get('interest'),
+                apply_date: params.get('apply_date'),
+                init_money: params.get('init_money')
+            };
+
+            document.getElementById('id_card').value = accountData.id_card;
+            document.getElementById('id_account').value = accountData.id_account;
+            document.getElementById('name').value = accountData.customer_name;
+            document.getElementById('address').value = accountData.customer_address;
+            document.getElementById('tos-input').value = accountData.type_of_saving;
+            document.getElementById('date').value = accountData.date_created.slice(0, 10);
+            document.getElementById('rate').value = accountData.interest_rate;
+            document.getElementById('money').value = accountData.init_money;
+
+            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
+            document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
+            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + accountData.customer_address;
+            document.getElementById('confirmIDAccount').innerText = 'ID Account: ' + accountData.id_account;
+            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
+            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
+            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
+            document.getElementById('confirmMoney').innerText = 'Money: ' + accountData.init_money + ' VND';
+        });
+
+        // Valid input
+        document.getElementById('name').addEventListener('input', function () {
+            const regex = /^[A-Za-zÀ-ỹ\s]+$/;
+            if (regex.test(this.value)) {
+                document.getElementById('name_error_message').style.display = 'none';
+                document.getElementById('valid_name').style.display = "inline";
+                document.getElementById('invalid_name').style.display = "none";
+                isNameValid = true;
+            }
+            else {
+                document.getElementById('name_error_message').style.display = 'inline';
+                document.getElementById('valid_name').style.display = "none";
+                document.getElementById('invalid_name').style.display = "inline";
+                isNameValid = false;
+            }
+        });
+
+        document.getElementById('address').addEventListener('input', function () {
+            const regex = /^[A-Za-zÀ-ỹ0-9,\s]+$/;
+            if (regex.test(this.value)) {
+                document.getElementById('address_error_message').style.display = 'none';
+                document.getElementById('valid_address').style.display = "inline";
+                document.getElementById('invalid_address').style.display = "none";
+                isAddressValid = true;
+            }
+            else {
+                document.getElementById('address_error_message').style.display = 'inline';
+                document.getElementById('valid_address').style.display = "none";
+                document.getElementById('invalid_address').style.display = "inline";
+                isAddressValid = false;
+            }
         });
     </script>
 </body>

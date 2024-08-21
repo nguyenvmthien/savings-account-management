@@ -26,38 +26,44 @@
             <legend>Customer's information</legend>
             <div class="form-group">
                 <span>Customer's name</span>
-                <input id="customer_name" type="text" name="customer_name" class="form-control" disabled>
+                <input id="customer_name" type="text" name="customer_name" class="form-control" readonly>
             </div>
         </fieldset>
         <fieldset class="account-information">
             <legend>Account's information</legend>
             <div class="form-group">
                 <span>ID Account</span>
-                <input id="id_account" type="text" name="id_account" class="form-control" disabled>
+                <input id="id_account" type="text" name="id_account" class="form-control" readonly>
             </div>
             <div class="form-group">
                 <span>Type of saving</span>
-                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" placeholder="Non-term" disabled>
+                <input id="type_of_saving" type="text" name="type_of_saving" class="form-control" readonly>
             </div>
             <div class="form-group">
-                <span>Interest rate</span>
-                <input id="interest_rate" name="interest_rate" type="text" class="form-control" value="0.x%" disabled>
+                <span>Interest rate (%)</span>
+                <input id="interest_rate" name="interest_rate" type="text" class="form-control" readonly>
             </div>
             <div class="form-group">
-                <span>Current amount</span>
-                <input id="balance" name="current_amount" type="text" class="form-control" value="100,000,000"
-                    disabled>
+                <span>Current amount (VND)</span>
+                <input id="principal" name="current_amount" type="text" class="form-control" readonly>
             </div>
         </fieldset>
         <fieldset class="deposit-information">
             <legend>Deposit information</legend>
             <div class="form-group">
-                <span>Money deposited</span>
-                <input type="money" name="money_deposit" class="form-control" placeholder="100,000,000" required>
+                <span>Money deposited (VND)</span>
+                <img src="/images/valid-icon/valid.png" id="valid_dep_money">
+                <img src="/images/valid-icon/invalid.png" id="invalid_dep_money">
+                <input id="money_deposit" type="money" name="money_deposit" class="form-control"
+                    placeholder="100,000,000" required>
+                <p class="error-message" id="dep_money_error_message"></p>
             </div>
             <div class="form-group">
                 <span>Deposit date</span>
-                <input type="date" name="deposit_date" class="form-control" required>
+                <img src="/images/valid-icon/valid.png" id="valid_dep_date">
+                <img src="/images/valid-icon/invalid.png" id="invalid_dep_date">
+                <input id="deposit_date" type="date" name="deposit_date" class="form-control" required>
+                <p class="error-message" id="dep_date_error_message"></p>
             </div>
         </fieldset>
         <button type="button" id="deposit-button" class="button" onclick="confirmSubmit()">Deposit</button>
@@ -65,55 +71,63 @@
     <div id="pop-up" class="pop-up">
         <div class="pop-up-content">
             <div>
-                <span class="close" onclick="closePopup()">&times;</span>
                 <h2>Preview Information</h2>
-                <img
-                    src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__">
+                <img src="/images/popup/doublecheck.png">
             </div>
             <legend>Customer's Information</legend>
             <p id="confirmCId"></p>
             <p id="confirmName"></p>
             <p id="confirmAddress"></p>
             <legend>Account's Information</legend>
-            <p id="confirmIDAccount">ID Account: MS0000000001</p>
+            <p id="confirmIDAccount"></p>
             <p id="confirmCreateDate"></p>
             <p id="confirmTos"></p>
             <p id="confirmRate"></p>
-            <p id="confirmMoney"></p>
-            <p id="comfirmDepositDate"></p>
+            <p id="confirmCurrentAmount"></p>
+            <legend>Deposit Information</legend>
+            <p id="confirmDepositedMoney"></p>
+            <p id="confirmDepositDate"></p>
             <div class="buttons">
                 <button class="button" onclick="submitForm()">Submit</button>
                 <button class="button" onclick="closePopup()">Cancel</button>
             </div>
         </div>
     </div>
-    <script>
-        function confirmSubmit() {
-            var cusID = document.querySelector('[name="id_card"]').value;
-            var name = document.querySelector('[name="customer_name"]').value;
-            var address = document.querySelector('[name="customer_address"]').value;
-            var createDate = document.querySelector('[name="date_created"]').value;
-            var typeOfSaving = document.querySelector('[name="type_of_saving"]').value;
-            var rate = document.querySelector('[name="interest-rate"]').value;
-            var money = document.querySelector('[name="deposit_money"]').value;
-            var depositDate = document.querySelector('[name="deposit_date"]').value;
 
-            if (cusID === '' || name === '' || address === '' || createDate === '' || typeOfSaving === '' || money === '') {
-                alert('Please fill out all fields.');
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2 id="success-message">Deposited Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to deposit!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        var isDepMoneyValid = false;
+        var isDepDateValid = false;
+        function confirmSubmit() {
+            if (isDepMoneyValid && isDepDateValid) {
+                var money_deposit = document.querySelector('[name="money_deposit"]').value;
+                var deposit_date = document.querySelector('[name="deposit_date"]').value;
+
+                document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + deposit_date;
+                document.getElementById('confirmDepositedMoney').innerText = 'Money deposited: ' + money_deposit + ' VND';
+                var popup = document.getElementById('pop-up');
+                popup.style.display = "block";
+            }
+            else {
                 return;
             }
-
-            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
-            document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
-            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
-            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
-            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
-            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
-            document.getElementById('confirmMoney').innerText = 'Money deposited: ' + money + ' VND';
-            document.getElementById('confirmDepositDate').innerText = 'Deposited date: ' + depositDate;
-
-            var popup = document.getElementById('pop-up');
-            popup.style.display = "block";
         }
 
         function closePopup() {
@@ -121,10 +135,69 @@
             popup.style.display = "none";
         }
 
-        function submitForm() {
-            document.getElementById('myForm').submit();
+        function closeNotiPopup() {
+            var popup = document.getElementById('noti-pop-up');
+            popup.style.display = "none";
+            if(document.getElementById('success-icon').style.display == "inline")
+                window.location.href = "/sa/deposit";
         }
 
+        function submitForm() {
+            closePopup();
+            document.getElementById('money_deposit').value = document.getElementById('money_deposit').value.replace(/,/g, '');
+            const form = document.getElementById('myForm');
+            const formData = new FormData(form);
+
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+            console.log(formObject);
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formObject)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+
+                    // Hiển thị pop-up
+                    var popup = document.getElementById('noti-pop-up');
+                    popup.style.display = "block";
+
+                    // Kiểm tra thông điệp trả về từ server 
+                    if (data.message == "success") {
+                        document.getElementById('success-icon').style.display = "inline";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "inline";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    } else if (data.message == "fail") {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "inline";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "inline";
+                        document.getElementById('fail-message2').style.display = "inline";
+                    } else {
+                        document.getElementById('success-icon').style.display = "none";
+                        document.getElementById('fail-icon').style.display = "none";
+                        document.getElementById('success-message').style.display = "none";
+                        document.getElementById('fail-message').style.display = "none";
+                        document.getElementById('fail-message2').style.display = "none";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+            // Ngăn form khỏi việc submit thông thường
+            return false;
+        }
+
+        var minDepMoney = 100000;
         // Redirect
         document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
@@ -134,6 +207,7 @@
 
             const params = new URLSearchParams(window.location.search);
 
+            // Get data account and display to screen
             const accountData = {
                 id_account: params.get('id_account'),
                 id_card: params.get('id_card'),
@@ -142,14 +216,87 @@
                 date_created: params.get('date_created'),
                 type_of_saving: params.get('type_of_saving'),
                 interest_rate: params.get('interest_rate'),
-                balance: params.get('balance')
+                principal: params.get('principal'),
+                interest: params.get('interest'),
+                apply_date: params.get('apply_date')
             };
 
             document.getElementById('id_account').value = accountData.id_account;
             document.getElementById('customer_name').value = accountData.customer_name;
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
-            document.getElementById('interest_rate').value = accountData.interest_rate + ' %';
-            document.getElementById('balance').value = accountData.balance + ' VND';
+            document.getElementById('interest_rate').value = accountData.interest_rate;
+            document.getElementById('principal').value = accountData.principal;
+
+            document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
+            document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
+            document.getElementById('confirmAddress').innerText = 'Customer Address: ' + accountData.customer_address;
+            document.getElementById('confirmIDAccount').innerText = 'ID Account: ' + accountData.id_account;
+            document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
+            document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
+            document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
+            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.principal + ' VND';
+
+            fetch('/sa/deposit/getMinDepMoneyAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date.slice(0, 10) + ' ' + accountData.apply_date.slice(11, 19))
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Raw Data:', data);
+                    minDepMoney = data.min_dep_money;
+                    document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney}`;
+                    document.getElementById('dep_date_error_message').innerText = `Must be after opened date`;
+                })
+                .catch(error => {
+                    console.error('Error get min deposit money:', error);
+                });
+        });
+
+        // Valid input
+        document.getElementById('money_deposit').addEventListener('input', function () {
+            let value = this.value.replace(/[^0-9.]/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.value = value;
+            const moneyDeposit = document.getElementById('money_deposit').value.replace(/,/g, '');
+            console.log(minDepMoney);
+            if (moneyDeposit >= minDepMoney) {
+                document.getElementById('dep_money_error_message').style.display = 'none';
+                document.getElementById('valid_dep_money').style.display = "inline";
+                document.getElementById('invalid_dep_money').style.display = "none";
+                isDepMoneyValid = true;
+            }
+            else {
+                document.getElementById('dep_money_error_message').style.display = 'inline';
+                document.getElementById('valid_dep_money').style.display = "none";
+                document.getElementById('invalid_dep_money').style.display = "inline";
+                isDepMoneyValid = false;
+            }
+        });
+
+        function getDifferenceInDays(dateString1, dateString2) {
+            const date1 = new Date(dateString1);
+            const date2 = new Date(dateString2);
+
+            const timeDifference = date1 - date2; // milisec
+
+            const differenceInDays = timeDifference / (1000 * 60 * 60 * 24);
+
+            return differenceInDays;
+        }
+
+        document.getElementById('deposit_date').addEventListener('change', function () {
+            const dateDeposit = document.getElementById('deposit_date').value;
+            const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
+            // console.log(getDifferenceInDays(dateDeposit, dateCreate));
+            if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
+                document.getElementById('dep_date_error_message').style.display = 'none';
+                document.getElementById('valid_dep_date').style.display = "inline";
+                document.getElementById('invalid_dep_date').style.display = "none";
+                isDepDateValid = true;
+            }
+            else {
+                document.getElementById('dep_date_error_message').style.display = 'inline';
+                document.getElementById('valid_dep_date').style.display = "none";
+                document.getElementById('invalid_dep_date').style.display = "inline";
+                isDepDateValid = false;
+            }
         });
     </script>
 </body>

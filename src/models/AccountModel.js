@@ -130,6 +130,7 @@ class Account_H {
 
                 // Commit the transaction
                 await connection.commit();
+                return { message: 'success' };
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
@@ -141,7 +142,7 @@ class Account_H {
                 }
             }
         } catch (err) {
-            console.error('Error editing customer:', err);
+            return {message: "fail"};
             throw err;
         }
     }
@@ -162,7 +163,8 @@ class Account_H {
                     CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
                     b.principal AS principal,
-                    b.interest AS interest
+                    b.interest AS interest,
+                    a.init_money AS init_money
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN regulation r ON a.type = r.type 
@@ -324,7 +326,7 @@ class Account_H {
                 totalAmount += interest;
             }
 
-            return totalAmount;
+            return {totalAmount, lastDepositDate};
         } catch (err) {
             console.error('Error getting current balance:', err);
             throw err;
@@ -346,7 +348,7 @@ class Account_H {
                     a.acc_id,
                     a.type AS type_of_saving,
                     c.name AS customer_name,
-                    b.cur_balance AS balance
+                    b.principal + b.interest AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN balance b ON a.acc_id = b.acc_id
