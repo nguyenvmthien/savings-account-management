@@ -1,12 +1,12 @@
 .message-box {
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 300px;
     border-radius: 30px;
     border: 2px #6D5858;
     border-style: dashed;
     background: #FEF4F4;
-    margin-top: 70px;
+    bottom: 10px;
 }
 
 .message-box p {

@@ -41,8 +41,7 @@ class API_Controller {
         }
 
         try {
-            const result =
-                await accountModel.getInformationByIDAccount(id_account);
+            const result = await accountModel.getInformationByIDAccount(id_account);
             res.json(result);
             return;
         } catch (error) {
