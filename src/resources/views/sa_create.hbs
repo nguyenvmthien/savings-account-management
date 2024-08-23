@@ -262,18 +262,20 @@
                 });
 
             // Generate ID Account
-            fetch('/sa/create/getNewestIDAccountAPI')
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Raw Data:', data);
-                    localStorage.clear();
-                    if(localStorage.length === 0)
-                        localStorage.setItem('id', JSON.stringify(data));
-                    document.getElementById('id_account').value = JSON.parse(localStorage.getItem('id'));
-                })
-                .catch(error => {
-                    console.error('Error getting id account: ', error);
-                });
+            function fetchID() {
+                fetch('/sa/create/getNewestIDAccountAPI')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Raw Data:', data);
+                        document.getElementById('id_account').value = data;
+                    })
+                    .catch(error => {
+                        console.error('Error getting id account: ', error);
+                    });
+            }
+
+            fetchID();
+            setInterval(fetchID, 600000);
         });
 
         // Valid input
