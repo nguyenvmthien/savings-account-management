@@ -19,7 +19,7 @@ class Find_Account_H {
             const params = [];
 
             if (id_card !== null) {
-                baseQuery += ' AND customer.id_card = ?';
+                baseQuery += ' AND customer.cus_id = ?';
                 params.push(id_card);
             }
             if (id_account !== null) {
