@@ -19,6 +19,7 @@ class Account_H {
 
             try {
                 console.log('begin transaction');
+
                 // Check if the customer already exists
                 const [existingCustomer] = await connection.execute(
                     'SELECT * FROM customer WHERE cus_id = ?',
@@ -83,6 +84,7 @@ class Account_H {
                 );
 
                 console.log('inserted new account');
+
                 // Insert the initial balance
                 await connection.execute(
                     'INSERT INTO balance (acc_id, principal, interest) VALUES (?, ?, 0)',
@@ -90,6 +92,12 @@ class Account_H {
                 );
 
                 console.log('inserted new balance');
+
+                // Remove id_account from temp_id_account
+                await connection.execute(
+                    'DELETE FROM temp_id_account WHERE id_account = ?',
+                    [id_account],
+                );
                 // Commit the transaction
                 await connection.commit();
                 console.log('commited');
@@ -97,6 +105,7 @@ class Account_H {
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
+                return { message: 'fail' };
                 throw err;
             } finally {
                 // Release the connection back to the pool
@@ -248,7 +257,9 @@ class Account_H {
 
         try {
             // get current datetime
-            const currentDateTime = new Date().toISOString().replace(/[TZ]/g, ' ');
+            const currentDateTime = new Date()
+                .toISOString()
+                .replace(/[TZ]/g, ' ');
             console.log(currentDateTime);
             // get id in temp_id_account has in_use status = 0
             const sql = `
@@ -258,17 +269,18 @@ class Account_H {
             `;
 
             const [rows1, fields1] = await pool.execute(sql);
+            //CONVERT_TZ(t.created_at, '+00:00', @@session.time_zone)
             if (rows1.length > 0) {
                 // update status in_use
                 const sql1 = `
                     UPDATE temp_id_account
-                    SET in_use = 1, created_at = ?
+                    SET in_use = 1, created_at = CONVERT_TZ(?, '+00:00', @@session.time_zone)
                     WHERE id_account = ?;
                 `;
 
                 await pool.execute(sql1, [
                     currentDateTime,
-                    rows1[0].id_account
+                    rows1[0].id_account,
                 ]);
                 return rows1[0].id_account;
             } else {
@@ -302,7 +314,7 @@ class Account_H {
                 // add new_id in temp_id_account
                 const sql2 = `
                     INSERT INTO temp_id_account (id_account, in_use, created_at)
-                    VALUES (?, 1, ?);
+                    VALUES (?, 1, CONVERT_TZ(?, '+00:00', @@session.time_zone));
                 `;
 
                 await pool.execute(sql2, [id_account, currentDateTime]);
