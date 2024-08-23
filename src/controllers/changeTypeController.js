@@ -36,6 +36,7 @@ class Regulation_Controller {
                 min_days_withdraw,
             });
             res.json(result);
+            //res.json({message: 'success'});
         } catch {
             // console.error('Error creating regulation:', err);
             // throw err;
