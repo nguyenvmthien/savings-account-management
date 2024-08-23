@@ -4,6 +4,7 @@ const analyzeMonthlyController = require('../controllers/analyzeMonthlyControlle
 const apiController = require('../controllers/apiController');
 
 router.get('/createReportAPI', apiController.createReportMonthlyAPI);
+router.get('/getTypeAPI', apiController.getCurrentTypeOfSavingAPI);
 router.get('/', analyzeMonthlyController.renderSaAnalyzeMonthly);
 
 module.exports = router;

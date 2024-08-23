@@ -165,7 +165,6 @@ class API_Controller {
             res.status(500).json({ error: error.message });
         }
     }
-
     async getAllDepositTransactionAPI(req, res) {
         try {
             const result = await depositModel.getAllDepositTransaction();

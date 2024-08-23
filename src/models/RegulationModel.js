@@ -18,6 +18,7 @@ class Regulation_H {
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
+
             const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
@@ -73,7 +74,8 @@ class Regulation_H {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
-            const real_apply_date = `${applied_date} ${applied_time}`;
+
+            const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -92,7 +94,7 @@ class Regulation_H {
                     const deleted = 1;
                     await connection.execute(
                         'UPDATE regulation SET deleted = ? WHERE type = ? AND apply_date = ?;',
-                        [deleted, type, real_apply_date],
+                        [deleted, type, real_applied_date],
                     );
 
                     await connection.commit();

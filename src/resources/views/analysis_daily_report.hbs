@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="/css/analysis-daily-report.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <div class="header">
         <h1>Analysis</h1>
@@ -27,46 +29,21 @@
     <button class="create_button" id="create">Create Report</button>
     <div class="table-container">
         <table class="account-table">
-            <caption>Deposit and Transaction Activity Report on 27/12/2023</caption>
+            <caption>Deposit and Transaction Activity Report on <span id="report-date">27/12/2023</span></caption>
             <thead>
                 <tr>
-        <th>Type of Savings</th>
-        <th>Total Income (VND)</th>
-        <th>Total Expense (VND)</th>
-        <th>Difference (VND)</th>
-    </tr>
-</thead>
-<tbody>
-    <tr>
-        <td>3 months</td>
-        <td>500,000 VND</td>
-        <td>200,000 VND</td>
-        <td>300,000 VND</td>
-    </tr>
-    <tr>
-        <td>6 months</td>
-        <td>525,000 VND</td>
-        <td>125,000 VND</td>
-        <td>400,000 VND</td>
-    </tr>
-    <tr>
-        <td>Non-term</td>
-        <td>270,000 VND</td>
-        <td>100,000 VND</td>
-        <td>170,000 VND</td>
-    </tr>
-    <tr>
-        <td>1 year</td>
-        <td>525,000 VND</td>
-        <td>250,000 VND</td>
-        <td>275,000 VND</td>
-    </tr>
-    <tr class="total-row">
-        <td>Total</td>
-        <td>1,820,000 VND</td>
-        <td>675,000 VND</td>
-        <td>1,145,000 VND</td>
-    </tr>
+                    <th>Type of Savings</th>
+                    <th>Total Income (VND)</th>
+                    <th>Total Expense (VND)</th>
+                    <th>Difference (VND)</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tbody>
+                <tr class="no-data-message">
+                    <td colspan="4">Insert the date</td>
+                </tr>
+            </tbody>
             </tbody>
         </table>
     </div>
@@ -74,25 +51,129 @@
         <canvas id="myChart"></canvas>
     </div>
     <script>
+        document.getElementById('create').addEventListener('click', function () {
+            var date = document.getElementById("date-create").value;
+            // Convert date to dd/mm/yyyy format
+            var formattedDate = new Date(date);
+            var day = String(formattedDate.getDate()).padStart(2, '0');
+            var month = String(formattedDate.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed
+            var year = formattedDate.getFullYear();
+            var displayDate = `${day}/${month}/${year}`;
+
+            // Update caption with selected date
+            document.getElementById('report-date').textContent = displayDate;
+
+            if (date !== "") {
+                console.log('Calling API with type:', date);
+                fetch('/analysis/daily-report/createReportAPI?date=' + date)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear the previous data
+                        const tbody = document.querySelector('.account-table tbody');
+                        tbody.innerHTML = '';
+                        // Hide the "Insert the date" message
+                        const noDataMessage = document.querySelector('.no-data-message');
+                        if (noDataMessage) {
+                            noDataMessage.style.display = 'none';
+                        }
+
+
+                        // Populate table with new data
+                        const labels = [];
+                        const totalIncomeData = [];
+                        const totalExpenseData = [];
+
+                        data.forEach(item => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                    <td>${item.type_of_saving}</td>
+                                    <td>${item.total_income} VND</td>
+                                    <td>${item.total_expense} VND</td>
+                                    <td>${item.difference} VND</td>
+                                `;
+                            tbody.appendChild(row);
+
+                            // Prepare data for chart
+                            labels.push(item.type_of_saving);
+                            totalIncomeData.push(item.total_income);
+                            totalExpenseData.push(item.total_expense);
+                        });
+
+                        // Add total row
+                        const totalRow = document.createElement('tr');
+                        totalRow.classList.add('total-row');
+                        const totalIncome = totalIncomeData.reduce((sum, value) => sum + parseFloat(value), 0);
+                        const totalExpense = totalExpenseData.reduce((sum, value) => sum + parseFloat(value), 0);
+                        totalRow.innerHTML = `
+                                <td>Total</td>
+                                <td>${totalIncome} VND</td>
+                                <td>${totalExpense} VND</td>
+                                <td>${totalIncome - totalExpense} VND</td>
+                            `;
+                        tbody.appendChild(totalRow);
+
+                        // Update chart data
+                        chart.data.labels = labels;
+                        chart.data.datasets[0].data = totalIncomeData;
+                        chart.data.datasets[1].data = totalExpenseData;
+                        chart.update();
+                    })
+                    .catch(error => {
+                        console.error('Error fetching report data:', error);
+                    });
+            } else {
+                alert('Please select a date.');
+            }
+        });
+
+        document.getElementById('csv_button').addEventListener('click', function () {
+            const table = document.querySelector('.account-table');
+            let csvContent = 'data:text/csv;charset=utf-8,';
+
+            // Add the headers
+            const headers = Array.from(table.querySelectorAll('thead th'))
+                .map(th => th.textContent.trim())
+                .join(',');
+            csvContent += headers + '\r\n';
+
+            // Add the rows
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+            rows.forEach(row => {
+                const rowData = Array.from(row.querySelectorAll('td'))
+                    .map(td => td.textContent.trim())
+                    .join(',');
+                csvContent += rowData + '\r\n';
+            });
+
+            // Create a download link and click it
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', 'daily_report.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['3 months', '6 months', 'Non-term', '9 months','12 months'], // Giai đoạn
+                labels: [], // Initially empty, will be populated later
                 datasets: [
                     {
                         label: 'Total Income',
-                        data: [100000, 80000, 58000, 20000, 30000], 
-                        backgroundColor: '#7FC2FF', // Màu sắc của cột
+                        data: [], // Initially empty, will be populated later
+                        backgroundColor: '#7FC2FF',
                         borderWidth: 1,
-                        barThickness: 30 // Điều chỉnh kích thước của cột
+                        barThickness: 30
                     },
                     {
                         label: 'Total Expense',
-                        data: [50000, 120000, 180000,220000, 400000], 
+                        data: [], // Initially empty, will be populated later
                         backgroundColor: '#FF5F9E',
                         borderWidth: 1,
-                        barThickness: 30 // Điều chỉnh kích thước của cột
+                        barThickness: 30
                     }
                 ]
             },
@@ -102,12 +183,12 @@
                     legend: {
                         position: 'right',
                         labels: {
-                            boxWidth: 20 // Kích thước của ô màu cho các chú thích
+                            boxWidth: 20
                         }
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 return context.dataset.label + ': ' + context.raw + ' VND';
                             }
                         }
@@ -119,20 +200,20 @@
                         title: {
                             display: true,
                             text: 'Type of Savings'
-                        }   
+                        }
                     },
                     y: {
                         stacked: false,
                         title: {
-                            display: true,
-                        },
-                       
+                            display: true
+                        }
                     }
                 }
             }
         });
+
         // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
@@ -140,4 +221,5 @@
         });
     </script>
 </body>
+
 </html>

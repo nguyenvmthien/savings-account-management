@@ -87,11 +87,11 @@ class Account_H {
                 throw err;
             } finally {
                 // Release the connection back to the pool
-                if (connection) {
-                    connection.release();
-                    console.log('released');
-                    return { message: 'success' };
-                }
+                // if (connection) {
+                //     connection.release();
+                //     console.log('released');
+                //     return { message: 'success' };
+                // }
                 console.log('done');
             }
         } catch (err) {

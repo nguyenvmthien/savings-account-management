@@ -75,10 +75,11 @@ h2 {
   color: #828282; }
 
 .create_button {
-  position: fixed;
-  margin-top: 30px;
-  left: 550px;
-  right: 70px;
+  position: absolute;
+  top: 230px;
+  /* Position it 30px from the bottom */
+  left: 250px;
+  /* Position it 30px from the right */
   width: 140px;
   height: 40px;
   background: #16A596;
@@ -94,15 +95,44 @@ h2 {
 .table-container {
   width: 100%;
   margin-top: 120px;
-  border: 3px dashed #6D5858; }
+  border: 3px dashed #6D5858;
+  overflow-y: auto;
+  /* Show vertical scrollbar if content overflows */
+  overflow-x: hidden;
+  /* Hide horizontal scrollbar */ }
 
-.account-table {
+.table-container table {
   width: 100%;
   border-collapse: collapse;
   margin-left: 15px;
-  /* Cách lề trái 15px */
+  /* Left margin */
   margin-right: 15px;
-  /* Cách lề phải 15px */ }
+  /* Right margin */ }
+
+thead th, tbody td {
+  padding: 10px;
+  border: 1px solid #ddd; }
+
+tbody {
+  display: block;
+  max-height: 300px;
+  /* Limit height */
+  overflow-y: auto;
+  /* Scrollbar inside table */
+  width: 100%; }
+
+thead, tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; }
+
+.no-data-message {
+  text-align: center;
+  padding: 70px;
+  color: #828282;
+  font-family: Inter;
+  font-size: 50px;
+  /* Đổi kích thước phông chữ nếu cần */ }
 
 .account-table caption {
   text-align: left;
@@ -111,12 +141,12 @@ h2 {
   font-size: 24px;
   color: #440A67;
   margin-top: 10px;
-  /* Cách lề trên của bảng 10px */ }
+  /* Space above the table */ }
 
 .account-table th {
   color: #828282;
   font-size: 16px;
-  font-family: Inter;
+  font-family: 'Inter', sans-serif;
   text-align: center; }
 
 .account-table th, .account-table td {
@@ -126,14 +156,14 @@ h2 {
   text-align: center; }
 
 .account-table td {
-  font-family: Inter;
+  font-family: 'Inter', sans-serif;
   color: #440A67;
-  margin-top: 20px;
-  font-weight: 400; }
+  font-weight: 400;
+  margin-top: 20px; }
 
 .account-table tr {
   position: relative;
-  /* Để sử dụng pseudo-element */ }
+  /* Enable pseudo-element positioning */ }
 
 .account-table tr::after {
   content: "";
@@ -141,17 +171,17 @@ h2 {
   position: absolute;
   bottom: 0;
   left: 1%;
-  /* Tạo khoảng cách từ lề trái */
+  /* Space from the left */
   right: 5%;
-  /* Tạo khoảng cách từ lề phải */
+  /* Space from the right */
   height: 1px;
-  /* Độ dày của đường kẻ */
+  /* Thickness of the underline */
   background-color: #440A67;
-  /* Màu của đường kẻ */ }
+  /* Color of the underline */ }
 
 .account-table .total-row td {
   padding-bottom: 10px;
-  /* Cách đường kẻ bảng một đoạn 10px */ }
+  /* Spacing before the total row underline */ }
 
 .chart-container {
   position: absolute;
