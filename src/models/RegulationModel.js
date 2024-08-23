@@ -29,7 +29,6 @@ class Regulation_H {
                 const [existingRegulation] = await connection.execute(
                     'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
                     [type, real_apply_date],
-
                 );
                 console.log(existingRegulation);
                 //If regulation doesn't exist
@@ -49,11 +48,13 @@ class Regulation_H {
 
                     await connection.commit();
                 }
-                
+
                 await connection.commit();
+                return { message: 'success' };
             } catch (err) {
                 //errors appear during creating
                 await connection.rollback();
+                return { message: 'fail' };
                 console.error('Error during creating regulation:', err);
                 throw err;
             } finally {
@@ -62,6 +63,7 @@ class Regulation_H {
             }
             //error
         } catch (err) {
+            return { message: 'fail' };
             console.log('Erorr regulation: ', err);
             throw err;
         }
@@ -99,9 +101,11 @@ class Regulation_H {
 
                     await connection.commit();
                 }
+                return { message: 'success' };
             } catch (err) {
                 //throw error if there is error during the deleting process
                 await connection.rollback();
+                return { message: 'fail' };
                 console.error('Erorr during deleting:', err);
                 throw err;
             } finally {
@@ -110,6 +114,7 @@ class Regulation_H {
             }
         } catch {
             //throw error
+            return { message: 'fail' };
             console.error('Error delete regulation:', err);
             throw err;
         }
@@ -130,6 +135,12 @@ class Regulation_H {
             //Hello,  this is the concerning factor in the file
             const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
+            console.log('Type:', type);
+            console.log('Real Applied Date:', real_applied_date);
+            console.log('Interest Rate:', interest_rate);
+            console.log('Min Deposit Money:', min_dep_money);
+            console.log('Min Days Withdraw:', min_days_withdraw);
+
             const connection = await pool.getConnection();
             await connection.beginTransaction();
 
@@ -145,11 +156,13 @@ class Regulation_H {
                 //if regulation exists
                 if (existingRegulation.length > 0) {
                     //delete regulation
-                    const deleted = 1;       
+                    const deleted = 1;
                     await connection.execute(
                         'UPDATE regulation SET deleted = ? WHERE type = ?;',
                         [1, type],
                     );
+                    // this.delete(existingRegulation[0]);
+                    await connection.commit();
                     console.log('Deleted regulation');
 
                     //create regulation
@@ -164,11 +177,14 @@ class Regulation_H {
                             0,
                         ],
                     );
+                    // this.create([type, real_applied_date, interest_rate, min_dep_money, min_days_withdraw]);
                     await connection.commit();
                 }
+                return { message: 'success' };
             } catch (err) {
                 //throw error
                 await connection.rollback();
+                return { message: 'fail' };
                 console.error('Error during editing:', err);
                 throw err;
             } finally {
@@ -176,6 +192,7 @@ class Regulation_H {
                 connection.release();
             }
         } catch (err) {
+            return { message: 'fail' };
             console.error('Error edit regulation:', err);
             throw err;
         }
@@ -198,6 +215,24 @@ class Regulation_H {
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
+            rows.sort((a, b) => {
+                // Handle the special case for "non-term"
+                if (a.type === 'Non-term') return -1;
+                if (b.type === 'Non-term') return 1;
+
+                // Extract the numeric part of the term (e.g., "1 month" -> 1, "2 months" -> 2)
+                const aMonths = parseInt(a.type.match(/\d+/), 10);
+                const bMonths = parseInt(b.type.match(/\d+/), 10);
+
+                // If both terms have numbers, compare them numerically
+                if (!isNaN(aMonths) && !isNaN(bMonths)) {
+                    return aMonths - bMonths;
+                }
+
+                // If one of the terms couldn't be parsed, keep the original order
+                return 0;
+            });
+
             if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;
@@ -219,7 +254,7 @@ class Regulation_H {
             const query = `
                 SELECT
                     type AS type_of_regulation,
-                    apply_date AS apply_date_of_regulation,
+                    CONVERT_TZ(apply_date, '+00:00', @@session.time_zone) AS apply_date_of_regulation,
                     interest_rate AS interest_rate_of_regulation
                 FROM regulation;
             `;
@@ -238,7 +273,7 @@ class Regulation_H {
             throw err;
         }
     }
-    
+
     async getMinDepMoneyAndMinWitDays({ type, apply_date }) {
         console.log(type + apply_date);
         try {
