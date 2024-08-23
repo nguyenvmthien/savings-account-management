@@ -14,7 +14,7 @@
         <h1>Analysis</h1>
         <div class="row">
             <h2>Monthly Report</h2>
-            <button type="button" class="btn-CSV" id="csv_button">Export CSV</button>
+            <button type="button" class="btn-CSV" id="csv_button" disabled>Export CSV</button>
         </div>
     </div>
     <div>
@@ -24,9 +24,8 @@
     </div>
     <div class="filters">
         <div class="filter-group">
-            <label for="month-report">Month (MM/YYYY)</label>
-            <input type="month" id="month-report" name="month-report" value="2024-01" onfocus="this.value=''"
-                onblur="if(this.value===''){this.value='2024-01'}">
+            <label for="month-report">Month</label>
+            <input type="month" id="month-report" name="month-report" value="2024-01" onfocus="this.value=''" onblur="if(this.value===''){this.value='2024-01'}">
         </div>
         <div class="filter-group">
             <label for="type-saving">Type of Saving</label>
@@ -55,11 +54,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tbody>
                 <tr class="no-data-message">
-                    <td colspan="4">Choose month and type of saving</td>
+                    <td colspan="5">Choose month and type of saving</td>
                 </tr>
-                </tbody>
             </tbody>
         </table>
     </div>
@@ -67,9 +64,12 @@
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const selectElement = document.getElementById('type-saving');
+            const csvButton = document.getElementById('csv_button');
+            let reportData = [];
 
             // Fetch options from API
             fetch('/analysis/monthly-report/getTypeAPI')
@@ -128,11 +128,7 @@
 
                 // Check for different formats and split accordingly
                 if (monthInput.includes('-')) {
-                    // Format: YYYY-MM (e.g., 2020-02)
                     [year, month] = monthInput.split('-');
-                } else if (monthInput.includes('/')) {
-                    // Format: MM/YYYY (e.g., 02/2020)
-                    [month, year] = monthInput.split('/');
                 }
 
                 // Display month and type of savings
@@ -140,82 +136,56 @@
                 document.getElementById('type-saving-info').textContent = `Type of Savings: ${typeSaving || '--'}`;
 
                 if (month && year && typeSaving) {
-                    // Correct fetch API format
                     fetch(`/analysis/monthly-report/createReportAPI?month=${encodeURIComponent(month)}&year=${encodeURIComponent(year)}&type_of_saving=${encodeURIComponent(typeSaving)}`)
                         .then(response => {
                             if (!response.ok) throw new Error('Network response was not ok');
                             return response.json();
                         })
                         .then(data => {
-                            console.log('Dữ liệu trả về:', data);
-
-                            // Clear the previous data
-                            tbody.innerHTML = '';
-                            // Hide the "Insert the date" message
-                            const noDataMessage = document.querySelector('.no-data-message');
-                            if (noDataMessage) {
-                                noDataMessage.style.display = 'none';
-                            }
-
+                            const tbody = document.querySelector('.account-table tbody');
+                            tbody.innerHTML = '';  // Clear the table
+                            
+                            // Clear previous report data and update new report data
+                            reportData = [];
+                            
+                            // Update table and chart with new data
                             let newAccounts = 0;
                             let closedAccounts = 0;
 
                             data.forEach((item, index) => {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${item.date}</td>
-                            <td>${item.number_of_new_account}</td>
-                            <td>${item.number_of_closed_account}</td>
-                            <td>${item.difference}</td>
-                        `;
+                                    <td>${index + 1}</td>
+                                    <td>${item.date}</td>
+                                    <td>${item.number_of_new_account}</td>
+                                    <td>${item.number_of_closed_account}</td>
+                                    <td>${item.difference}</td>
+                                `;
                                 tbody.appendChild(row);
+
+                                // Store data for CSV export
+                                reportData.push({
+                                    no: index + 1,
+                                    date: item.date,
+                                    number_of_new_account: item.number_of_new_account,
+                                    number_of_closed_account: item.number_of_closed_account,
+                                    difference: item.difference
+                                });
 
                                 newAccounts += item.number_of_new_account;
                                 closedAccounts += item.number_of_closed_account;
                             });
 
-                            // Update the chart
+                            // Enable CSV button after data is added
+                            if (reportData.length > 0) {
+                                csvButton.disabled = false;
+                            }
+
+                            // Update chart data
                             chart.data.datasets[0].data = [newAccounts, closedAccounts];
                             chart.update();
-
-                            document.getElementById('report-date').textContent = new Date().toLocaleDateString('en-GB');
                         })
                         .catch(error => console.error('Error fetching report data:', error));
-                } else {
-                    alert('Please select both month and type of saving.');
-                }
-            });
-
-            document.getElementById('csv_button').addEventListener('click', function () {
-                const monthInput = document.getElementById('month-report').value;
-                const [month, year] = monthInput.split('/');
-                const typeSaving = document.getElementById('type-saving').value;
-
-                if (month && year && typeSaving) {
-                    // Correct fetch API format for CSV
-                    fetch(`/analysis/monthly-report/createReportAPI?month=${encodeURIComponent(month)}&year=${encodeURIComponent(year)}&type_of_saving=${encodeURIComponent(typeSaving)}`)
-                        .then(response => {
-                            if (!response.ok) throw new Error('Network response was not ok');
-                            return response.json();
-                        })
-                        .then(data => {
-                            let csvContent = "data:text/csv;charset=utf-8,";
-                            csvContent += "No,Day,Number of New Accounts,Number of Closed Accounts,Difference\n";
-
-                            data.forEach((item, index) => {
-                                csvContent += `${index + 1},${item.date},${item.number_of_new_account},${item.number_of_closed_account},${item.difference}\n`;
-                            });
-
-                            const encodedUri = encodeURI(csvContent);
-                            const link = document.createElement('a');
-                            link.setAttribute('href', encodedUri);
-                            link.setAttribute('download', 'monthly_report.csv');
-                            document.body.appendChild(link);
-                            link.click();
-                            document.body.removeChild(link);
-                        })
-                        .catch(error => console.error('Error exporting CSV data:', error));
                 } else {
                     alert('Please select both month and type of saving.');
                 }
@@ -263,16 +233,28 @@
                     cutout: '70%'
                 }
             });
-        });
-        // Redirect
-        document.addEventListener("DOMContentLoaded", function () {
-            const currentDomain = window.location.origin;
-            const contactPath = "/contact";
-            const fullContactUrl = `${currentDomain}${contactPath}`;
-            document.getElementById("contact-link").href = fullContactUrl;
-        });
 
+            // Handle CSV export functionality
+            csvButton.addEventListener('click', function () {
+                if (reportData.length > 0) {
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += "No,Date,Number of New Accounts,Number of Closed Accounts,Difference\n";
+
+                    reportData.forEach(row => {
+                        csvContent += `${row.no},${row.date},${row.number_of_new_account},${row.number_of_closed_account},${row.difference}\n`;
+                    });
+
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "monthly_report.csv");
+                    document.body.appendChild(link);
+
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+        });
     </script>
 </body>
-
 </html>

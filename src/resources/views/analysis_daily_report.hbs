@@ -12,7 +12,7 @@
         <h1>Analysis</h1>
         <div class="row">
             <h2>Daily Report</h2>
-            <button type="submit" class="btn-CSV" id="csv_button">Export CSV</button>
+            <button type="submit" class="btn-CSV" id="csv_button" disabled>Export CSV</button>
         </div>
     </div>
     <div>
@@ -61,13 +61,41 @@
                     const labels = [];
                     const totalIncomeData = [];
                     const totalExpenseData = [];
+                    const tableBody = document.querySelector('.account-table tbody');
 
-                    data.forEach(item => {
-                        // Prepare data for chart
-                        labels.push(item.type_of_saving);
-                        totalIncomeData.push(item.total_income);
-                        totalExpenseData.push(item.total_expense);
-                    });
+                    // Clear previous table rows
+                    tableBody.innerHTML = '';
+
+                    if (data.length > 0) {
+                        data.forEach(item => {
+                            // Update chart data
+                            labels.push(item.type_of_saving);
+                            totalIncomeData.push(item.total_income);
+                            totalExpenseData.push(item.total_expense);
+
+                            // Populate table
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${item.type_of_saving}</td>
+                                <td>${item.total_income}</td>
+                                <td>${item.total_expense}</td>
+                                <td>${item.total_income - item.total_expense}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+
+                        // Enable CSV button after data is updated
+                        document.getElementById('csv_button').disabled = false;
+                    } else {
+                        // Display "Insert the date" if no data
+                        const row = document.createElement('tr');
+                        row.classList.add('no-data-message');
+                        row.innerHTML = `<td colspan="4">Insert the date</td>`;
+                        tableBody.appendChild(row);
+
+                        // Keep CSV button disabled if no data
+                        document.getElementById('csv_button').disabled = true;
+                    }
 
                     // Update chart data
                     chart.data.labels = labels;
@@ -201,3 +229,4 @@
     </script>
 </body>
 </html>
+
