@@ -204,6 +204,15 @@ class API_Controller {
             return res.json({ message: 'fail' });
         }
     }
+
+    async getLatestAccountsAPI(req, res) {
+        try {
+            const result = await accountModel.getLatestAccounts(10);
+            res.json(result);
+        } catch {
+            return res.json({ message: 'fail' });
+        }
+    }
 }
 
 module.exports = new API_Controller();
