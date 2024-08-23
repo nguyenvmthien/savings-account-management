@@ -247,6 +247,9 @@ class Account_H {
         // -> return newest_id in temp. Update status empty -> in-use
 
         try {
+            // get current datetime
+            const currentDateTime = new Date().toISOString().replace(/[TZ]/g, ' ');
+            console.log(currentDateTime);
             // get id in temp_id_account has in_use status = 0
             const sql = `
                 SELECT id_account
@@ -259,12 +262,13 @@ class Account_H {
                 // update status in_use
                 const sql1 = `
                     UPDATE temp_id_account
-                    SET in_use = 1
+                    SET in_use = 1, created_at = ?
                     WHERE id_account = ?;
                 `;
 
                 await pool.execute(sql1, [
-                    rows1[0].id_account,
+                    currentDateTime,
+                    rows1[0].id_account
                 ]);
                 return rows1[0].id_account;
             } else {
@@ -284,7 +288,8 @@ class Account_H {
                     if (temp2 > temp1) {
                         pre_id_account = temp2;
                     }
-                } 
+                }
+
                 // Split id_account into prefix and number
                 const prefix = 'MS';
                 const number = pre_id_account.slice(prefix.length); // Slice after the prefix
@@ -296,17 +301,18 @@ class Account_H {
 
                 // add new_id in temp_id_account
                 const sql2 = `
-                    INSERT INTO temp_id_account (id_account, in_use)
-                    VALUES (?, 1);
+                    INSERT INTO temp_id_account (id_account, in_use, created_at)
+                    VALUES (?, 1, ?);
                 `;
 
-                await pool.execute(sql2, [id_account]);
+                await pool.execute(sql2, [id_account, currentDateTime]);
+                console.log(id_account);
                 return id_account;
             }
         } catch (err) {
             return { message: 'fail' };
-            console.error('Error getting biggest id_account:', err);
-            throw err;
+            // console.error('Error getting biggest id_account:', err);
+            // throw err;
         }
     }
 
