@@ -75,7 +75,10 @@ class API_Controller {
             return;
         }
         try {
-            const result = await accountModel.getCurrentBalance(id_account, withdraw_date);
+            const result = await accountModel.getCurrentBalance(
+                id_account,
+                withdraw_date,
+            );
             res.json(result);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -158,7 +161,7 @@ class API_Controller {
         try {
             const result = await regulationModel.getMinDepMoneyAndMinWitDays({
                 type,
-                apply_date
+                apply_date,
             });
             res.json(result);
         } catch (error) {
@@ -169,8 +172,7 @@ class API_Controller {
         try {
             const result = await depositModel.getAllDepositTransaction();
             res.json(result);
-        }
-        catch (error) {
+        } catch (error) {
             res.status(500).json({ error: error.message });
         }
     }
@@ -179,8 +181,7 @@ class API_Controller {
         try {
             const result = await withdrawModel.getAllWithdrawTransaction();
             res.json(result);
-        }
-        catch {
+        } catch {
             res.status(500).json({ error: error.message });
         }
     }
@@ -189,8 +190,7 @@ class API_Controller {
         try {
             const result = await regulationModel.getCurrentTypeOfSaving();
             res.json(result);
-        }
-        catch {
+        } catch {
             res.status(500).json({ error: error.message });
         }
     }
@@ -199,8 +199,7 @@ class API_Controller {
         try {
             const result = await regulationModel.getAllTypeOfSaving();
             res.json(result);
-        }
-        catch {
+        } catch {
             res.status(500).json({ error: error.message });
         }
     }
