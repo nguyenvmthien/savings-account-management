@@ -27,8 +27,9 @@ class Account_H {
 
                 // check infor of customer from existingCustomer
                 if (
-                    existingCustomer[0].name != customer_name ||
-                    existingCustomer[0].address != customer_address
+                    existingCustomer.length > 0 &&
+                    (existingCustomer[0].name != customer_name ||
+                        existingCustomer[0].address != customer_address)
                 ) {
                     console.log('customer information is not correct');
                     return { message: 'fail' };
@@ -92,6 +93,7 @@ class Account_H {
                 // Commit the transaction
                 await connection.commit();
                 console.log('commited');
+                return { message: 'success' };
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
@@ -249,6 +251,7 @@ class Account_H {
             return rows[0].newest_id_account;
             // get newest id_account
         } catch (err) {
+            return { message: 'fail' };
             console.error('Error getting biggest id_account:', err);
             throw err;
         }

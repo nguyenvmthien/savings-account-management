@@ -68,14 +68,14 @@ class Regulation_H {
         }
     }
 
-    async delete({ type, applied_date, applied_time }) {
+    async delete({ type }) {
         //We need apply_date & apply time for the primary key
 
         try {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
-            const real_applied_date = `${applied_date} ${applied_time}`;
+            // const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 
             const connection = await pool.getConnection();
@@ -84,8 +84,8 @@ class Regulation_H {
             try {
                 // Check if the regulation already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_applied_date],
+                    'SELECT * FROM regulation WHERE type = ? and deleted = 0;',
+                    [type],
                 );
 
                 //if regulation exists
@@ -93,13 +93,16 @@ class Regulation_H {
                     //delete regulation
                     const deleted = 1;
                     await connection.execute(
-                        'UPDATE regulation SET deleted = ? WHERE type = ? AND apply_date = ?;',
-                        [deleted, type, real_applied_date],
+                        'UPDATE regulation SET deleted = ? WHERE type = ?',
+                        [deleted, type],
                     );
 
                     await connection.commit();
+                    return { message: 'success' };
+                } else {
+                    return { message: 'fail' };
+                    throw new Error('There is nothing here.');
                 }
-                return { message: 'success' };
             } catch (err) {
                 //throw error if there is error during the deleting process
                 await connection.rollback();
@@ -235,9 +238,11 @@ class Regulation_H {
                 // Return all rows (each row represents a type of saving)
                 return rows;
             } else {
+                return { message: 'fail' };
                 throw new Error('There is nothing here.');
             }
         } catch (err) {
+            return { message: 'fail' };
             console.error('Error getting current type of saving:', err);
             throw err;
         }
@@ -251,9 +256,9 @@ class Regulation_H {
             // SQL query to get all types of savings
             const query = `
                 SELECT
-                    type AS type_of_regulation,
-                    CONVERT_TZ(apply_date, '+00:00', @@session.time_zone) AS apply_date_of_regulation,
-                    interest_rate AS interest_rate_of_regulation
+                    type AS type,
+                    CONVERT_TZ(apply_date, '+00:00', @@session.time_zone) AS apply_date,
+                    interest_rate AS interest_rate
                 FROM regulation;
             `;
 
@@ -264,9 +269,11 @@ class Regulation_H {
                 // Return all rows (each row represents a type of saving)
                 return rows;
             } else {
+                return { message: 'fail' };
                 throw new Error('There is nothing here.');
             }
         } catch (err) {
+            return { message: 'fail' };
             console.error('Error getting all type of saving:', err);
             throw err;
         }
@@ -294,9 +301,11 @@ class Regulation_H {
             if (rows.length > 0) {
                 return rows[0];
             } else {
+                return { message: 'fail' };
                 throw new Error('There is nothing here.');
             }
         } catch (err) {
+            return { message: 'fail' };
             console.error(
                 'Error getting min_dep_money and min_days_withdraw:',
                 err,
