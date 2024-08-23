@@ -121,10 +121,10 @@
                 const row = document.createElement("tr");
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${item.id_account}</td>
-                    <td>${item.type_of_saving}</td>
+                    <td>${item.acc_id}</td>
+                    <td>${item.type}</td>
                     <td>${item.name}</td>
-                    <td>${item.cur_balance}</td>
+                    <td>${item.balance}</td>
                 `;
                 tbody.appendChild(row);
             });
