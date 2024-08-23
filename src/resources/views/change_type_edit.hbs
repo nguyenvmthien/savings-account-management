@@ -23,14 +23,12 @@
         </a>
     </div>
 
-    <form action="/change-type/edit" id="myForm" method="POST">
+    <form id="myForm">
         <div class="container">
             <div class="type-group">
                 <label for="savingsType">Type</label>
                 <select class="form-control" name="type" id="savingsType">
-                    <option value="" disabled selected>Term/Non-term</option>
-                    <option value="non-term">Non-term</option>
-                    <option value="term">Term</option>
+                    <option value="">Term/Non-term</option>
                 </select>
             </div>
         </div>
@@ -38,29 +36,23 @@
         <div class="input-container">
             <div class="input-group">
                 <label for="interest-rate">Interest rate (%)</label>
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_interest_rate" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_interest_rate" class="invalid">
+                <img src="/images/valid-icon/valid.png" id="valid_interest_rate" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_interest_rate" class="invalid">
                 <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
                 <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-deposit">Minimum deposit amount (VND)</label>
                 <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_min_deposit" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_min_deposit" class="invalid">
+                <img src="/images/valid-icon/valid.png" id="valid_min_deposit" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_min_deposit" class="invalid">
                 <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-days">Minimum days to withdraw (days)</label>
                 <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_min_days" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_min_days" class="invalid">
+                <img src="/images/valid-icon/valid.png" id="valid_min_days" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_min_days" class="invalid">
                 <p id="minDaysNotification" style="display: none; color: red;">It must be a number</p>
             </div>
         </div>
@@ -100,6 +92,7 @@
                     <select class="date-control" id="minSelect">
                         <option value="" disabled selected>Min</option>
                         <!-- Các tùy chọn phút -->
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -173,8 +166,66 @@
     <div class="pop-up" id="pop-up">
         <div class="pop-up-content" id="popup-content"></div>
     </div>
+
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2 id="success-message">Created Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to Create new account!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
+    </div>
 </body>
 <script>
+    //Close popup
+    function closeNotiPopup() {
+        var notificationPopup = document.getElementById("noti-pop-up");
+        notificationPopup.style.display = "none";
+    }
+    // Gọi API để lấy danh sách các loại tiết kiệm
+    const selectElement = document.getElementById("savingsType");
+    fetch('/change-type/edit/getcurTypeAPI')
+        .then(response => response.json())
+        .then(data => {
+            const existList = new Set();
+            let nonTermAdded = false; // Biến để kiểm tra non-term đã được thêm hay chưa
+
+            data.forEach(option => {
+                const optionTypeLower = option.type.toLowerCase();
+
+                // Kiểm tra nếu là non-term và chỉ thêm 1 lần
+                if (optionTypeLower === 'non-term') {
+                    if (!nonTermAdded) {
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.type;
+                        optionElement.textContent = option.type;
+                        selectElement.appendChild(optionElement);
+                        nonTermAdded = true; // Đánh dấu đã thêm non-term
+                    }
+                }
+                // Thêm các loại khác nếu chưa có trong existList
+                else if (!existList.has(optionTypeLower)) {
+                    const optionElement = document.createElement('option');
+                    optionElement.value = option.type;
+                    optionElement.textContent = option.type;
+                    selectElement.appendChild(optionElement);
+                    existList.add(optionTypeLower); // Lưu vào Set để kiểm tra trùng lặp
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching savings types:', error);
+        });
+
     document.addEventListener("DOMContentLoaded", function () {
         const interestRateNotification = document.getElementById("interestRateNotification");
         const minDepositNotification = document.getElementById("minDepositNotification");
@@ -214,6 +265,7 @@
         document.getElementById("submit_button").addEventListener("click", function (event) {
             event.preventDefault(); // Prevent form from submitting
 
+            const type = document.getElementById("savingsType").value;
             const interestRate = document.getElementById("interest-rate").value;
             const minDeposit = document.getElementById("min-deposit").value;
             const minDays = document.getElementById("min-days").value;
@@ -246,18 +298,13 @@
             const popupContent = document.getElementById("popup-content");
             // Convert hour and minute to SQL time format
             const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
-            // Determine savings type display
-            const popup = document.getElementById("pop-up");
-            const popupContent = document.getElementById("popup-content");
-            // Convert hour and minute to SQL time format
-            const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
             // Pop-up content
             popupContent.innerHTML = `
             <div>
                 <h2>Preview Information</h2>
                 <img src="/images/popup/doublecheck.png" alt="Image Preview">
                 <legend>Saving's Information</legend>
-                <p>Type of savings: ${savingsType}</p>
+                <p>Type of savings: ${type}</p>
                 <p>Interest rate: ${interestRate}%</p>
                 <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
                 <p>Minimum days to withdraw: ${minDays} days</p>
@@ -275,6 +322,7 @@
             const cancelEdit = document.getElementById("cancel-edit");
 
             confirmEdit.addEventListener("click", function () {
+                popup.style.display = "none";
                 const form = document.getElementById("myForm");
                 // Create a hidden input to store the combined time value
                 const hiddenInput = document.createElement('input');
@@ -284,17 +332,48 @@
 
                 // Append the hidden input to the form
                 form.appendChild(hiddenInput);
-
                 // Submit the form
-                form.submit();
-                popup.style.display = "none";
+                var data = new FormData(form);
+                const formObject = {};
+                data.forEach((value, key) => {
+                    formObject[key] = value;
+                });
+                fetch('/change-type/edit', {
+                    method: 'POST',
+                    body: JSON.stringify(formObject),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => response.json())
+                    .then(data => {
+                        var noti_popup = document.getElementById("noti-pop-up");
+                        noti_popup.style.display = "block";
+                        if (data.message == "success") {
+                            document.getElementById('success-icon').style.display = "inline";
+                            document.getElementById('fail-icon').style.display = "none";
+                            document.getElementById('success-message').style.display = "inline";
+                            document.getElementById('fail-message').style.display = "none";
+                            document.getElementById('fail-message2').style.display = "none";
+                        } else if (data.message == "fail") {
+                            document.getElementById('success-icon').style.display = "none";
+                            document.getElementById('fail-icon').style.display = "inline";
+                            document.getElementById('success-message').style.display = "none";
+                            document.getElementById('fail-message').style.display = "inline";
+                            document.getElementById('fail-message2').style.display = "inline";
+                        } else {
+                            document.getElementById('success-icon').style.display = "none";
+                            document.getElementById('fail-icon').style.display = "none";
+                            document.getElementById('success-message').style.display = "none";
+                            document.getElementById('fail-message').style.display = "none";
+                            document.getElementById('fail-message2').style.display = "none";
+                        }
+                    });
             });
-
             cancelEdit.addEventListener("click", function () {
                 popup.style.display = "none";
             });
         });
-    });
+    })
 </script>
 
 </html>

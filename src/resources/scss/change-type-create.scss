@@ -142,8 +142,6 @@ h2 {
     border-radius: 0.25rem;
     font-size: 15px;
 }
-
-
 /* Định dạng cho các nhóm thời gian */
 
 .time-container {
@@ -223,8 +221,8 @@ h2 {
 }
 
 p[id$="Notification"] {
-    display: none;
-    font-size: 0.875rem;
+    margin-top: 1px;
+    font-size: 0.9rem;
     color: red;
 }
 
@@ -243,7 +241,7 @@ p[id$="Notification"] {
 .pop-up-content {
     position: relative;
     background-color: #fefefe;
-    margin: 3% auto;
+    margin: 8% auto;
     padding: 0 20px;
     width: 80%;
     max-width: 600px;
@@ -254,9 +252,8 @@ p[id$="Notification"] {
 }
 
 .popup-content h2 {
-    font-style: Inter;
-    margin-left: 60px;
-    font-size: 30px;
+    font-style: normal;
+    margin-left: 50px;
 }
 
 .popup-content img {
@@ -264,6 +261,13 @@ p[id$="Notification"] {
     top: 20px;
     left: 10px;
     height: 50px;
+}
+.pop-up-content p {
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
 }
 
 .buttons {
@@ -273,12 +277,10 @@ p[id$="Notification"] {
     display: flex; /* Sử dụng flexbox để sắp xếp các nút */
     gap: 20px; /* Khoảng cách giữa các nút */
 }
-
 .buttons button {
     padding: 10px 20px; /* Điều chỉnh kích thước của nút */
     font-size: 16px; /* Kích thước chữ */
 }
-
 .pop-up button {
     bottom: 50px;
     right: 70px;
@@ -297,4 +299,42 @@ p[id$="Notification"] {
     text-decoration: none; /* Loại bỏ gạch chân nếu có */
     cursor: pointer;
     border: none;
+}
+
+.noti-pop-up {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.noti-pop-up-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding-top: 20px ;
+    width: 600px;
+    height: 300px;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #6D5858;
+    box-shadow: 15px 15px 4px 5px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+.noti-pop-up img {
+    height: 90px;
+    width: 90px;
+}
+.noti-pop-up button {
+    margin-bottom: 15px;
+    margin-right: 25px;
 }
