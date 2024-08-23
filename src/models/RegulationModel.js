@@ -206,6 +206,24 @@ class Regulation_H {
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
+            rows.sort((a, b) => {
+                // Handle the special case for "non-term"
+                if (a.type === 'Non-term') return -1;
+                if (b.type === 'Non-term') return 1;
+            
+                // Extract the numeric part of the term (e.g., "1 month" -> 1, "2 months" -> 2)
+                const aMonths = parseInt(a.type.match(/\d+/), 10);
+                const bMonths = parseInt(b.type.match(/\d+/), 10);
+            
+                // If both terms have numbers, compare them numerically
+                if (!isNaN(aMonths) && !isNaN(bMonths)) {
+                    return aMonths - bMonths;
+                }
+            
+                // If one of the terms couldn't be parsed, keep the original order
+                return 0;
+            });
+
             if (rows.length > 0) {
                 // Return all rows (each row represents a type of saving)
                 return rows;
@@ -227,7 +245,7 @@ class Regulation_H {
             const query = `
                 SELECT
                     type AS type_of_regulation,
-                    apply_date AS apply_date_of_regulation,
+                    CONVERT_TZ(apply_date, '+00:00', @@session.time_zone) AS apply_date_of_regulation,
                     interest_rate AS interest_rate_of_regulation
                 FROM regulation;
             `;
