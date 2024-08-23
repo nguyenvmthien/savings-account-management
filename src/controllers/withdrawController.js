@@ -18,9 +18,9 @@ class Withdraw_Controller {
                 withdraw_date,
             });
             res.json(result);
-        }
-        catch {
-            res.status(500).json({ message: "fail" });
+        } catch {
+            console.log('Error withdraw:');
+            res.status(500).json({ message: 'fail' });
         }
     }
 }

@@ -9,7 +9,7 @@ class Find_Account_H {
     }) {
         try {
             let baseQuery = `
-                SELECT account.acc_id, account.type, customer.name, balance.cur_balance
+                SELECT account.acc_id, account.type, customer.name, balance.principal + balance.interest AS balance
                 FROM account 
                 JOIN customer ON account.cus_id = customer.cus_id
                 JOIN regulation ON account.type = regulation.type AND account.apply_date = regulation.apply_date
@@ -17,24 +17,31 @@ class Find_Account_H {
                 WHERE 1=1`;
 
             const params = [];
-
-            if (id_card !== null) {
-                baseQuery += ' AND customer.id_card = ?';
+            // check if the parameter is not null, may be use lib,...
+            
+            console.log(id_card, id_account, date_created_account, type_of_saving);
+            console.log(id_card !== null, id_account !== null, date_created_account !== null, type_of_saving !== null);
+            console.log(id_card === null, id_account === null, date_created_account === null, type_of_saving === null);
+            console.log(id_card != null, id_account != null, date_created_account != null, type_of_saving != null);
+            console.log(id_card == null, id_account == null, date_created_account == null, type_of_saving == null);
+            
+            if (id_card) {
+                baseQuery += ' AND customer.cus_id = ?';
                 params.push(id_card);
             }
-            if (id_account !== null) {
+            if (id_account) {
                 baseQuery += ' AND account.acc_id = ?';
                 params.push(id_account);
             }
-            if (date_created_account !== null) {
+            if (date_created_account) {
                 baseQuery += ' AND account.open_date = ?';
                 params.push(date_created_account);
             }
-            if (type_of_saving !== null) {
+            if (type_of_saving) {
                 baseQuery += ' AND account.type = ?';
                 params.push(type_of_saving);
             }
-
+            console.log(baseQuery);
             const [rows, fields] = await pool.execute(baseQuery, params);
             return rows;
         } catch (err) {

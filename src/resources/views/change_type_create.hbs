@@ -21,24 +21,23 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
-    <form id="myForm">
-        <div class="container">
-            <div class="type-group">
-                <div class="label-group">
-                    <label for="savingsType">Type</label>
-                    <select class="form-control" id="savingsType">
-                        <option value="" disabled selected>Term</option>
-                        <option value="non-term">Non-term</option>
-                        <option value="term">Term</option>
-                    </select>
-                </div>
-                <div class="label-group-1">
-                    <div class="term-group" id="termInputs" style="display: none;">
-                        <label for="term-months">If term:</label>
-                        <div class="input-group-1">
-                            <input type="text" class="term" id="term-months" placeholder="3">
-                            <input type="text" class="term-months" id="months" placeholder="month(s)" disabled>
-                        </div>
+    <form action="/change-type/create" id="myForm" method="POST">
+    <div class="container">
+        <div class="type-group">
+            <div class="label-group">
+                <label for="savingsType">Type</label>
+                <select class="form-control"  id="savingsType">
+                    <option value="" disabled selected>Term</option>
+                    <option value="non-term">Non-term</option>
+                    <option value="term">Term</option>
+                </select>
+            </div>
+            <div class="label-group-1">
+                <div class="term-group" id="termInputs" style="display: none;">
+                    <label for="term-months">If term:</label>
+                    <div class="input-group-1">
+                        <input type="text" class="term"  id="term-months" placeholder="3">
+                        <input type="text" class="term-months" id="months" placeholder="months" disabled>
                     </div>
                     <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
                 </div>
@@ -321,72 +320,52 @@
                 </div>
             </div>`;
             popup.style.display = "flex";
-            //Confirm or Cancel
-            const confirmEdit = document.getElementById("confirm-edit");
-            const cancelEdit = document.getElementById("cancel-edit");
-            confirmEdit.addEventListener("click", function () {
-                const form = document.getElementById("myForm");
-                popup.style.display ="none";
-                // Set the savings type appropriately based on selection
-                if (savingsType === "term") {
-                    const termInput = document.createElement('input');
-                    termInput.type = 'hidden';
-                    termInput.name = 'type';
-                    termInput.value = savingsTypeDisplay;
-                    form.appendChild(termInput);
-                } else {
-                    const nonTermInput = document.createElement('input');
-                    nonTermInput.type = 'hidden';
-                    nonTermInput.name = 'type';
-                    nonTermInput.value = 'non-term';
-                    form.appendChild(nonTermInput);
-                }
-                // Create a hidden input to store the combined time value
-                const hiddenInput = document.createElement('input');
-                hiddenInput.type = 'hidden';
-                hiddenInput.name = 'applied_time';
-                hiddenInput.value = appliedTime;
-                // Append the hidden input to the form
-                form.appendChild(hiddenInput);
-                var data = new FormData(form);
-                const formObject = {};
-                data.forEach((value, key) => {
-                    formObject[key] = value;
-                });
-                fetch('/change-type/create', {
-                    method: 'POST',
-                    body: JSON.stringify(formObject),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then(response => response.json())
-                    .then(data => {
-                        var noti_popup = document.getElementById("noti-pop-up");
-                        noti_popup.style.display = "block";
-                        if (data.message == "success") {
-                            document.getElementById('success-icon').style.display = "inline";
-                            document.getElementById('fail-icon').style.display = "none";
-                            document.getElementById('success-message').style.display = "inline";
-                            document.getElementById('fail-message').style.display = "none";
-                            document.getElementById('fail-message2').style.display = "none";
+        const confirmEdit = document.getElementById("confirm-edit");
+        const cancelEdit = document.getElementById("cancel-edit");
 
-                        } else if (data.message == "fail") {
-                            document.getElementById('success-icon').style.display = "none";
-                            document.getElementById('fail-icon').style.display = "inline";
-                            document.getElementById('success-message').style.display = "none";
-                            document.getElementById('fail-message').style.display = "inline";
-                        } else {
-                            document.getElementById('success-icon').style.display = "none";
-                            document.getElementById('fail-icon').style.display = "none";
-                            document.getElementById('success-message').style.display = "none";
-                            document.getElementById('fail-message').style.display = "none";
-                        }
-                    })
-            });
-            cancelEdit.addEventListener("click", function () {
-                popup.style.display = "none";
-            });
+        confirmEdit.addEventListener("click", function () {
+            const form = document.getElementById("myForm");
+
+            // Set the savings type appropriately based on selection
+            if (savingsType === "term") {
+                const termInput = document.createElement('input');
+                termInput.type = 'hidden';
+                termInput.name = 'type';
+                termInput.value = `${termMonths.value} months`;
+                form.appendChild(termInput);
+            } else {
+                const nonTermInput = document.createElement('input');
+                nonTermInput.type = 'hidden';
+                nonTermInput.name = 'type';
+                nonTermInput.value = 'non-term';
+                form.appendChild(nonTermInput);
+            }
+
+            // Create a hidden input to store the combined time value
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'applied_time';
+            hiddenInput.value = appliedTime;
+
+            // Append the hidden input to the form
+            form.appendChild(hiddenInput);
+
+            // Submit the form
+            form.submit();
+            popup.style.display = "none";
         });
+
+        cancelEdit.addEventListener("click", function () {
+            popup.style.display = "none";
+        });
+    });
+});
+    // Redirect
+    document.addEventListener("DOMContentLoaded", function () {
+        const currentDomain = window.location.origin;
+        const contactPath = "/contact";
+        const fullContactUrl = `${currentDomain}${contactPath}`;
+        document.getElementById("contact-link").href = fullContactUrl;
     });
 </script>
 </html>
