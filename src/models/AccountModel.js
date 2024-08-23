@@ -257,7 +257,9 @@ class Account_H {
 
         try {
             // get current datetime
-            const currentDateTime = new Date().toISOString().replace(/[TZ]/g, ' '); 
+            const currentDateTime = new Date()
+                .toISOString()
+                .replace(/[TZ]/g, ' ');
             console.log(currentDateTime);
             // get id in temp_id_account has in_use status = 0
             const sql = `
@@ -278,7 +280,7 @@ class Account_H {
 
                 await pool.execute(sql1, [
                     currentDateTime,
-                    rows1[0].id_account
+                    rows1[0].id_account,
                 ]);
                 return rows1[0].id_account;
             } else {
