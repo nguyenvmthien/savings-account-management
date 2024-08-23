@@ -19,6 +19,7 @@ class Account_H {
 
             try {
                 console.log('begin transaction');
+
                 // Check if the customer already exists
                 const [existingCustomer] = await connection.execute(
                     'SELECT * FROM customer WHERE cus_id = ?',
@@ -83,6 +84,7 @@ class Account_H {
                 );
 
                 console.log('inserted new account');
+
                 // Insert the initial balance
                 await connection.execute(
                     'INSERT INTO balance (acc_id, principal, interest) VALUES (?, ?, 0)',
@@ -90,6 +92,12 @@ class Account_H {
                 );
 
                 console.log('inserted new balance');
+
+                // Remove id_account from temp_id_account
+                await connection.execute(
+                    'DELETE FROM temp_id_account WHERE id_account = ?',
+                    [id_account],
+                );
                 // Commit the transaction
                 await connection.commit();
                 console.log('commited');
@@ -97,6 +105,7 @@ class Account_H {
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
+                return { message: 'fail' };
                 throw err;
             } finally {
                 // Release the connection back to the pool
@@ -247,6 +256,11 @@ class Account_H {
         // -> return newest_id in temp. Update status empty -> in-use
 
         try {
+            // get current datetime
+            const currentDateTime = new Date()
+                .toISOString()
+                .replace(/[TZ]/g, ' ');
+            console.log(currentDateTime);
             // get id in temp_id_account has in_use status = 0
             const sql = `
                 SELECT id_account
@@ -255,15 +269,17 @@ class Account_H {
             `;
 
             const [rows1, fields1] = await pool.execute(sql);
+            //CONVERT_TZ(t.created_at, '+00:00', @@session.time_zone)
             if (rows1.length > 0) {
                 // update status in_use
                 const sql1 = `
                     UPDATE temp_id_account
-                    SET in_use = 1
+                    SET in_use = 1, created_at = CONVERT_TZ(?, '+00:00', @@session.time_zone)
                     WHERE id_account = ?;
                 `;
 
                 await pool.execute(sql1, [
+                    currentDateTime,
                     rows1[0].id_account,
                 ]);
                 return rows1[0].id_account;
@@ -284,7 +300,8 @@ class Account_H {
                     if (temp2 > temp1) {
                         pre_id_account = temp2;
                     }
-                } 
+                }
+
                 // Split id_account into prefix and number
                 const prefix = 'MS';
                 const number = pre_id_account.slice(prefix.length); // Slice after the prefix
@@ -296,17 +313,18 @@ class Account_H {
 
                 // add new_id in temp_id_account
                 const sql2 = `
-                    INSERT INTO temp_id_account (id_account, in_use)
-                    VALUES (?, 1);
+                    INSERT INTO temp_id_account (id_account, in_use, created_at)
+                    VALUES (?, 1, CONVERT_TZ(?, '+00:00', @@session.time_zone));
                 `;
 
-                await pool.execute(sql2, [id_account]);
+                await pool.execute(sql2, [id_account, currentDateTime]);
+                console.log(id_account);
                 return id_account;
             }
         } catch (err) {
             return { message: 'fail' };
-            console.error('Error getting biggest id_account:', err);
-            throw err;
+            // console.error('Error getting biggest id_account:', err);
+            // throw err;
         }
     }
 
@@ -418,19 +436,19 @@ class Account_H {
             const query = `
                 SELECT
                     a.acc_id,
-                    a.type AS type_of_saving,
-                    c.name AS customer_name,
+                    a.type,
+                    c.name,
                     b.principal + b.interest AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN balance b ON a.acc_id = b.acc_id
                 ORDER BY a.open_date DESC
-                LIMIT ?;
+                LIMIT ${numOfAccounts};
             `;
 
             // Execute the query with parameter
-            const [rows, fields] = await pool.execute(query, [numOfAccounts]);
-
+            const [rows, fields] = await pool.execute(query);
+            console.log(rows);
             return rows;
             // Return id_account, type_of_saving, customer_name, balance
         } catch (err) {
@@ -468,5 +486,6 @@ class Account_H {
         }
     }
 }
+
 
 module.exports = new Account_H();

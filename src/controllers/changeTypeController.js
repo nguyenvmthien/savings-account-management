@@ -81,7 +81,7 @@ class Regulation_Controller {
         } catch {
             res.json({ message: 'fail' });
             console.error('Error deleting regulation:', err);
-            res.json({message:'fail'});
+            res.json({ message: 'fail' });
         }
     }
 }

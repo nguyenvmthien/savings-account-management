@@ -243,8 +243,8 @@
             document.getElementById("contact-link").href = fullContactUrl;
         });
 
-        // Get current type of savings
         document.addEventListener("DOMContentLoaded", function () {
+            // Get current type of savings
             fetch('/sa/create/getCurrentTypeAPI')
                 .then(response => response.json())
                 .then(data => {
@@ -258,13 +258,25 @@
                     }); 
                 })
                 .catch(error => {
-                    console.error('Error getting current type:', error);
+                    console.error('Error getting current type: ', error);
                 });
+
+            // Generate ID Account
+            function fetchID() {
+                fetch('/sa/create/getNewestIDAccountAPI')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Raw Data:', data);
+                        document.getElementById('id_account').value = data;
+                    })
+                    .catch(error => {
+                        console.error('Error getting id account: ', error);
+                    });
+            }
+
+            fetchID();
+            setInterval(fetchID, 600000);
         });
-
-        // Generate ID Account
-        
-
 
         // Valid input
         document.getElementById('id_card').addEventListener('input', function () {
