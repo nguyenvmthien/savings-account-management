@@ -40,10 +40,7 @@
             <label for="type-saving">Type of Saving</label>
             <select id="type-saving">
                 <option value="">Choose type</option>
-                <option value="3-months">3 months</option>
-                <option value="6-months">6 months</option>
-                <option value="non-term">Non-term</option>
-                <option value="1-year">1 year</option>
+                <option value = "non-term">Non-term</option>
             </select>
         </div>
     </div>
@@ -62,51 +59,60 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Initial 10 rows of dummy data -->
-                <script>
-                    const initialData = [
-                        { id_account: "MS001", type_of_saving: "3 months", name: "John Doe", balance: "10,000,000" },
-                        { id_account: "MS002", type_of_saving: "6 months", name: "Jane Smith", balance: "15,000,000" },
-                        { id_account: "MS003", type_of_saving: "Non-term", name: "Sam Green", balance: "20,000,000" },
-                        { id_account: "MS004", type_of_saving: "1 year", name: "Lisa Black", balance: "25,000,000" },
-                        { id_account: "MS005", type_of_saving: "3 months", name: "Tom Brown", balance: "30,000,000" },
-                        { id_account: "MS006", type_of_saving: "6 months", name: "Eva White", balance: "35,000,000" },
-                        { id_account: "MS007", type_of_saving: "Non-term", name: "Paul Blue", balance: "40,000,000" },
-                        { id_account: "MS008", type_of_saving: "1 year", name: "Cathy Yellow", balance: "45,000,000" },
-                        { id_account: "MS009", type_of_saving: "3 months", name: "Chris Red", balance: "50,000,000" },
-                        { id_account: "MS010", type_of_saving: "6 months", name: "Nina Grey", balance: "55,000,000" }
-                    ];
-
-                    window.addEventListener('DOMContentLoaded', function () {
-                        renderTable(initialData);
-                    });
-                </script>
+                <!-- Table data will be inserted dynamically -->
             </tbody>
         </table>
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch newest accounts on page load
+            fetch('/analysis/find-account/getNewestAccountAPI')
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        renderTable(data);
+                    } else {
+                        console.error('Expected an array but received:', data);
+                        alert('Unexpected data format received from the server.');
+                    }
+                })
+                .catch(error => console.error('Error fetching newest accounts:', error));
 
-        document.addEventListener('DOMContentLoaded', function() {
-        const selectElement = document.getElementById('type-saving');
+            // Fetch options for type of saving from API
+            const selectElement = document.getElementById('type-saving');
+            fetch('/analysis/find-account/getTypeAPI')
+                .then(response => response.json())
+                .then(data => {
+                    const existList = new Set();
+                    let nonTermAdded = false; // Biến để kiểm tra non-term đã được thêm hay chưa
 
-        // Fetch options from API
-        fetch('/analysis/find-account/createReportAPI') // Replace with your API endpoint
-            .then(response => response.json())
-            .then(data => {
-                // Assuming `data` is an array of objects with `value` and `text` properties
-                // Example data: [{ value: '3-months', text: '3 months' }, ...]
-                data.forEach(option => {
-                    const optionElement = document.createElement('option');
-                    optionElement.value = option.value;
-                    optionElement.textContent = option.text;
-                    selectElement.appendChild(optionElement);
-                });
-            })
-            .catch(error => {
-                console.error('Error fetching options:', error);
-            });
-    });
+                    data.forEach(option => {
+                        const optionTypeLower = option.type.toLowerCase();
+
+                        // Kiểm tra nếu là non-term và chỉ thêm 1 lần
+                        if (optionTypeLower === 'non-term') {
+                            if (!nonTermAdded) {
+                                const optionElement = document.createElement('option');
+                                optionElement.value = option.type;
+                                optionElement.textContent = option.type;
+                                selectElement.appendChild(optionElement);
+                                nonTermAdded = true; // Đánh dấu đã thêm non-term
+                            }
+                        }
+                        // Thêm các loại khác nếu chưa có trong existList
+                        else if (!existList.has(optionTypeLower)) {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.type;
+                            optionElement.textContent = option.type;
+                            selectElement.appendChild(optionElement);
+                            existList.add(optionTypeLower); // Lưu vào Set để kiểm tra trùng lặp
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching options:', error));
+        });
+
         function renderTable(data) {
             const tbody = document.querySelector("#account-table tbody");
             tbody.innerHTML = ""; // Clear existing rows
@@ -133,16 +139,15 @@
         }
 
         document.getElementById("submit_button").addEventListener("click", function () {
-            var idAccount = document.getElementById("ID_account").value || null;
-            var idCard = document.getElementById("ID_card").value || null;
-            var dateCreate = document.getElementById("date-create").value || null;
-            var typeSaving = document.getElementById("type-saving").value || null;
+            var idAccount = document.getElementById("ID_account").value;
+            var idCard = document.getElementById("ID_card").value;
+            var dateCreate = document.getElementById("date-create").value;
+            var typeSaving = document.getElementById("type-saving").value;
 
-            // Fetch data from API
-            fetch(`/analysis/find-account/createReportAPI?id_card=${idAccount}&id_account=${idCard}&date_created_account=${dateCreate}&type_of_saving=${typeSaving}`)
+            // Fetch data based on filters
+            fetch(`/analysis/find-account/createReportAPI?id_card=${idCard}&id_account=${idAccount}&date_created_account=${dateCreate}&type_of_saving=${typeSaving}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Response JSON data:', JSON.stringify(data, null, 2)); // Pretty print JSON data
                     if (Array.isArray(data)) {
                         renderTable(data);
                     } else {
