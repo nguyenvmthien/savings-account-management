@@ -18,6 +18,7 @@ class Regulation_H {
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
+
             const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
@@ -75,6 +76,7 @@ class Regulation_H {
             // delete in regulation table
 
             //Hello,  this is the concerning factor in the file
+
             const real_applied_date = `${applied_date} ${applied_time}`;
             // check check
 

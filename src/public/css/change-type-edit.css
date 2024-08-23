@@ -63,11 +63,9 @@ h2 {
 
 /* Định dạng cho các trường chọn loại tiết kiệm */
 .form-control {
-  width: 180px;
-  height: 40px;
+  width: 200px;
+  height: 38px;
   color: #828282;
-  height: 35px;
-  /* Đặt chiều cao cho dropdown */
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   /* Tăng kích thước font cho dropdown */
@@ -104,7 +102,7 @@ h2 {
 .valid, .invalid {
   margin-left: 120px;
   position: absolute;
-  display: none;
+  display: flex;
   /* Ẩn biểu tượng mặc định */
   height: 15px;
   width: 15px;
@@ -120,8 +118,8 @@ h2 {
 .input-field {
   width: 40%;
   /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
-  padding: 5px;
-  height: 40px;
+  padding: 10px;
+  height: 38px;
   font-family: 'Inter', sans-serif;
   font-size: 13px;
   box-sizing: border-box;
@@ -139,14 +137,12 @@ h2 {
 /* Định dạng cho các nhóm thời gian */
 .time-container {
   margin-top: 30px;
-  display: flex;
-  align-items: center;
-  gap: 160px;
-  /* Khoảng cách giữa Applied date và Applied time */ }
+  display: grid;
+  grid-template-columns: 0.4fr 0.77fr; }
 
 .date label {
   display: block;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-size: 15px;
   /* Kích thước font cho label */
   margin-bottom: 10px;

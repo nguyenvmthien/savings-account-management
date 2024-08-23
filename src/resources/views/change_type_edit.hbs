@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Savings Account Type</title>
     <link rel="stylesheet" href="/css/change-type-edit.css">
 </head>
+
 <body>
     <div class="header">
         <div>
@@ -20,6 +22,7 @@
             <button class="button" id="contact-button">Contact</button>
         </a>
     </div>
+
     <form action="/change-type/edit" id="myForm" method="POST">
         <div class="container">
             <div class="type-group">
@@ -49,7 +52,7 @@
                     id="valid_min_deposit" class="valid">
                 <img src="/images/valid-icon/invalid.png"
                     id="invalid_min_deposit" class="invalid">
-                <p id="minDepositNotification" style="display: none; color: red;">It must be an integer</p>
+                <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-days">Minimum days to withdraw (days)</label>
@@ -58,7 +61,7 @@
                     id="valid_min_days" class="valid">
                 <img src="/images/valid-icon/invalid.png"
                     id="invalid_min_days" class="invalid">
-                <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
+                <p id="minDaysNotification" style="display: none; color: red;">It must be a number</p>
             </div>
         </div>
 
@@ -166,6 +169,7 @@
         </div>
         <button type="submit" class="button" id="submit_button">Edit</button>
     </form>
+
     <div class="pop-up" id="pop-up">
         <div class="pop-up-content" id="popup-content"></div>
     </div>
@@ -175,65 +179,78 @@
         const interestRateNotification = document.getElementById("interestRateNotification");
         const minDepositNotification = document.getElementById("minDepositNotification");
         const minDaysNotification = document.getElementById("minDaysNotification");
-        const validIcons = document.querySelectorAll(".valid");
-        const invalidIcons = document.querySelectorAll(".invalid");
+        // Helper function to show valid or invalid icons and messages
+        function validateInput(input, notification, isValid) {
+            const validIcon = input.parentElement.querySelector(".valid");
+            const invalidIcon = input.parentElement.querySelector(".invalid");
+            if (isValid) {
+                notification.style.display = "none";
+                validIcon.style.display = "flex";
+                invalidIcon.style.display = "none";
+            } else {
+                notification.style.display = "flex";
+                validIcon.style.display = "none";
+                invalidIcon.style.display = "flex";
+            }
+        }
+        // Real-time validation for each input field
+        document.getElementById("interest-rate").addEventListener("input", function () {
+            const interestRate = this.value;
+            const isValid = !isNaN(interestRate) && interestRate !== '';
+            validateInput(this, interestRateNotification, isValid);
+        });
 
+        document.getElementById("min-deposit").addEventListener("input", function () {
+            const minDeposit = this.value;
+            const isValid = !isNaN(minDeposit) && minDeposit !== '';
+            validateInput(this, minDepositNotification, isValid);
+        });
+
+        document.getElementById("min-days").addEventListener("input", function () {
+            const minDays = this.value;
+            const isValid = !isNaN(minDays) && Number.isInteger(Number(minDays)) && minDays !== '';
+            validateInput(this, minDaysNotification, isValid);
+        });
         document.getElementById("submit_button").addEventListener("click", function (event) {
             event.preventDefault(); // Prevent form from submitting
-            const savingsType = document.getElementById("savingsType").value;
+
             const interestRate = document.getElementById("interest-rate").value;
             const minDeposit = document.getElementById("min-deposit").value;
             const minDays = document.getElementById("min-days").value;
             const hour = document.getElementById("hourSelect").value;
             const minute = document.getElementById("minSelect").value;
             const date = document.getElementById("app-date").value;
+
             let isValid = true;
-
-            // Kiểm tra interestRate
-            if (isNaN(interestRate)) {
-                interestRateNotification.style.display = "flex";
+            // Simple validation checks
+            if (isNaN(interestRate) || interestRate === '') {
                 isValid = false;
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-                validIcons.forEach(icon => icon.style.display = "none");
-            } else {
-                interestRateNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display ="none");
             }
 
-            // Kiểm tra minDeposit
-            if (isNaN(minDeposit)) {
-                minDepositNotification.style.display = "flex";
+            if (isNaN(minDeposit) || minDeposit === '') {
                 isValid = false;
-                validIcons.forEach(icon => icon.style.display = "none");
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-            } else {
-                minDepositNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display ="none");
             }
-            // Kiểm tra minDays
-            if (isNaN(minDays) || !Number.isInteger(Number(minDays))) {
-                minDaysNotification.style.display = "flex";
+
+            if (isNaN(minDays) || minDays === '') {
                 isValid = false;
-                validIcons.forEach(icon => icon.style.display = "none");
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-            } else {
-                minDaysNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display ="none");
             }
-            // Kiểm tra các trường còn lại
-            if (!isValid || savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
-                alert("You have to meet all of the requirements");
+
+            if (hour === '' || minute === '' || date === '') {
+                isValid = false;
+            }
+            if (!isValid || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
+                alert("Please follow the instruction");
                 return;
             }
             const popup = document.getElementById("pop-up");
             const popupContent = document.getElementById("popup-content");
-
             // Convert hour and minute to SQL time format
             const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
-
+            // Determine savings type display
+            const popup = document.getElementById("pop-up");
+            const popupContent = document.getElementById("popup-content");
+            // Convert hour and minute to SQL time format
+            const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
             // Pop-up content
             popupContent.innerHTML = `
             <div>
@@ -256,22 +273,28 @@
             popup.style.display = "flex";
             const confirmEdit = document.getElementById("confirm-edit");
             const cancelEdit = document.getElementById("cancel-edit");
+
             confirmEdit.addEventListener("click", function () {
+                const form = document.getElementById("myForm");
                 // Create a hidden input to store the combined time value
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
                 hiddenInput.name = 'applied_time';
                 hiddenInput.value = appliedTime;
+
                 // Append the hidden input to the form
-                document.getElementById("myForm").appendChild(hiddenInput);
+                form.appendChild(hiddenInput);
+
                 // Submit the form
-                document.getElementById("myForm").submit();
+                form.submit();
                 popup.style.display = "none";
             });
+
             cancelEdit.addEventListener("click", function () {
                 popup.style.display = "none";
             });
         });
     });
 </script>
+
 </html>
