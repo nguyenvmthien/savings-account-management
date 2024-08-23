@@ -28,7 +28,7 @@ class Create_Account_Controller {
             type_of_saving,
             date_created,
         );
-        
+
         // create account
         const result = await accountModel.create({
             id_card,

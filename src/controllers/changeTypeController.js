@@ -17,6 +17,7 @@ class Regulation_Controller {
     }
 
     async create(req, res) {
+        console.log(req);
         const {
             type,
             applied_date,
@@ -25,7 +26,6 @@ class Regulation_Controller {
             min_dep_money,
             min_days_withdraw,
         } = req.body;
-        console.log(req.body);
         try {
             const result = await regulationModel.create({
                 type,
@@ -52,7 +52,6 @@ class Regulation_Controller {
             min_dep_money,
             min_days_withdraw,
         } = req.body;
-
         try {
             const result = await regulationModel.edit({
                 type,
@@ -71,18 +70,17 @@ class Regulation_Controller {
     }
 
     async delete(req, res) {
-        const { type, applied_date, applied_time } = req.body;
+        const { type } = req.body;
+        console.log(req.body);
         try {
             const result = await regulationModel.delete({
                 type,
-                applied_date,
-                applied_time,
             });
             res.json(result);
         } catch {
             res.json({ message: 'fail' });
             console.error('Error deleting regulation:', err);
-            throw err;
+            res.json({message:'fail'});
         }
     }
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,156 +39,176 @@
                         <input type="text" class="term"  id="term-months" placeholder="3">
                         <input type="text" class="term-months" id="months" placeholder="months" disabled>
                     </div>
+                    <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
                 </div>
-                <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
             </div>
         </div>
-    </div>
 
-    <div class="input-container">
-        <div class="input-group">
-            <label for="interest-rate">Interest rate (%)</label>
-            <img src="/images/valid-icon/valid.png"
+        <div class="input-container">
+            <div class="input-group">
+                <label for="interest-rate">Interest rate (%)</label>
+                <img src="/images/valid-icon/valid.png"
                     id="valid_interest_rate" class="valid">
-            <img src="/images/valid-icon/invalid.png"
+                <img src="/images/valid-icon/invalid.png"
                     id="invalid_interest_rate" class="invalid">
-            <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
-            <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
-        </div>
-        <div class="input-group">
-            <label for="min-deposit">Minimum deposit amount (VND)</label>
-            <img src="/images/valid-icon/valid.png"
+                <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
+                <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
+            </div>
+            <div class="input-group">
+                <label for="min-deposit">Minimum deposit amount (VND)</label>
+                <img src="/images/valid-icon/valid.png"
                     id="valid_min_deposit" class="valid">
                 <img src="/images/valid-icon/invalid.png"
                     id="invalid_min_deposit" class="invalid">
-            <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
-            <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
-        </div>
-        <div class="input-group">
-            <label for="min-days">Minimum days to withdraw (days)</label>
-            <img src="/images/valid-icon/valid.png"
+                <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
+                <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
+            </div>
+            <div class="input-group">
+                <label for="min-days">Minimum days to withdraw (days)</label>
+                <img src="/images/valid-icon/valid.png"
                     id="valid_min_days" class="valid">
                 <img src="/images/valid-icon/invalid.png"
                     id="invalid_min_days" class="invalid">
-            <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
-            <p id="minDaysNotification" style="display: none; color: red;">It must be an integer</p>
+                <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
+                <p id="minDaysNotification" style="display: none; color: red;">It must be a number</p>
+            </div>
         </div>
-    </div>
-    <div class="container">
-        <div class="time-container">
-            <div class="time-info">
-                <label for="hourSelect" class="time-label">Applied time</label>
-                <div class="time-selectors">
-                    <select class="date-control" id="hourSelect">
-                        <option value="" disabled selected>hour</option>
-                        <!-- Các tùy chọn giờ -->
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <!-- More options -->
-                        <option value="23">23</option>
-                    </select>
-                    <select class="date-control" id="minSelect">
-                        <option value="" disabled selected>Min</option>
-                        <!-- Options for minutes -->
-                        <!-- Các tùy chọn phút -->
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                        <option value="32">32</option>
-                        <option value="33">33</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                        <option value="37">37</option>
-                        <option value="38">38</option>
-                        <option value="39">39</option>
-                        <option value="40">40</option>
-                        <option value="41">41</option>
-                        <option value="42">42</option>
-                        <option value="43">43</option>
-                        <option value="44">44</option>
-                        <option value="45">45</option>
-                        <option value="46">46</option>
-                        <option value="47">47</option>
-                        <option value="48">48</option>
-                        <option value="49">49</option>
-                        <option value="50">50</option>
-                        <option value="51">51</option>
-                        <option value="52">52</option>
-                        <option value="53">53</option>
-                        <option value="54">54</option>
-                        <option value="55">55</option>
-                        <option value="56">56</option>
-                        <option value="57">57</option>
-                        <option value="58">58</option>
-                        <option value="59">59</option>
-                    </select>
+        <div class="container">
+            <div class="time-container">
+                <div class="time-info">
+                    <label for="hourSelect" class="time-label">Applied time</label>
+                    <div class="time-selectors">
+                        <select class="date-control" id="hourSelect">
+                            <option value="" disabled selected>hour</option>
+                            <!-- Các tùy chọn giờ -->
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <!-- More options -->
+                            <option value="23">23</option>
+                        </select>
+                        <select class="date-control" id="minSelect">
+                            <option value="" disabled selected>Min</option>
+                            <!-- Options for minutes -->
+                            <!-- Các tùy chọn phút -->
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                            <option value="36">36</option>
+                            <option value="37">37</option>
+                            <option value="38">38</option>
+                            <option value="39">39</option>
+                            <option value="40">40</option>
+                            <option value="41">41</option>
+                            <option value="42">42</option>
+                            <option value="43">43</option>
+                            <option value="44">44</option>
+                            <option value="45">45</option>
+                            <option value="46">46</option>
+                            <option value="47">47</option>
+                            <option value="48">48</option>
+                            <option value="49">49</option>
+                            <option value="50">50</option>
+                            <option value="51">51</option>
+                            <option value="52">52</option>
+                            <option value="53">53</option>
+                            <option value="54">54</option>
+                            <option value="55">55</option>
+                            <option value="56">56</option>
+                            <option value="57">57</option>
+                            <option value="58">58</option>
+                            <option value="59">59</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="day">
+                    <label for="app-date">Applied date</label>
+                    <input type="date" name="applied_date" class="date-control" id="app-date">
                 </div>
             </div>
-            <div class="day">
-                <label for="app-date">Applied date</label>
-                <input type="date" name="applied_date" class="date-control" id="app-date">
-            </div>
         </div>
-    </div>
-    <button type="submit" class="btn-primary" id="submit_button">Create</button>
+        <button type="submit" class="btn-primary" id="submit_button">Create</button>
     </form>
     <div class="pop-up" id="pop-up">
         <div class="pop-up-content" id="popup-content"></div>
     </div>
+    <div id="noti-pop-up" class="noti-pop-up">
+        <div class="noti-pop-up-content">
+            <div>
+                <h2 id="success-message">Created Successfully!</h2>
+            </div>
+            <div>
+                <h2 id="fail-message">Failed to Create new account!</h2>
+                <br>
+                <h2 id="fail-message2">Something went wrong.</h2>
+            </div>
+            <div>
+                <img id="success-icon" src="/images/popup/success.png">
+                <img id="fail-icon" src="/images/popup/fail.png">
+            </div>
+            <button id="pop-up-button" class="button" onclick="closeNotiPopup()">Close</button>
+        </div>
+    </div>
 </body>
 <script>
-
+    function closeNotiPopup() {
+        var notificationPopup = document.getElementById("noti-pop-up");
+        notificationPopup.style.display = "none";
+    }
     document.addEventListener("DOMContentLoaded", function () {
         const termInputs = document.getElementById("termInputs");
         const termMonths = document.getElementById("term-months");
@@ -197,13 +216,49 @@
         const interestRateNotification = document.getElementById("interestRateNotification");
         const minDepositNotification = document.getElementById("minDepositNotification");
         const minDaysNotification = document.getElementById("minDaysNotification");
-        const validIcons = document.querySelectorAll(".valid");
-        const invalidIcons = document.querySelectorAll(".invalid");
 
+        // Helper function to show valid or invalid icons and messages
+        function validateInput(input, notification, isValid) {
+            const validIcon = input.parentElement.querySelector(".valid");
+            const invalidIcon = input.parentElement.querySelector(".invalid");
+
+            if (isValid) {
+                notification.style.display = "none";
+                validIcon.style.display = "flex";
+                invalidIcon.style.display = "none";
+            } else {
+                notification.style.display = "flex";
+                validIcon.style.display = "none";
+                invalidIcon.style.display = "flex";
+            }
+        }
         // Show or hide term inputs based on savings type
         document.getElementById("savingsType").addEventListener("change", function () {
             const savingsType = document.getElementById("savingsType").value;
-            termInputs.style.display = savingsType == "term" ? "block" : "none";
+            termInputs.style.display = savingsType === "term" ? "block" : "none";
+        });
+        // Real-time validation for each input field
+        document.getElementById("interest-rate").addEventListener("input", function () {
+            const interestRate = this.value;
+            const isValid = !isNaN(interestRate) && interestRate !== '';
+            validateInput(this, interestRateNotification, isValid);
+        });
+        document.getElementById("min-deposit").addEventListener("input", function () {
+            const minDeposit = this.value;
+            const isValid = !isNaN(minDeposit) && minDeposit !== '';
+            validateInput(this, minDepositNotification, isValid);
+        });
+
+        document.getElementById("min-days").addEventListener("input", function () {
+            const minDays = this.value;
+            const isValid = !isNaN(minDays) && Number.isInteger(Number(minDays)) && minDays !== '';
+            validateInput(this, minDaysNotification, isValid);
+        });
+
+        document.getElementById("term-months").addEventListener("input", function () {
+            const termMonths = this.value;
+            const isValid = !isNaN(termMonths) && Number.isInteger(Number(termMonths)) && termMonths !== '';
+            validateInput(this, termNotification, isValid);
         });
 
         document.getElementById("submit_button").addEventListener("click", function (event) {
@@ -215,78 +270,55 @@
             const hour = document.getElementById("hourSelect").value;
             const minute = document.getElementById("minSelect").value;
             const date = document.getElementById("app-date").value;
+
             let isValid = true;
-
-            // Kiểm tra interestRate
-            if (isNaN(interestRate)) {
-                interestRateNotification.style.display = "flex";
+            if (isNaN(interestRate) || interestRate === '') {
                 isValid = false;
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-                validIcons.forEach(icon => icon.style.display = "none");
-            } else {
-                interestRateNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display = "none");
             }
-
-            // Kiểm tra minDeposit
-            if (isNaN(minDeposit)) {
-                minDepositNotification.style.display = "flex";
+            if (isNaN(minDeposit) || minDeposit === '') {
                 isValid = false;
-                validIcons.forEach(icon => icon.style.display = "none");
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-            } else {
-                minDepositNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display = "none");
             }
-
-            // Kiểm tra minDays
-            if (isNaN(minDays) || !Number.isInteger(Number(minDays))) {
-                minDaysNotification.style.display = "flex";
+            if (isNaN(minDays) || !Number.isInteger(Number(minDays)) || minDays === '') {
                 isValid = false;
-                validIcons.forEach(icon => icon.style.display = "none");
-                invalidIcons.forEach(icon => icon.style.display = "flex");
-            } else {
-                minDaysNotification.style.display = "none";
-                validIcons.forEach(icon => icon.style.display = "flex");
-                invalidIcons.forEach(icon => icon.style.display = "none");
             }
-
-            // Kiểm tra các trường còn lại
+            if (savingsType === "term") {
+                const termMonthsValue = document.getElementById("term-months").value;
+                if (isNaN(termMonthsValue) || !Number.isInteger(Number(termMonthsValue)) || termMonthsValue === '') {
+                    isValid = false;
+                }
+            }
             if (!isValid || savingsType === "" || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
-                alert("You have to meet all of the requirements");
                 return;
             }
-
             const popup = document.getElementById("pop-up");
             const popupContent = document.getElementById("popup-content");
-
             // Convert hour and minute to SQL time format
             const appliedTime = `${hour.padStart(2, '0')}:${minute.padStart(2, '0')}`;
-
             // Determine savings type display
-            let savingsTypeDisplay = savingsType === "term" ? `${termMonths.value} months` : "Non-term";
-            console.log(savingsTypeDisplay);
+            let savingsTypeDisplay;
+            if (savingsType === "term") {
+                savingsTypeDisplay = termMonths.value === "1" ? `${termMonths.value} month` : `${termMonths.value} months`;
+            } else {
+                savingsTypeDisplay = "Non-term";
+            }
             // Pop-up content
             popupContent.innerHTML = `
-        <div>
-            <h2>Preview Information</h2>
-            <img src="/images/popup/doublecheck.png" alt="Image Preview">
-            <legend>Saving's Information</legend>
-            <p>Type of savings: ${savingsTypeDisplay}</p>
-            <p>Interest rate: ${interestRate}%</p>
-            <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
-            <p>Minimum days to withdraw: ${minDays} days</p>
-            <legend>Applicable Time</legend>
-            <p>Applied time: ${appliedTime}</p>
-            <p>Applied date: ${date}</p>
-            <div class="buttons">
-                <button class="submit-btn" id="confirm-edit">Submit</button>
-                <button class="cancel-btn" id="cancel-edit">Cancel</button>
-            </div>
-        </div>
-        `;
+            <div>
+                <h2>Preview Information</h2>
+                <img src="https://s3-alpha-sig.figma.com/img/905d/6ebd/74d1536c6813b3efa90f75a5bd6b8659?Expires=1724025600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XI2-bfc8lyRFYXWD998iKxlWqdtAuIl7i3Vp7HXnpZ5syYra2kIKI5zd0QW3KQkcR05ANQdxWDXVy40Kv~avUA5uhJucmhtk1bbcH8gfiy2l9PJN05Uwjd0i3zHuxgxWcEfqH5IgG4XXkbBTKn1688E1-JV6-wzhrW1Rjx1I4dvkMIs40DKTJTZdBivVKDTymai9bRW4zgFNx0i1h3m~hlNkgronQvy7f5vSUsj2iiPVvPwi9fdZFwATgCKLB-f6F7WHv7giB6f22FV8UkayVeZoUOoP0Ld3px8H79VLSFUA~dtFTTAXoLCBRrKqP1d6hsT5EbY0z6h0daYUhvg5jw__" alt="Image Preview">
+                <legend>Saving's Information</legend>
+                <p>Type of savings: ${savingsTypeDisplay}</p>
+                <p>Interest rate: ${interestRate}%</p>
+                <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
+                <p>Minimum days to withdraw: ${minDays} days</p>
+                <legend>Applicable Time</legend>
+                <p>Applied time: ${appliedTime}</p>
+                <p>Applied date: ${date}</p>
+                <div class="buttons">
+                    <button class="submit-btn" id="confirm-edit">Submit</button>
+                    <button class="cancel-btn" id="cancel-edit">Cancel</button>
+                </div>
+            </div>`;
             popup.style.display = "flex";
         const confirmEdit = document.getElementById("confirm-edit");
         const cancelEdit = document.getElementById("cancel-edit");
@@ -336,5 +368,4 @@
         document.getElementById("contact-link").href = fullContactUrl;
     });
 </script>
-
 </html>

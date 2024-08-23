@@ -27,8 +27,9 @@ class Account_H {
 
                 // check infor of customer from existingCustomer
                 if (
-                    existingCustomer[0].name != customer_name ||
-                    existingCustomer[0].address != customer_address
+                    existingCustomer.length > 0 &&
+                    (existingCustomer[0].name != customer_name ||
+                        existingCustomer[0].address != customer_address)
                 ) {
                     console.log('customer information is not correct');
                     return { message: 'fail' };
@@ -48,7 +49,7 @@ class Account_H {
                 // Get the apply_date from the regulation table based on date_created
                 const [regulation] = await connection.execute(
                     `
-                    SELECT r.apply_date 
+                    SELECT r.apply_date, r.interest_rate
                     FROM regulation r 
                     WHERE r.type = ? AND r.apply_date <= ? 
                     ORDER BY r.apply_date DESC 
@@ -92,6 +93,7 @@ class Account_H {
                 // Commit the transaction
                 await connection.commit();
                 console.log('commited');
+                return { message: 'success' };
             } catch (err) {
                 // Rollback in case of error
                 await connection.rollback();
@@ -287,6 +289,7 @@ class Account_H {
                         pre_id_account = temp2;
                     }
                 }
+
                 // Split id_account into prefix and number
                 const prefix = 'MS';
                 const number = pre_id_account.slice(prefix.length); // Slice after the prefix
