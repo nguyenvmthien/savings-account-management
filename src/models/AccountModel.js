@@ -436,19 +436,19 @@ class Account_H {
             const query = `
                 SELECT
                     a.acc_id,
-                    a.type AS type_of_saving,
-                    c.name AS customer_name,
+                    a.type,
+                    c.name,
                     b.principal + b.interest AS balance
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN balance b ON a.acc_id = b.acc_id
                 ORDER BY a.open_date DESC
-                LIMIT ?;
+                LIMIT ${numOfAccounts};
             `;
 
             // Execute the query with parameter
-            const [rows, fields] = await pool.execute(query, [numOfAccounts]);
-
+            const [rows, fields] = await pool.execute(query);
+            console.log(rows);
             return rows;
             // Return id_account, type_of_saving, customer_name, balance
         } catch (err) {
@@ -486,5 +486,6 @@ class Account_H {
         }
     }
 }
+
 
 module.exports = new Account_H();
