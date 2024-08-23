@@ -169,7 +169,6 @@ class API_Controller {
             return res.json({ message: 'fail' });
         }
     }
-
     async getAllDepositTransactionAPI(req, res) {
         try {
             const result = await depositModel.getAllDepositTransaction();

@@ -18,6 +18,7 @@ class Regulation_H {
             console.log(`min_days_withdraw: ${min_days_withdraw}`);
 
             //Hello,  this is the concerning factor in the file
+
             const real_apply_date = `${applied_date} ${applied_time}`;
             // check check
 
@@ -76,6 +77,7 @@ class Regulation_H {
 
             //Hello,  this is the concerning factor in the file
             // const real_applied_date = `${applied_date} ${applied_time}`;
+
             // check check
 
             const connection = await pool.getConnection();

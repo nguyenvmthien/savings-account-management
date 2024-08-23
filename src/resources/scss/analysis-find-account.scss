@@ -34,8 +34,8 @@ h2 {
 
 .btn-CSV {
     margin-top: 15px;
-    position: fixed; 
-    right: 60px;
+    position: absolute; 
+    right: 10px;
     width: 120px; 
     height: 40px;
     background: #16A596;
@@ -126,9 +126,9 @@ h2 {
 }
 
 .btn-primary {
-position: fixed; 
+position: absolute; 
 margin-top: -10px;
-right: 70px;
+right: 20px;
 width: 100px; 
 height: 40px;
 background: #16A596;
@@ -144,15 +144,41 @@ cursor: pointer;
 
 .table-container {
     width: 100%;
-    margin-top: 40px;
+    margin-top: 50px;
     border: 3px dashed #6D5858;
+    overflow-x: hidden;  /* Hide horizontal scrollbar */
+    overflow-y: hidden;    /* Show vertical scrollbar if content overflows */
 }
 
-.account-table {
+.table-container table {
     width: 100%;
     border-collapse: collapse;
-    margin-left: 15px; /* Cách lề trái 15px */
-    margin-right: 15px; /* Cách lề phải 15px */
+    margin-left: 15px;  /* Left margin */
+    margin-right: 15px;  /* Right margin */
+}
+
+thead th, tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+thead {
+    display: table; /* Ensure the header stays fixed */
+    width: 100%;
+    background-color: #f2f2f2; /* Optional: Background color for the header */
+}
+
+tbody {
+    display: block;
+    max-height: 400px;  /* Limit height */
+    overflow-y: none;   /* Scrollbar inside table */
+    width: 100%;
+}
+
+tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .account-table caption {
@@ -161,14 +187,16 @@ cursor: pointer;
     font-weight: bold;
     font-size: 24px;
     color: #440A67;
-    margin-top: 10px; /* Cách lề trên của bảng 10px */
+    margin-top: 20px;  /* Space above the table */
+    
 }
 
 .account-table th {
     color: #828282;
     font-size: 16px;
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     text-align: center;
+    background-color: white;
 }
 
 .account-table th, .account-table td {
@@ -179,28 +207,31 @@ cursor: pointer;
 }
 
 .account-table td {
-    font-family: Inter;
+    font-family: 'Inter', sans-serif;
     color: #440A67;
-    margin-top: 20px;
     font-weight: 400;
+    margin-top: 20px;
 }
 
 .account-table tr {
-    position: relative; /* Để sử dụng pseudo-element */
+    position: relative;  /* Enable pseudo-element positioning */
 }
-.account-table .total-row td {
-    padding-bottom: 10px; /* Cách đường kẻ bảng một đoạn 10px */
-}
+
 .account-table tr::after {
     content: "";
     display: block;
     position: absolute;
     bottom: 0;
-    left: 1%; /* Tạo khoảng cách từ lề trái */
-    right: 5%; /* Tạo khoảng cách từ lề phải */
-    height: 1px; /* Độ dày của đường kẻ */
-    background-color: #440A67; /* Màu của đường kẻ */
+    left: 1%;  /* Space from the left */
+    right: 5%;  /* Space from the right */
+    height: 1px;  /* Thickness of the underline */
+    background-color: #440A67;  /* Color of the underline */
 }
+
+.account-table .total-row td {
+    padding-bottom: 10px;  /* Spacing before the total row underline */
+}
+
 
 
 
