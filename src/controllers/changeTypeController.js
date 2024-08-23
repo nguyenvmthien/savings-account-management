@@ -17,6 +17,7 @@ class Regulation_Controller {
     }
 
     async create(req, res) {
+        console.log(req);
         const {
             type,
             applied_date,
@@ -25,7 +26,6 @@ class Regulation_Controller {
             min_dep_money,
             min_days_withdraw,
         } = req.body;
-        console.log(req.body);
         try {
             await regulationModel.create({
                 type,
@@ -35,10 +35,10 @@ class Regulation_Controller {
                 min_dep_money,
                 min_days_withdraw,
             });
-            res.render('change_type_create', { message: 'success' });
+            res.json({message:'success'});
         } catch (err) {
             console.error('Error creating regulation:', err);
-            throw err;
+            res.json({message:'fail'});
         }
     }
 
@@ -51,7 +51,6 @@ class Regulation_Controller {
             min_dep_money,
             min_days_withdraw,
         } = req.body;
-
         try {
             await regulationModel.edit({
                 type,
@@ -61,10 +60,10 @@ class Regulation_Controller {
                 min_dep_money,
                 min_days_withdraw,
             });
-            res.render('change_type_edit', { message: 'success' });
+            res.json({ message: 'success' });
         } catch {
             console.error('Error editing regulation:', err);
-            throw err;
+            res.json({message:'fail'});
         }
     }
 
@@ -72,10 +71,10 @@ class Regulation_Controller {
         const { type, applied_date, applied_time } = req.body;
         try {
             await regulationModel.delete({ type, applied_date, applied_time });
-            res.render('change_type_delete', { message: 'success' });
+            res.json({ message: 'success' });
         } catch {
             console.error('Error deleting regulation:', err);
-            throw err;
+            res.json({message:'fail'});
         }
     }
 }

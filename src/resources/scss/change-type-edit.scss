@@ -104,7 +104,7 @@ h2 {
 .valid, .invalid {
     margin-left: 120px;
     position: absolute;
-    display: flex; /* Ẩn biểu tượng mặc định */
+    display: none; /* Ẩn biểu tượng mặc định */
     height: 15px;
     width: 15px; /* Sửa kích thước width */
 }
@@ -206,8 +206,8 @@ h2 {
 
 /* Định dạng cho các thông báo lỗi */
 p[id$="Notification"] {
-    display: none;
-    font-size: 0.875rem;
+    margin-top: 1px;
+    font-size: 0.9rem;
     color: red;
 }
 

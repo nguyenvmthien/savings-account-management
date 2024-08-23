@@ -151,7 +151,7 @@ thead, tbody tr {
 }
 
 .account-table th, .account-table td {
-    padding-left: 10px;
+    padding-left: 30px;
     padding-top: 15px;
     border: none;
     text-align: center;
@@ -178,7 +178,10 @@ thead, tbody tr {
     height: 1px;  /* Thickness of the underline */
     background-color: #440A67;  /* Color of the underline */
 }
-
+/* Ensure no underline appears below the "no-data-message" */
+.account-table tr.no-data-message::after {
+    display: none;
+}
 .account-table .total-row td {
     padding-bottom: 10px;  /* Spacing before the total row underline */
 }
