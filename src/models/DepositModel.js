@@ -20,7 +20,9 @@ class Deposit_H {
                     //get the opened_date
                     const [account] = await connection.execute(
                         `
-                        SELECT a.open_date, r.min_dep_money
+                        SELECT 
+                            a.open_date, 
+                            r.min_dep_money
                         FROM account a join regulation r on a.type = r.type
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
@@ -28,22 +30,57 @@ class Deposit_H {
                         `,
                         [id_account],
                     );
-
+                    const dateCreated = new Date(account[0].open_date)
+                        .toISOString()
+                        .split('T')[0];
+                    const depositDate = new Date(deposit_date)
+                        .toISOString()
+                        .split('T')[0];
                     console.log('get open date');
                     //insert new deposit transaction
                     // print to check condition if
                     console.log(money_deposit);
                     console.log(account[0].min_dep_money);
-                    console.log(deposit_date);
-                    console.log(account[0].open_date);
+                    console.log(depositDate);
+                    console.log(dateCreated);
+                    console.log('Enter the condition');
                     if (
-                        money_deposit >= account[0].min_des_money &&
-                        deposit_date > account[0].open_date
+                        money_deposit >= account[0].min_dep_money &&
+                        depositDate > dateCreated
                     ) {
                         console.log('check money and date successful');
-                        const dep_id = `DEP${Math.floor(Math.random() * 100000)
+                        // const dep_id = `DEP${Math.floor(Math.random() * 100000)
+                        //     .toString()
+                        //     .padStart(5, '0')}`;
+                        const [latestdepID] = await connection.execute(
+                            `
+                            SELECT dep_id
+                            FROM deposit
+                            ORDER BY dep_date DESC
+                            LIMIT 1;
+                            `,
+                            [id_account],
+                        );
+
+                        console.log('Latest dep_id: ', latestdepID[0].dep_id);
+
+                        const prefix = 'DEP';
+
+                        // Extract the numeric part of the dep_id by slicing after the prefix length
+                        const number = latestdepID[0].dep_id.slice(
+                            prefix.length,
+                        ); // Assuming the dep_id format is 'DEPXXXXX'
+
+                        // Increment the numeric part, convert it to a string, and pad with leading zeros to maintain length
+                        const next_number = (parseInt(number, 10) + 1)
                             .toString()
-                            .padStart(5, '0')}`;
+                            .padStart(number.length, '0');
+
+                        // Combine the prefix with the new numeric part to create the next dep_id
+                        const dep_id = prefix + next_number;
+
+                        console.log('Next dep_id:', dep_id);
+
                         console.log('generate dep_id successful');
                         await connection.execute(
                             'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, ?);',
@@ -54,22 +91,21 @@ class Deposit_H {
 
                         const [balance] = await connection.execute(
                             `
-                                SELECT a.principle
+                                SELECT b.principal
                                 FROM balance b
-                                WHERE b.acc_id = ? 
-                                ORDER BY b.open_date DESC
-                                LIMIT 1;
-                                `,
+                                WHERE b.acc_id = ?;
+                            `,
                             [id_account],
                         );
-                        
-                        const cur_principle =
-                            balance[0].principle + money_deposit;
+                        const dep_money = parseFloat(money_deposit);
+                        console.log('deposit money:', dep_money);
+                        const cur_principal = balance[0].principal + dep_money;
 
+                        console.log('Upated balance: ', cur_principal);
                         //update account's principle
                         await connection.execute(
-                            'UPDATE balance SET principle = ? WHERE acc_id = ?;',
-                            [cur_principle, id_account],
+                            'UPDATE balance SET principal = ? WHERE acc_id = ?;',
+                            [cur_principal, id_account],
                         );
                         console.log('update balance successful');
                         await connection.commit();
@@ -90,7 +126,7 @@ class Deposit_H {
                 //release the connection
                 connection.release();
                 // add the deposit information to the response
-                return { message: 'fail' };
+                // return { message: 'fail' };
             }
         } catch (err) {
             //throw error if there is something wrong

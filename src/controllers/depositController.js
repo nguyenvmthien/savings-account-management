@@ -12,12 +12,11 @@ class Deposit_Controller {
         const { id_account, money_deposit, deposit_date } = req.body;
         console.log(req.body);
         if (!id_account || !money_deposit || !deposit_date) {
-            res.status(400).json({ message: "fail" });
+            res.status(400).json({ message: 'fail' });
             return;
         }
         try {
             const result = await depositModel.deposit({
-
                 id_account,
                 money_deposit,
                 deposit_date,
@@ -25,7 +24,7 @@ class Deposit_Controller {
             res.json(result);
             // res.json({message: "success" });
         } catch (error) {
-            res.json({ message: "fail" });
+            res.json({ message: 'fail' });
         }
     }
 }
