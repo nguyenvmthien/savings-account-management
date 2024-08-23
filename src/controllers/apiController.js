@@ -20,6 +20,7 @@ class API_Controller {
                 res.json(interestRate);
             }
         } catch (error) {
+            return res.json({ message: 'fail' });
             res.status(500).json({ error: error.message });
         }
     }
@@ -29,6 +30,7 @@ class API_Controller {
             const result = await accountModel.getNewestIDAccount();
             res.json(result);
         } catch (error) {
+            return res.json({ message: 'fail' });
             res.status(500).json({ error: error.message });
         }
     }
@@ -46,8 +48,7 @@ class API_Controller {
             res.json(result);
             return;
         } catch (error) {
-            res.json({ error: 'fail' });
-            return;
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -63,7 +64,7 @@ class API_Controller {
             const result = await accountModel.getCurrentPrincipal(id_account);
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -81,7 +82,7 @@ class API_Controller {
             );
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -95,7 +96,7 @@ class API_Controller {
             const result = await analysisDailyModel.getAnalyzeDaily({ date });
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -116,7 +117,7 @@ class API_Controller {
             });
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -145,7 +146,7 @@ class API_Controller {
             });
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -165,7 +166,7 @@ class API_Controller {
             });
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
     async getAllDepositTransactionAPI(req, res) {
@@ -173,7 +174,7 @@ class API_Controller {
             const result = await depositModel.getAllDepositTransaction();
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -182,7 +183,7 @@ class API_Controller {
             const result = await withdrawModel.getAllWithdrawTransaction();
             res.json(result);
         } catch {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -191,7 +192,7 @@ class API_Controller {
             const result = await regulationModel.getCurrentTypeOfSaving();
             res.json(result);
         } catch {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 
@@ -200,7 +201,7 @@ class API_Controller {
             const result = await regulationModel.getAllTypeOfSaving();
             res.json(result);
         } catch {
-            res.status(500).json({ error: error.message });
+            return res.json({ message: 'fail' });
         }
     }
 }

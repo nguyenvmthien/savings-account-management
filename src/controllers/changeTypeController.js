@@ -71,12 +71,11 @@ class Regulation_Controller {
     }
 
     async delete(req, res) {
-        const { type, applied_date, applied_time } = req.body;
+        const { type } = req.body;
+        console.log(req.body);
         try {
             const result = await regulationModel.delete({
                 type,
-                applied_date,
-                applied_time,
             });
             res.json(result);
         } catch {
