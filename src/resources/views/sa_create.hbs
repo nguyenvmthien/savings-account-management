@@ -255,7 +255,7 @@
                         option.value = item.type;
                         option.textContent = item.type;
                         selectElement.appendChild(option);
-                    });
+                    }); 
                 })
                 .catch(error => {
                     console.error('Error getting current type:', error);
@@ -263,6 +263,8 @@
         });
 
         // Generate ID Account
+        
+
 
         // Valid input
         document.getElementById('id_card').addEventListener('input', function () {

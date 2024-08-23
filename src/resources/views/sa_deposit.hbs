@@ -54,12 +54,34 @@
     </div>
     <script>
         var isIDValid = false;
+        var isNonTermExist = false;
         // Redirect
         document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+
+            // Nếu không có Non-term đang áp dụng thì không cho tạo;
+            fetch('/sa/deposit/getCurrentTypeAPI')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Raw Data:', data);
+                    data.forEach(item => {
+                        if(item.type == "Non-term") {
+                            isNonTermExist = true;
+                        }                
+                    });
+                    if(!isNonTermExist) {
+                        document.getElementById('message').innerHTML = "Non-term type does not exist!";
+                        document.getElementById('submit-button').disabled = true;
+                        var popup = document.getElementById('noti-pop-up');
+                        popup.style.display = "block";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error getting current type:', error);
+                });
         });
 
         // Noti pop-up
@@ -77,6 +99,7 @@
                     .then(data => {
                         console.log('Raw Data:', data);
                         if (data.error == "fail") {
+                            document.getElementById('message').innerHTML = "ID cannot be found!";
                             var popup = document.getElementById('noti-pop-up');
                             popup.style.display = "block";
                         }
