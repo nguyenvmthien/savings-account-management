@@ -1,6 +1,6 @@
 const regulationModel = require('../models/RegulationModel');
 class Regulation_Controller {
-    async renderChangeTypeCreate(req, res) {
+    renderChangeTypeCreate(req, res) {
         res.render('change_type_create');
     }
 
@@ -27,7 +27,7 @@ class Regulation_Controller {
         } = req.body;
         console.log(req.body);
         try {
-            await regulationModel.create({
+            const result = await regulationModel.create({
                 type,
                 applied_date,
                 applied_time,
@@ -35,10 +35,11 @@ class Regulation_Controller {
                 min_dep_money,
                 min_days_withdraw,
             });
-            res.render('change_type_create');
+            res.json(result);
         } catch {
             // console.error('Error creating regulation:', err);
-            throw err;
+            // throw err;
+            res.json({ message: 'fail' });
         }
     }
 
@@ -53,7 +54,7 @@ class Regulation_Controller {
         } = req.body;
 
         try {
-            await regulationModel.edit({
+            const result = await regulationModel.edit({
                 type,
                 applied_date,
                 applied_time,
@@ -61,19 +62,25 @@ class Regulation_Controller {
                 min_dep_money,
                 min_days_withdraw,
             });
-            res.render('change_type_edit', { message: 'success' });
+            res.json(result);
         } catch {
-            console.error('Error editing regulation:', err);
-            throw err;
+            res.json({ message: 'fail' });
+            // console.error('Error editing regulation:', err);
+            // throw err;
         }
     }
 
     async delete(req, res) {
         const { type, applied_date, applied_time } = req.body;
         try {
-            await regulationModel.delete({ type, applied_date, applied_time });
-            res.render('change_type_delete', { message: 'success' });
+            const result = await regulationModel.delete({
+                type,
+                applied_date,
+                applied_time,
+            });
+            res.json(result);
         } catch {
+            res.json({ message: 'fail' });
             console.error('Error deleting regulation:', err);
             throw err;
         }

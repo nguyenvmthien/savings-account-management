@@ -6,7 +6,7 @@ class Create_Account_Controller {
 
     async create(req, res) {
         if (Object.keys(req.body).length === 0) {
-            res.json("Missing Parameter");
+            res.json('Missing Parameter');
             return;
         }
 

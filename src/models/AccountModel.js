@@ -26,7 +26,10 @@ class Account_H {
                 );
 
                 // check infor of customer from existingCustomer
-                if (existingCustomer[0].name != customer_name || existingCustomer[0].address != customer_address) {
+                if (
+                    existingCustomer[0].name != customer_name ||
+                    existingCustomer[0].address != customer_address
+                ) {
                     console.log('customer information is not correct');
                     return { message: 'fail' };
                 }
@@ -145,7 +148,7 @@ class Account_H {
                 }
             }
         } catch (err) {
-            return {message: "fail"};
+            return { message: 'fail' };
         }
     }
 
@@ -303,7 +306,9 @@ class Account_H {
             const lastDepositDate = new Date(last_deposit_date);
             const withdrawDate = new Date(withdraw_date);
             const diffTimeCheck = Math.abs(withdrawDate - lastDepositDate);
-            const diffDaysCheck = Math.ceil(diffTimeCheck / (1000 * 60 * 60 * 24)); // Difference in days
+            const diffDaysCheck = Math.ceil(
+                diffTimeCheck / (1000 * 60 * 60 * 24),
+            ); // Difference in days
             const diffTime = Math.abs(withdrawDate - openDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
 
@@ -321,21 +326,23 @@ class Account_H {
                     // Extract the term in months from the type string
                     const termMatch = type.match(/(\d+)\s*month/);
                     const months = termMatch ? parseInt(termMatch[1]) : 1; // Default to 1 month if parsing fails
-                    
+
                     // get int number of maturities
-                    const number_of_maturities = Math.floor(diffDays / (months * 30));
-        
+                    const number_of_maturities = Math.floor(
+                        diffDays / (months * 30),
+                    );
+
                     // Calculate interest based on the term
                     interest =
                         principal *
                         (interest_rate / 100) *
-                        (number_of_maturities); // Approximating 1 month as 30 days
+                        number_of_maturities; // Approximating 1 month as 30 days
                 }
 
                 totalAmount += interest;
             }
 
-            return {totalAmount, lastDepositDate};
+            return { totalAmount, lastDepositDate };
         } catch (err) {
             console.error('Error getting current balance:', err);
             throw err;

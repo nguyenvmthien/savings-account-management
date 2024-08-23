@@ -17,7 +17,6 @@ class Deposit_H {
                 console.log('check exist account successful');
                 // if account exists
                 if (existingAccount.length > 0) {
-                   
                     //get the opened_date
                     const [account] = await connection.execute(
                         `
@@ -31,8 +30,12 @@ class Deposit_H {
                         `,
                         [id_account],
                     );
-                    const dateCreated = new Date(account[0].open_date).toISOString().split('T')[0];
-                    const depositDate = new Date(deposit_date).toISOString().split('T')[0];
+                    const dateCreated = new Date(account[0].open_date)
+                        .toISOString()
+                        .split('T')[0];
+                    const depositDate = new Date(deposit_date)
+                        .toISOString()
+                        .split('T')[0];
                     console.log('get open date');
                     //insert new deposit transaction
                     // print to check condition if
@@ -64,7 +67,9 @@ class Deposit_H {
                         const prefix = 'DEP';
 
                         // Extract the numeric part of the dep_id by slicing after the prefix length
-                        const number = latestdepID[0].dep_id.slice(prefix.length); // Assuming the dep_id format is 'DEPXXXXX'
+                        const number = latestdepID[0].dep_id.slice(
+                            prefix.length,
+                        ); // Assuming the dep_id format is 'DEPXXXXX'
 
                         // Increment the numeric part, convert it to a string, and pad with leading zeros to maintain length
                         const next_number = (parseInt(number, 10) + 1)
@@ -94,9 +99,8 @@ class Deposit_H {
                         );
                         const dep_money = parseFloat(money_deposit);
                         console.log('deposit money:', dep_money);
-                        const cur_principal =
-                            balance[0].principal + dep_money;
-                        
+                        const cur_principal = balance[0].principal + dep_money;
+
                         console.log('Upated balance: ', cur_principal);
                         //update account's principle
                         await connection.execute(

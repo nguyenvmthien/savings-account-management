@@ -25,7 +25,7 @@ class Edit_Account_Controller {
             });
             res.json(result);
         } catch (error) {
-            res.status(500).json({ error: "fail" });
+            res.status(500).json({ error: 'fail' });
         }
     }
 }
