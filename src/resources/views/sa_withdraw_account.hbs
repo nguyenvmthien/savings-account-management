@@ -332,10 +332,11 @@
                     document.getElementById('balance').value = document.getElementById('balance').value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                     lastDepositDate = data.lastDepositDate.slice(0, 10);
                     document.getElementById('wit_money_error_message').innerText = `Must be less than or equal to ${document.getElementById('balance').value}`;
-                    document.getElementById('money_withdraw').value = document.getElementById('balance').value;
+                    if(document.getElementById('type_of_saving').value != 'Non-term')
+                        document.getElementById('money_withdraw').value = document.getElementById('balance').value;
                 })
                 .catch(error => {
-                    console.error('Error get curent balance:', error);
+                    console.error('Error get current balance:', error);
                 });
 
             const dateWithdraw = document.getElementById('withdraw_date').value;

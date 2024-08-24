@@ -225,7 +225,7 @@
             document.getElementById('customer_name').value = accountData.customer_name;
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
             document.getElementById('interest_rate').value = accountData.interest_rate;
-            document.getElementById('principal').value = accountData.principal;
+            document.getElementById('principal').value = accountData.principal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
             document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
             document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
@@ -234,7 +234,7 @@
             document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
             document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
             document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
-            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.principal + ' VND';
+            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + accountData.principal.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VND';
 
             fetch('/sa/deposit/getMinDepMoneyAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date.slice(0, 10) + ' ' + accountData.apply_date.slice(11, 19))
                 .then(response => response.json())
