@@ -175,6 +175,7 @@ class Account_H {
                     c.address AS customer_address,
                     a.acc_id AS id_account,
                     CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) AS date_created,
+                    a.close_date,
                     a.type AS type_of_saving,
                     CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
@@ -194,9 +195,12 @@ class Account_H {
             // Check if the account exists and return the information
             console.log(rows);
             if (rows.length === 0) {
+                return { message: 'fail' };
                 throw new Error('Account not found.');
             }
-
+            if (rows[0].close_date != null) {
+                return { message: 'fail' };
+            }
             return rows[0];
         } catch (err) {
             console.error('Error searching account:', err);
@@ -342,6 +346,7 @@ class Account_H {
                     a.type,
                     a.open_date,
                     b.principal,
+                    b.interest,
                     r.interest_rate,
                     r.min_wit_time AS min_wit_date,
                     (
@@ -370,6 +375,7 @@ class Account_H {
                 type,
                 open_date,
                 principal,
+                interest,
                 last_deposit_date,
                 interest_rate,
                 min_wit_date,
@@ -388,14 +394,13 @@ class Account_H {
 
             // If the difference in days is greater than or equal to the minimum withdrawal date
             let totalAmount = principal;
+            let t_interest = interest;
 
             if (diffDaysCheck >= min_wit_date) {
-                let interest = 0;
-
                 if (type === 'Non-term') {
                     if (diffDaysCheck > 30) {
                         // For non-term accounts: interest = principal * interest_rate
-                        interest = principal * (interest_rate / 100);
+                        t_interest = principal * (interest_rate / 100);
                     }
                 } else {
                     // For fixed-term accounts: interest = principal * interest_rate * [(withdraw_date - last_deposit_date) / x]
@@ -409,13 +414,13 @@ class Account_H {
                     );
 
                     // Calculate interest based on the term
-                    interest =
+                    t_interest =
                         principal *
                         (interest_rate / 100) *
                         number_of_maturities; // Approximating 1 month as 30 days
                 }
 
-                totalAmount += interest;
+                totalAmount += t_interest;
             }
 
             return { totalAmount, lastDepositDate };
