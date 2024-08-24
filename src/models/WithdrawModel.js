@@ -25,8 +25,6 @@ class Withdraw_H {
 
             // if (!acc_exists) throw new Error('Account does not exist');
 
-            const {totalUpdatedPrincipal, latestDeposit} = account.getCurrentBalance(id_account, withdraw_date);
-
             const [[accountDetails], [balanceDetails]] = await Promise.all([
                 connection.execute(
                     'SELECT a.open_date, ' +
