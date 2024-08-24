@@ -54,7 +54,7 @@
             return `${day}/${month}/${year}`;
         }
 
-        function fetchAndUpdateChart(date) {
+        function fetchAndUpdateChart(date, init = false) {
             fetch(`/analysis/daily-report/createReportAPI?date=${date}`)
                 .then(response => response.json())
                 .then(data => {
@@ -65,7 +65,6 @@
 
                     // Clear previous table rows
                     tableBody.innerHTML = '';
-
                     if (data.length > 0) {
                         data.forEach(item => {
                             // Update chart data
@@ -81,7 +80,9 @@
                                 <td>${item.total_expense}</td>
                                 <td>${item.total_income - item.total_expense}</td>
                             `;
+                            if (init == true) {
                             tableBody.appendChild(row);
+                            }
                         });
 
                         // Enable CSV button after data is updated
@@ -95,7 +96,7 @@
 
                         // Keep CSV button disabled if no data
                         document.getElementById('csv_button').disabled = true;
-                    }
+                    } 
 
                     // Update chart data
                     chart.data.labels = labels;
@@ -116,7 +117,7 @@
             document.getElementById('report-date').textContent = formatDate(currentDate);
 
             // Initialize the chart with data from the previous day
-            fetchAndUpdateChart(previousDay);
+            fetchAndUpdateChart(previousDay, false);
 
             // Set up the contact link
             const currentDomain = window.location.origin;
@@ -135,7 +136,7 @@
                 document.getElementById('report-date').textContent = displayDate;
 
                 // Fetch and update both table and chart data
-                fetchAndUpdateChart(date);
+                fetchAndUpdateChart(date, true);
             } else {
                 alert('Please select a date.');
             }

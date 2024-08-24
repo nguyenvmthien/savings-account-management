@@ -79,7 +79,7 @@ h2 {
 
 .input-container-second {
   display: flex;
-  gap: 150px;
+  gap: 153px;
   margin-top: 10px; }
 
 .input_date_create,
@@ -140,43 +140,20 @@ h2 {
 .table-container {
   width: 100%;
   margin-top: 50px;
-  border: 3px dashed #6D5858;
+  margin-left: -20px;
+  overflow-y: auto;
+  /* Thanh cuộn dọc */
   overflow-x: hidden;
-  /* Hide horizontal scrollbar */
-  overflow-y: hidden;
-  /* Show vertical scrollbar if content overflows */ }
+  /* Ẩn thanh cuộn ngang */
+  border: 3px dashed #6D5858; }
 
-.table-container table {
+.account-table {
   width: 100%;
   border-collapse: collapse;
   margin-left: 15px;
-  /* Left margin */
-  margin-right: 15px;
-  /* Right margin */ }
-
-thead th, tbody td {
-  padding: 10px;
-  border: 1px solid #ddd; }
-
-thead {
-  display: table;
-  /* Ensure the header stays fixed */
-  width: 100%;
-  background-color: #f2f2f2;
-  /* Optional: Background color for the header */ }
-
-tbody {
-  display: block;
-  max-height: 400px;
-  /* Limit height */
-  overflow-y: none;
-  /* Scrollbar inside table */
-  width: 100%; }
-
-tbody tr {
-  display: table;
-  width: 100%;
-  table-layout: fixed; }
+  /* Cách lề trái 15px */
+  margin-right: 30px;
+  /* Cách lề phải 15px */ }
 
 .account-table caption {
   text-align: left;
@@ -184,31 +161,32 @@ tbody tr {
   font-weight: bold;
   font-size: 24px;
   color: #440A67;
-  margin-top: 20px;
-  /* Space above the table */ }
+  margin-top: 10px;
+  /* Cách lề trên của bảng 10px */ }
 
 .account-table th {
   color: #828282;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: Inter;
   text-align: center;
-  background-color: white; }
+  padding-right: 25px;
+  /* Adjust right padding similarly */ }
 
 .account-table th, .account-table td {
   padding-left: 10px;
-  padding-top: 15px;
+  padding-top: 10px;
   border: none;
   text-align: center; }
 
 .account-table td {
-  font-family: 'Inter', sans-serif;
+  font-family: Inter;
   color: #440A67;
-  font-weight: 400;
-  margin-top: 20px; }
+  margin-top: 20px;
+  font-weight: 400; }
 
 .account-table tr {
   position: relative;
-  /* Enable pseudo-element positioning */ }
+  /* Để sử dụng pseudo-element */ }
 
 .account-table tr::after {
   content: "";
@@ -223,7 +201,3 @@ tbody tr {
   /* Thickness of the underline */
   background-color: #440A67;
   /* Color of the underline */ }
-
-.account-table .total-row td {
-  padding-bottom: 10px;
-  /* Spacing before the total row underline */ }
