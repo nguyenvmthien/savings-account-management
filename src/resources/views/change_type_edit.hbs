@@ -170,10 +170,10 @@
     <div id="noti-pop-up" class="noti-pop-up">
         <div class="noti-pop-up-content">
             <div>
-                <h2 id="success-message">Created Successfully!</h2>
+                <h2 id="success-message">Edited Successfully!</h2>
             </div>
             <div>
-                <h2 id="fail-message">Failed to Create new account!</h2>
+                <h2 id="fail-message">Failed to edit new account!</h2>
                 <br>
                 <h2 id="fail-message2">Something went wrong.</h2>
             </div>
@@ -186,11 +186,29 @@
     </div>
 </body>
 <script>
+    // Set up the contact link
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
     //Close popup
     function closeNotiPopup() {
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
     }
+    // Function to format the number with commas
+    function formatNumber(value) {
+        // Remove any existing commas
+        value = value.replace(/,/g, '');
+        // Split into integer and decimal parts
+        const parts = value.split('.');
+        // Format the integer part with commas
+        const integerPart = parts[0];
+        const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        // Combine integer and decimal parts if any
+        return parts.length > 1 ? `${formattedIntegerPart}.${parts[1]}` : formattedIntegerPart;
+    }
+
     // Gọi API để lấy danh sách các loại tiết kiệm
     const selectElement = document.getElementById("savingsType");
     fetch('/change-type/edit/getcurTypeAPI')
@@ -252,8 +270,13 @@
         });
 
         document.getElementById("min-deposit").addEventListener("input", function () {
-            const minDeposit = this.value;
-            const isValid = !isNaN(minDeposit) && minDeposit !== '';
+            let minDeposit = this.value;
+            // Format the number
+            minDeposit = formatNumber(minDeposit);
+            // Update the input field's value
+            this.value = minDeposit;
+            // Validate the formatted value
+            const isValid = !isNaN(minDeposit.replace(/,/g, '')) && minDeposit !== '';
             validateInput(this, minDepositNotification, isValid);
         });
 
@@ -375,5 +398,4 @@
         });
     })
 </script>
-
 </html>

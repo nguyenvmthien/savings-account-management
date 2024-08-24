@@ -70,7 +70,7 @@ h2 {
   color: #828282; }
 
 .filter-group select {
-  width: 120px; }
+  width: 140px; }
 
 .create_button {
   margin-top: -10px;
@@ -167,16 +167,35 @@ h2 {
   /* Adjust right padding similarly */ }
 
 .account-table th, .account-table td {
-  padding-left: 10px;
+  padding-left: 5px;
   padding-top: 10px;
   border: none;
   text-align: center; }
+
+.account-table th:nth-child(1) {
+  text-align: center;
+  /* Align text to the left in header */
+  padding-left: 40px;
+  /* Add 5px padding to the left in header */ }
+
+.account-table th:nth-child(3) {
+  text-align: center;
+  /* Align text to the left in header */
+  padding-left: 50px;
+  /* Add 5px padding to the left in header */ }
+
+.account-table th:nth-child(5) {
+  text-align: center;
+  /* Align text to the left in header */
+  padding-left: -10px;
+  /* Add 5px padding to the left in header */ }
 
 .account-table td {
   font-family: Inter;
   color: #440A67;
   margin-top: 20px;
-  font-weight: 400; }
+  font-weight: 400;
+  text-align: center; }
 
 .account-table tr {
   position: relative;
