@@ -76,9 +76,11 @@ class Withdraw_H {
                     `
                     SELECT dep_date
                     FROM deposit
+                    WHERE YEAR(dep_date) = YEAR(?) AND acc_id = ?
                     ORDER BY dep_date DESC
                     LIMIT 1;
-                    `
+                    `, 
+                    [withdraw_date, id_account],
                 ),
             ]);
 
@@ -123,26 +125,30 @@ class Withdraw_H {
                                 (1000 * 60 * 60 * 24),
                         );
                         console.log('Date deposited:', dateDeposited);
+                        console.log('Adjusted time difference: ', time_difference);
                     }
 
                 if (time_difference >= 30) {
                     interest = principal * interest_rate/100;
+                    console.log('former interest: ', interest);
                     principal -= money_withdraw / (1 + interest_rate/100);
                     interest -=
-                        (money_withdraw * interest_rate) / (1 + interest_rate/100);
+                        (money_withdraw * (interest_rate/100)) / (1 + interest_rate/100);
+                    
+                    console.log('later interest: ', interest);
                 } else {
                     principal -= money_withdraw;
                 }
 
                 console.log('principal: ', principal);
-                console.log('interest: '. interest);
+                
 
                 await connection.execute(
                     'UPDATE balance SET principal = ?, interest = ? WHERE acc_id = ?;',
                     [principal, interest, id_account],
                 );
-
-                if (Math.floor(principal + interest) === 0) {
+                
+                if ( Math.floor(principal) === 0) {
                     await connection.execute(
                         'UPDATE account SET close_date = ? WHERE acc_id = ?;',
                         [withdraw_date, id_account],

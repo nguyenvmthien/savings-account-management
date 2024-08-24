@@ -393,7 +393,7 @@ class Account_H {
                 let interest = 0;
 
                 if (type === 'Non-term') {
-                    if (diffDays > 30) {
+                    if (diffDaysCheck > 30) {
                         // For non-term accounts: interest = principal * interest_rate
                         interest = principal * (interest_rate / 100);
                     }
