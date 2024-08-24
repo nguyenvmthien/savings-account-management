@@ -75,3 +75,23 @@
     margin-right: 15px;
     margin-left: 10px;
 }
+
+.copyright {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    justify-content: center;
+}
+
+.copyright p{
+    font-size: 12px;
+    font-family: Inter;
+    color:#101720;
+    margin: 0 5px;
+}
+
+.navbar-copyright-icon {
+    width: 14px;
+    height: 14px;   
+}

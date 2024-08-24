@@ -112,8 +112,8 @@
         </div>
     </div>
     <script>
-        var isWitMoneyValid = false;
-        var isWitDateValid = false;
+        var isWitMoneyValid = true;
+        var isWitDateValid = true;
         function confirmSubmit() {
             if (isWitMoneyValid && isWitDateValid) {
                 var money_withdraw = document.querySelector('[name="money_withdraw"]').value;
@@ -121,6 +121,7 @@
 
                 document.getElementById('confirmWithdrawDate').innerText = 'Withdraw date: ' + withdraw_date;
                 document.getElementById('confirmWithdrawnMoney').innerText = 'Money Withdrawn: ' + money_withdraw + ' VND';
+                document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + document.getElementById('balance').value + ' VND';
                 var popup = document.getElementById('pop-up');
                 popup.style.display = "block";
             }
@@ -240,7 +241,7 @@
             document.getElementById('customer_name').value = accountData.customer_name;
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
             document.getElementById('interest_rate').value = accountData.interest_rate;
-            document.getElementById('balance').value = addStrings(accountData.principal, accountData.interest);
+            document.getElementById('balance').value = addStrings(accountData.principal, accountData.interest).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
             if(accountData.type_of_saving != "Non-term") {
                 const money = document.getElementById('money_withdraw');
@@ -255,7 +256,6 @@
             document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + accountData.date_created.slice(0, 10);
             document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
             document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
-            document.getElementById('confirmCurrentAmount').innerText = 'Current Amount: ' + addStrings(accountData.principal, accountData.interest) + ' VND';
 
             fetch('/sa/withdraw/getMinWitDaysAPI?type=' + accountData.type_of_saving + '&apply_date=' + accountData.apply_date.slice(0, 10) + ' ' + accountData.apply_date.slice(11, 19))
                 .then(response => response.json())
@@ -292,6 +292,22 @@
             }
         });
 
+        document.getElementById('money_withdraw').addEventListener('change', function () {
+            const moneyWithdraw = document.getElementById('money_withdraw').value.replace(/,/g, '');
+            if (subtractStrings(moneyWithdraw, document.getElementById('confirmCurrentAmount').innerText.slice(16)) <= 0) {
+                document.getElementById('wit_money_error_message').style.display = 'none';
+                document.getElementById('valid_wit_money').style.display = "inline";
+                document.getElementById('invalid_wit_money').style.display = "none";
+                isWitMoneyValid = true;
+            }
+            else {
+                document.getElementById('wit_money_error_message').style.display = 'inline';
+                document.getElementById('valid_wit_money').style.display = "none";
+                document.getElementById('invalid_wit_money').style.display = "inline";
+                isWitMoneyValid = false;
+            }
+        });
+
         function getDifferenceInDays(dateString1, dateString2) {
             const date1 = new Date(dateString1);
             const date2 = new Date(dateString2);
@@ -313,6 +329,7 @@
                 .then(data => {
                     console.log('Raw Data:', data);
                     document.getElementById('balance').value = Math.floor(Number(data.totalAmount));
+                    document.getElementById('balance').value = document.getElementById('balance').value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                     lastDepositDate = data.lastDepositDate.slice(0, 10);
                     document.getElementById('wit_money_error_message').innerText = `Must be less than or equal to ${document.getElementById('balance').value}`;
                     document.getElementById('money_withdraw').value = document.getElementById('balance').value;
