@@ -56,7 +56,7 @@ class Deposit_H {
                             `
                             SELECT dep_id
                             FROM deposit
-                            ORDER BY dep_date DESC
+                            ORDER BY dep_id DESC
                             LIMIT 1;
                             `,
                         );

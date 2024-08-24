@@ -1,5 +1,6 @@
 const { types } = require('node-sass');
 const pool = require('../config/db');
+const account = require('./AccountModel.js');
 
 class Withdraw_H {
     // async withdraw({ id_account, money_withdraw, withdraw_date }) {
@@ -17,14 +18,14 @@ class Withdraw_H {
 
         try {
             console.log('Begin withdraw'); 
-            const [[{ acc_exists }]] = await connection.execute(
-                'SELECT COUNT(*) as acc_exists FROM account WHERE acc_id = ?;',
-                [id_account],
-            );
+            // const [[{ acc_exists }]] = await connection.execute(
+            //     'SELECT COUNT(*) as acc_exists FROM account WHERE acc_id = ?;',
+            //     [id_account],
+            // );
 
-            if (!acc_exists) throw new Error('Account does not exist');
+            // if (!acc_exists) throw new Error('Account does not exist');
 
-            console.log('Account exists');
+            const {totalUpdatedPrincipal, latestDeposit} = account.getCurrentBalance(id_account, withdraw_date);
 
             const [[accountDetails], [balanceDetails]] = await Promise.all([
                 connection.execute(
@@ -48,8 +49,8 @@ class Withdraw_H {
                 type: account_type,
             } = accountDetails[0];
 
-            const dateOpened = new Date(open_date).toISOString().split('T')[0];
-            const witDate = new Date(withdraw_date).toISOString().split('T')[0];;
+            const dateOpened = new Date(open_date);
+            const witDate = new Date(withdraw_date);
             console.log('Account information: ', accountDetails[0]);
 
             console.log('Balance information: ', balanceDetails[0]);
@@ -67,7 +68,7 @@ class Withdraw_H {
                     `
                     SELECT wit_id
                     FROM withdraw
-                    ORDER BY wit_date DESC
+                    ORDER BY wit_id DESC
                     LIMIT 1;
                     `
                 ),
@@ -100,56 +101,46 @@ class Withdraw_H {
 
             console.log('Next wit_id:', wit_id);
 
-            
-
-            if(haveDeposited.length > 0)
-            {
-                const dateDeposited = new Date(haveDeposited[0].dep_date).toISOString().split('T')[0];
-                const time_difference = Math.floor(
-                    (witDate - dateDeposited) /
-                        (1000 * 60 * 60 * 24),
-                );
-                console.log('Date deposited:', dateDeposited);
-            }
-            else
-            {
-                const time_difference = Math.floor(
-                    (witDate - dateOpened) /
-                        (1000 * 60 * 60 * 24),
-                );
-            }
-            
+            let time_difference = (witDate - dateOpened) / (1000 * 60 * 60 * 24);
+        
             
             console.log('Withdraw date: ', witDate);
             console.log('Time difference: ', time_difference);
 
-            if (witDate <= dateOpened)
-                throw new Error('Invalid withdrawal date');
+            // if (witDate <= dateOpened)
+            //     throw new Error('Invalid withdrawal date');
 
             if (account_type === 'Non-term') {
-                if (money_withdraw > principal + interest)
-                    throw new Error('Error: Insufficient funds');
+                // if (money_withdraw > principal + interest)
+                //     throw new Error('Error: Insufficient funds');
 
-                await connection.execute(
-                    'INSERT INTO withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
-                    [wit_id, id_account, money_withdraw, withdraw_date],
-                );
-                console.log('Inserted into withdraw table');
+                
+                if(haveDeposited.length > 0)
+                    {
+                        const dateDeposited = new Date(haveDeposited[0].dep_date);
+                        time_difference = Math.floor(
+                            (witDate - dateDeposited) /
+                                (1000 * 60 * 60 * 24),
+                        );
+                        console.log('Date deposited:', dateDeposited);
+                    }
 
                 if (time_difference >= 30) {
-                    interest = principal * interest_rate;
-                    principal -= money_withdraw / (1 + interest_rate);
+                    interest = principal * interest_rate/100;
+                    principal -= money_withdraw / (1 + interest_rate/100);
                     interest -=
-                        (money_withdraw * interest_rate) / (1 + interest_rate);
+                        (money_withdraw * interest_rate) / (1 + interest_rate/100);
                 } else {
                     principal -= money_withdraw;
                 }
+
+                console.log('principal: ', principal);
+                console.log('interest: '. interest);
 
                 await connection.execute(
                     'UPDATE balance SET principal = ?, interest = ? WHERE acc_id = ?;',
                     [principal, interest, id_account],
                 );
-                console.log('Updated balance');
 
                 if (Math.floor(principal + interest) === 0) {
                     await connection.execute(
@@ -158,48 +149,59 @@ class Withdraw_H {
                     );
                     console.log('Account closed');
                 }
+                console.log('Updated balance');
+
+                await connection.execute(
+                    'INSERT INTO withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
+                    [wit_id, id_account, money_withdraw, withdraw_date],
+                );
+
+                console.log('Inserted into withdraw table');
+                
+                
             } else {
                 const [[{ month_number }]] = await connection.execute(
                     'SELECT CAST(SUBSTRING_INDEX(?, " ", 1) AS UNSIGNED) AS month_number;',
                     [account_type],
                 );
+                console.log('month number: ', month_number);
                 const limit_days = month_number * 30;
-
-                if (
-                    time_difference < limit_days ||
-                    money_withdraw > principal + interest
-                )
-                    throw new Error('Error: Insufficient funds or time');
 
                 const number_of_maturities = Math.floor(
                     time_difference / limit_days,
                 );
-                interest = principal * number_of_maturities * interest_rate;
+
+                interest = principal * number_of_maturities * interest_rate/100;
+
+                console.log('interest:', interest);
+                console.log('principal:', principal);
 
                 await connection.execute(
                     'UPDATE balance SET interest = ? WHERE acc_id = ?;',
                     [interest, id_account],
                 );
-
-                const withdraw_id = `WIT${Math.floor(Math.random() * 100000)
-                    .toString()
-                    .padStart(5, '0')}`;
-                const withdraw_money = principal + interest;
-
+                    
                 await connection.execute(
                     'INSERT INTO withdraw (wit_id, acc_id, wit_money, wit_date) VALUES (?, ?, ?, ?);',
-                    [withdraw_id, id_account, withdraw_money, withdraw_date],
+                    [wit_id, id_account, money_withdraw, withdraw_date],
                 );
+
+                console.log('Inserted into witdraw');
 
                 await connection.execute(
                     'UPDATE balance SET principal = 0, interest = 0 WHERE acc_id = ?;',
                     [id_account],
                 );
 
+                console.log('Updated balance');
+
                 await connection.execute(
                     'UPDATE account SET close_date = ? WHERE acc_id = ?;',
                     [withdraw_date, id_account],
                 );
+
+                console.log('Account closed');
+                
             }
 
             await connection.commit();
