@@ -69,10 +69,17 @@
         document.addEventListener('DOMContentLoaded', function () {
             const selectElement = document.getElementById('type-saving');
             const csvButton = document.getElementById('csv_button');
+            const contactLink = document.getElementById('contact-link');
             let reportData = [];
 
+            // Set up the contact link
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            contactLink.href = fullContactUrl;
+
             // Fetch options from API
-            fetch('/analysis/monthly-report/getTypeAPI')
+            fetch('/analysis/monthly-report/getAllTypeAPI')
                 .then(response => response.json())
                 .then(data => {
                     const existList = new Set();

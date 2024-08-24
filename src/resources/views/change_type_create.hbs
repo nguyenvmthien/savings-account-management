@@ -27,8 +27,8 @@
                 <div class="label-group">
                     <label for="savingsType">Type</label>
                     <select class="form-control" id="savingsType">
-                        <option value="" disabled selected>Term</option>
-                        <option value="non-term">Non-term</option>
+                        <option value="" disabled selected>Term/Non-term</option>
+                        <option value="Non-term">Non-term</option>
                         <option value="term">Term</option>
                     </select>
                 </div>
@@ -80,7 +80,7 @@
                     <label for="hourSelect" class="time-label">Applied time</label>
                     <div class="time-selectors">
                         <select class="date-control" id="hourSelect">
-                            <option value="" disabled selected>hour</option>
+                            <option value="" disabled selected>Hour</option>
                             <!-- Các tùy chọn giờ -->
                             <option value="0">0</option>
                             <option value="1">1</option>
@@ -105,8 +105,6 @@
                             <option value="20">20</option>
                             <option value="21">21</option>
                             <option value="22">22</option>
-                            <option value="23">23</option>
-                            <!-- More options -->
                             <option value="23">23</option>
                         </select>
                         <select class="date-control" id="minSelect">
@@ -193,7 +191,7 @@
                 <h2 id="success-message">Created Successfully!</h2>
             </div>
             <div>
-                <h2 id="fail-message">Failed to Create new account!</h2>
+                <h2 id="fail-message">Failed to Create new type!</h2>
                 <br>
                 <h2 id="fail-message2">Something went wrong.</h2>
             </div>
@@ -210,6 +208,33 @@
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
     }
+
+    //fetch API to check if Non-term exists
+    fetch('/change-type/create/getcurTypeAPI')
+        .then(response => response.json())
+        .then(data => {
+            const selectElement = document.getElementById('savingsType');
+            let nonTermExistsInData = false;
+
+            // Check if 'Non-term' exists in the fetched data
+            data.forEach(option => {
+                if (option.type === 'Non-term') {
+                    nonTermExistsInData = true;
+                }
+            });
+
+            // If 'Non-term' exists in the data, remove it from the <select> element
+            if (nonTermExistsInData) {
+                Array.from(selectElement.options).forEach(option => {
+                    if (option.value === 'Non-term') {
+                        selectElement.remove(option.index);
+                    }
+                });
+            }
+            // Otherwise, leave the 'non-term' option as it is (default)
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
     document.addEventListener("DOMContentLoaded", function () {
         const termInputs = document.getElementById("termInputs");
         const termMonths = document.getElementById("term-months");

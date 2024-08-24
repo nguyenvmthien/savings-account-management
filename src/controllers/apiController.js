@@ -126,6 +126,7 @@ class API_Controller {
         const id_card = req.query.id_card;
         const date_created_account = req.query.date_created_account;
         const type_of_saving = req.query.type_of_saving;
+        console.log(req.query);
 
         if (
             !id_account &&
