@@ -175,6 +175,7 @@ class Account_H {
                     c.address AS customer_address,
                     a.acc_id AS id_account,
                     CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) AS date_created,
+                    a.close_date,
                     a.type AS type_of_saving,
                     CONVERT_TZ(a.apply_date, '+00:00', @@session.time_zone) AS apply_date,
                     r.interest_rate,
@@ -194,9 +195,12 @@ class Account_H {
             // Check if the account exists and return the information
             console.log(rows);
             if (rows.length === 0) {
+                return { message: 'fail' };
                 throw new Error('Account not found.');
             }
-
+            if (rows[0].close_date != null) {
+                return { message: 'fail' };
+            }
             return rows[0];
         } catch (err) {
             console.error('Error searching account:', err);
