@@ -13,7 +13,7 @@
         <h1>Analysis</h1>
         <div class="row">
             <h2>Find Account</h2>
-            <button type="button" class="btn-CSV" id="csv_button">Export CSV</button>
+            <button type="button" class="btn-CSV" id="csv_button" disabled>Export CSV</button>
         </div>
     </div>
     <div>
@@ -34,13 +34,12 @@
     <div class="input-container-second">
         <div class="input_date_create">
             <label for="date-create">Date Create Account</label>
-            <input type="text" class="input-field" id="date-create" placeholder="dd/mm/yyyy" maxlength="10">
+            <input type="date" class="input-field" id="date-create" placeholder="dd/mm/yyyy" maxlength="10">
         </div>
         <div class="type_of_saving">
             <label for="type-saving">Type of Saving</label>
             <select id="type-saving">
                 <option value="">Choose type</option>
-                <option value = "non-term">Non-term</option>
             </select>
         </div>
     </div>
@@ -59,121 +58,141 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Table data will be inserted dynamically -->
             </tbody>
         </table>
     </div>
 
     <script>
+        // Set up the contact link
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
+
         document.addEventListener('DOMContentLoaded', function () {
-            // Fetch newest accounts on page load
-            fetch('/analysis/find-account/getNewestAccountAPI')
-                .then(response => response.json())
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        renderTable(data);
-                    } else {
-                        console.error('Expected an array but received:', data);
-                        alert('Unexpected data format received from the server.');
-                    }
-                })
-                .catch(error => console.error('Error fetching newest accounts:', error));
-
-            // Fetch options for type of saving from API
             const selectElement = document.getElementById('type-saving');
-            fetch('/analysis/find-account/getTypeAPI')
+            const csvButton = document.getElementById('csv_button');
+            let reportData = [];
+            // Disable CSV button initially
+            csvButton.disabled = true;
+
+            // Fetch options from API
+            fetch('/analysis/find-account/getAllTypeAPI')
                 .then(response => response.json())
                 .then(data => {
-                    const existList = new Set();
-                    let nonTermAdded = false; // Biến để kiểm tra non-term đã được thêm hay chưa
-
                     data.forEach(option => {
-                        const optionTypeLower = option.type.toLowerCase();
-
-                        // Kiểm tra nếu là non-term và chỉ thêm 1 lần
-                        if (optionTypeLower === 'non-term') {
-                            if (!nonTermAdded) {
-                                const optionElement = document.createElement('option');
-                                optionElement.value = option.type;
-                                optionElement.textContent = option.type;
-                                selectElement.appendChild(optionElement);
-                                nonTermAdded = true; // Đánh dấu đã thêm non-term
-                            }
-                        }
-                        // Thêm các loại khác nếu chưa có trong existList
-                        else if (!existList.has(optionTypeLower)) {
-                            const optionElement = document.createElement('option');
-                            optionElement.value = option.type;
-                            optionElement.textContent = option.type;
-                            selectElement.appendChild(optionElement);
-                            existList.add(optionTypeLower); // Lưu vào Set để kiểm tra trùng lặp
-                        }
+                        const optionElement = document.createElement('option');
+                        optionElement.value = option.type;
+                        optionElement.textContent = option.type;
+                        selectElement.appendChild(optionElement);
                     });
+
                 })
-                .catch(error => console.error('Error fetching options:', error));
-        });
+                .catch(error => {
+                    console.error('Error fetching options:', error);
+                });
 
-        function renderTable(data) {
-            const tbody = document.querySelector("#account-table tbody");
-            tbody.innerHTML = ""; // Clear existing rows
+            // Fetch newest accounts from API and render them in the table
+            function fetchNewestAccounts() {
+                fetch('/analysis/find-account/getNewestAccountAPI')
+                    .then(response => response.json())
+                    .then(data => {
+                        renderTable(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching newest accounts:', error);
+                    });
+            }
 
-            data.forEach((item, index) => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${item.acc_id}</td>
-                    <td>${item.type}</td>
-                    <td>${item.name}</td>
-                    <td>${item.balance}</td>
-                `;
-                tbody.appendChild(row);
+            // Render table function
+            function renderTable(data) {
+                const tbody = document.querySelector("#account-table tbody");
+                tbody.innerHTML = ""; // Clear existing rows
+
+                data.forEach((item, index) => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.acc_id}</td>
+                        <td>${item.type}</td>
+                        <td>${item.name}</td>
+                        <td>${item.balance}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+
+                // Add scroll bar if more than 10 rows
+                const tableContainer = document.querySelector(".table-container");
+                if (data.length > 10) {
+                    tableContainer.style.overflowY = "auto"; // Show vertical scrollbar
+                } else {
+                    tableContainer.style.overflowY = "hidden"; // Hide scrollbar if not needed
+                }
+            }
+
+            // Initial fetch of newest accounts
+            fetchNewestAccounts();
+
+            // Fetch and render data on button click
+            document.getElementById("submit_button").addEventListener("click", function () {
+                var idAccount = document.getElementById("ID_account").value;
+                var idCard = document.getElementById("ID_card").value;
+                var dateCreate = document.getElementById("date-create").value;
+                var typeSaving = document.getElementById("type-saving").value;
+
+                fetch(`/analysis/find-account/createReportAPI?id_card=${idCard}&id_account=${idAccount}&date_created_account=${dateCreate}&type_of_saving=${typeSaving}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (Array.isArray(data)) {
+                            renderTable(data);
+                            // Enable CSV button if the table has data
+                            csvButton.disabled = data.length === 0;
+                            reportData = data; // Store data for CSV export
+                        } else {
+                            console.error('Expected an array but received:', data);
+                            alert('Unexpected data format received from the server.');
+                        }
+                    })
+                    .catch(error => console.error('Error fetching data:', error));
             });
 
-            // Add scroll bar if more than 10 rows
-            const tableContainer = document.querySelector(".table-container");
-            if (data.length > 10) {
-                tableContainer.style.overflowY = "scroll";
-            } else {
-                tableContainer.style.overflowY = "auto"; // Disable scroll if not needed
+            document.getElementById("csv_button").addEventListener("click", function () {
+                if (reportData.length > 0) {
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += "No,ID Account,Type of Saving,Customer's name,Balance (VND)\n";
+
+                    reportData.forEach((row, index) => {
+                        csvContent += `${index + 1},${row.acc_id},${row.type},${row.name},${row.balance}\n`;
+                    });
+
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "accounts_report.csv");
+                    document.body.appendChild(link);
+
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+            // Function to check if all input fields are filled
+            function checkInputs() {
+                const idAccount = document.getElementById("ID_account").value.trim();
+                const idCard = document.getElementById("ID_card").value.trim();
+                const dateCreate = document.getElementById("date-create").value.trim();
+                const typeSaving = document.getElementById("type-saving").value.trim();
+
+                if (idAccount && idCard && dateCreate && typeSaving) {
+                    csvButton.disabled = false;
+                } else {
+                    csvButton.disabled = true;
+                }
             }
-        }
-
-        document.getElementById("submit_button").addEventListener("click", function () {
-            var idAccount = document.getElementById("ID_account").value;
-            var idCard = document.getElementById("ID_card").value;
-            var dateCreate = document.getElementById("date-create").value;
-            var typeSaving = document.getElementById("type-saving").value;
-
-            // Fetch data based on filters
-            fetch(`/analysis/find-account/createReportAPI?id_card=${idCard}&id_account=${idAccount}&date_created_account=${dateCreate}&type_of_saving=${typeSaving}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (Array.isArray(data)) {
-                        renderTable(data);
-                    } else {
-                        console.error('Expected an array but received:', data);
-                        alert('Unexpected data format received from the server.');
-                    }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        });
-
-        document.getElementById("csv_button").addEventListener("click", function () {
-            const table = document.getElementById("account-table");
-            const rows = Array.from(table.querySelectorAll("tr"));
-            const csv = rows.map(row => Array.from(row.querySelectorAll("th, td"))
-                .map(cell => `"${cell.innerText}"`).join(",")).join("\n");
-
-            const csvBlob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const csvUrl = URL.createObjectURL(csvBlob);
-            const link = document.createElement("a");
-            link.href = csvUrl;
-            link.download = "accounts_report.csv";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+             // Add event listeners to input fields to check if all fields are filled
+            document.querySelectorAll('.input-field, #type-saving').forEach(input => {
+                input.addEventListener('input', checkInputs);
+            });
         });
     </script>
 </body>
-
 </html>

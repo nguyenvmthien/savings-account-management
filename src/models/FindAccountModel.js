@@ -58,7 +58,7 @@ class Find_Account_H {
                 baseQuery += ' AND account.acc_id = ?';
                 params.push(id_account);
             }
-            if (date_created_account) {
+            if (date_created_account && date_created_account!= "null") {
                 baseQuery += ' AND account.open_date = ?';
                 params.push(date_created_account);
             }
@@ -66,7 +66,6 @@ class Find_Account_H {
                 baseQuery += ' AND account.type = ?';
                 params.push(type_of_saving);
             }
-            console.log(baseQuery);
             const [rows, fields] = await pool.execute(baseQuery, params);
             return rows;
         } catch (err) {
