@@ -393,8 +393,10 @@ class Account_H {
                 let interest = 0;
 
                 if (type === 'Non-term') {
-                    // For non-term accounts: interest = principal * interest_rate
-                    interest = principal * (interest_rate / 100);
+                    if (diffDays > 30) {
+                        // For non-term accounts: interest = principal * interest_rate
+                        interest = principal * (interest_rate / 100);
+                    }
                 } else {
                     // For fixed-term accounts: interest = principal * interest_rate * [(withdraw_date - last_deposit_date) / x]
                     // Extract the term in months from the type string
