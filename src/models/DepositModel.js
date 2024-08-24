@@ -59,7 +59,6 @@ class Deposit_H {
                             ORDER BY dep_date DESC
                             LIMIT 1;
                             `,
-                            [id_account],
                         );
 
                         console.log('Latest dep_id: ', latestdepID[0].dep_id);

@@ -27,8 +27,8 @@ class Regulation_H {
             try {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_apply_date],
+                    'SELECT * FROM regulation WHERE type = ? and deleted = 0;',
+                    [type],
                 );
                 console.log(existingRegulation);
                 //If regulation doesn't exist
@@ -47,10 +47,11 @@ class Regulation_H {
                     );
 
                     await connection.commit();
+                    return { message: 'success' };
                 }
 
                 await connection.commit();
-                return { message: 'success' };
+                return { message: 'fail' };
             } catch (err) {
                 //errors appear during creating
                 await connection.rollback();
