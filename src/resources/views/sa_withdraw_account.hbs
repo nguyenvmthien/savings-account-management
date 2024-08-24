@@ -278,7 +278,7 @@
             value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             this.value = value;
             const moneyWithdraw = document.getElementById('money_withdraw').value.replace(/,/g, '');
-            if (subtractStrings(moneyWithdraw, document.getElementById('confirmCurrentAmount').innerText.slice(16)) <= 0) {
+            if (subtractStrings(moneyWithdraw, document.getElementById('balance').value.replace(/,/g, '')) <= 0) {
                 document.getElementById('wit_money_error_message').style.display = 'none';
                 document.getElementById('valid_wit_money').style.display = "inline";
                 document.getElementById('invalid_wit_money').style.display = "none";
@@ -294,7 +294,7 @@
 
         document.getElementById('money_withdraw').addEventListener('change', function () {
             const moneyWithdraw = document.getElementById('money_withdraw').value.replace(/,/g, '');
-            if (subtractStrings(moneyWithdraw, document.getElementById('confirmCurrentAmount').innerText.slice(16)) <= 0) {
+            if (subtractStrings(moneyWithdraw, document.getElementById('balance').replace(/,/g, '')) <= 0) {
                 document.getElementById('wit_money_error_message').style.display = 'none';
                 document.getElementById('valid_wit_money').style.display = "inline";
                 document.getElementById('invalid_wit_money').style.display = "none";
