@@ -75,7 +75,7 @@
         // Fetch the select options for the "savingsType"
         const selectElement = document.getElementById("savingsType");
 
-        fetch('/change-type/delete/getcurTypeAPI')
+        fetch('/change-type/delete/getCurrentTypeAPI')
             .then(response => response.json())
             .then(data => {
                 const existList = new Set();

@@ -25,7 +25,8 @@
     <div class="filters">
         <div class="filter-group">
             <label for="month-report">Month</label>
-            <input type="month" id="month-report" name="month-report" value="2024-01" onfocus="this.value=''" onblur="if(this.value===''){this.value='2024-01'}">
+            <input type="month" id="month-report" name="month-report" value="2024-01" onfocus="this.value=''"
+                onblur="if(this.value===''){this.value='2024-01'}">
         </div>
         <div class="filter-group">
             <label for="type-saving">Type of Saving</label>
@@ -43,7 +44,7 @@
                 <span class="filter-label" id="month-info">Month: --</span>
             </div>
         </div>
-        <table class="account-table">
+        <table class="account-table" id="account-table">
             <thead>
                 <tr>
                     <th>No</th>
@@ -54,7 +55,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="no-data-message">
+                <tr class="initial-message">
                     <td colspan="5">Choose month and type of saving</td>
                 </tr>
             </tbody>
@@ -88,7 +89,7 @@
                     data.forEach(option => {
                         const optionTypeLower = option.type.toLowerCase();
 
-                        if (optionTypeLower === 'non-term' && !nonTermAdded) {
+                        if (optionTypeLower === 'Non-term' && !nonTermAdded) {
                             const optionElement = document.createElement('option');
                             optionElement.value = option.type;
                             optionElement.textContent = option.type;
@@ -111,7 +112,7 @@
             const formattedMonth = ('0' + (previousMonth.getMonth() + 1)).slice(-2);
             const year = previousMonth.getFullYear();
 
-            fetch(`/analysis/monthly-report/createReportAPI?month=${encodeURIComponent(formattedMonth)}&year=${encodeURIComponent(year)}&type_of_saving=all`)
+            fetch(`/analysis/monthly-report/createReportAPI?month=${encodeURIComponent(formattedMonth)}&year=${encodeURIComponent(year)}&type_of_saving=${encodeURIComponent('Non-term')}`)
                 .then(response => response.json())
                 .then(data => {
                     let newAccounts = 0;
@@ -136,6 +137,10 @@
                 // Check for different formats and split accordingly
                 if (monthInput.includes('-')) {
                     [year, month] = monthInput.split('-');
+                } else {
+                    // Handle case where monthInput doesn't include '-'
+                    // For example, if it's in 'MM/YYYY' format, split accordingly
+                    [month, year] = monthInput.split('/');
                 }
 
                 // Display month and type of savings
@@ -151,23 +156,36 @@
                         .then(data => {
                             const tbody = document.querySelector('.account-table tbody');
                             tbody.innerHTML = '';  // Clear the table
-                            
+
                             // Clear previous report data and update new report data
                             reportData = [];
-                            
+
                             // Update table and chart with new data
                             let newAccounts = 0;
                             let closedAccounts = 0;
 
+                            if (data.length === 0) {
+                                // If no data is found, render a row with the message
+                                const row = document.createElement("tr");
+                                row.classList.add("no-data-message"); // Add the class here
+                                row.innerHTML = `
+                        <td colspan="5" style="text-align: center;">
+                            <div style="font-size: 50px; word-break: break-word;">Oops!</div>
+                            <div style="font-size: 30px; word-break: break-word;">No data found.</div>
+                        </td> `;
+                                tbody.appendChild(row);
+                                csvButton.disabled = false;
+                            }
+                        else {
                             data.forEach((item, index) => {
                                 const row = document.createElement('tr');
                                 row.innerHTML = `
-                                    <td>${index + 1}</td>
-                                    <td>${item.date}</td>
-                                    <td>${item.number_of_new_account}</td>
-                                    <td>${item.number_of_closed_account}</td>
-                                    <td>${item.difference}</td>
-                                `;
+                            <td>${index + 1}</td>
+                            <td>${item.date}</td>
+                            <td>${item.number_of_new_account}</td>
+                            <td>${item.number_of_closed_account}</td>
+                            <td>${item.difference}</td>
+                        `;
                                 tbody.appendChild(row);
 
                                 // Store data for CSV export
@@ -184,83 +202,80 @@
                             });
 
                             // Enable CSV button after data is added
-                            if (reportData.length > 0) {
-                                csvButton.disabled = false;
-                            }
+                            csvButton.disabled = false;
 
                             // Update chart data
                             chart.data.datasets[0].data = [newAccounts, closedAccounts];
                             chart.update();
+                        }
                         })
-                        .catch(error => console.error('Error fetching report data:', error));
-                } else {
-                    alert('Please select both month and type of saving.');
-                }
+                .catch(error => console.error('Error fetching report data:', error));
+        } else {
+            alert('Please select both month and type of saving.');
+        }
             });
 
-            // Initialize chart with doughnut type
-            var ctx = document.getElementById('myChart').getContext('2d');
-            var chart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['New Accounts', 'Closed Accounts'],
-                    datasets: [{
-                        data: [0, 0],
-                        backgroundColor: ['#FFA500', '#32CD32']
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                boxWidth: 25,
-                                padding: 25
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Monthly account activity',
-                            position: 'bottom',
-                            font: {
-                                size: 20,
-                                weight: 400,
-                                family: 'Inter'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 10
-                            }
+
+        // Initialize chart with doughnut type
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['New Accounts', 'Closed Accounts'],
+                datasets: [{
+                    data: [0, 0],
+                    backgroundColor: ['#FFA500', '#32CD32']
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 25,
+                            padding: 25
                         }
                     },
-                    layout: {
-                        padding: 15
-                    },
-                    cutout: '70%'
-                }
-            });
+                    title: {
+                        display: true,
+                        text: 'Monthly account activity',
+                        position: 'bottom',
+                        font: {
+                            size: 20,
+                            weight: 400,
+                            family: 'Inter'
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
+                    }
+                },
+                layout: {
+                    padding: 15
+                },
+                cutout: '70%'
+            }
+        });
 
-            // Handle CSV export functionality
-            csvButton.addEventListener('click', function () {
-                if (reportData.length > 0) {
-                    let csvContent = "data:text/csv;charset=utf-8,";
-                    csvContent += "No,Date,Number of New Accounts,Number of Closed Accounts,Difference\n";
+        // Handle CSV export functionality
+        csvButton.addEventListener('click', function () {
+                let csvContent = "data:text/csv;charset=utf-8,";
+                csvContent += "No,Date,Number of New Accounts,Number of Closed Accounts,Difference\n";
 
-                    reportData.forEach(row => {
-                        csvContent += `${row.no},${row.date},${row.number_of_new_account},${row.number_of_closed_account},${row.difference}\n`;
-                    });
+                reportData.forEach(row => {
+                    csvContent += `${row.no},${row.date},${row.number_of_new_account},${row.number_of_closed_account},${row.difference}\n`;
+                });
 
-                    const encodedUri = encodeURI(csvContent);
-                    const link = document.createElement("a");
-                    link.setAttribute("href", encodedUri);
-                    link.setAttribute("download", "monthly_report.csv");
-                    document.body.appendChild(link);
-
-                    link.click();
-                    document.body.removeChild(link);
-                }
-            });
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement("a");
+                link.setAttribute("href", encodedUri);
+                link.setAttribute("download", "monthly_report.csv");
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+        });
         });
     </script>
 </body>

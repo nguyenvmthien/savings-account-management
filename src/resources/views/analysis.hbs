@@ -38,41 +38,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>MS1234</td>
-                    <td>3 months</td>
-                    <td>John Doe</td>
-                    <td>100,000 VND</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>MS5678</td>
-                    <td>Short Term</td>
-                    <td>Jane Smith</td>
-                    <td>200,000 VND</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>MS9101</td>
-                    <td>6 months</td>
-                    <td>Emily Davis</td>
-                    <td>300,000 VND</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>MS1213</td>
-                    <td>Non-term</td>
-                    <td>Michael Brown</td>
-                    <td>150,000 VND</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td>MS1415</td>
-                    <td>1 year</td>
-                    <td>Sarah Wilson</td>
-                    <td>250,000 VND</td>
-                </tr>
+                <!-- Table rows will be dynamically inserted here -->
             </tbody>
         </table>
     </div>
@@ -103,108 +69,191 @@
     </div>
 
     <script>
-        // Script for the bar chart
-        var ctxBar = document.getElementById('barChart').getContext('2d');
-        var barChart = new Chart(ctxBar, {
-            type: 'bar',
-            data: {
-                labels: ['3 months', '6 months', 'Non-term'], // Giai đoạn
-                datasets: [
-                    {
-                        label: 'Total Income',
-                        data: [100000, 80000, 58000],
-                        backgroundColor: '#7FC2FF', // Màu sắc của cột
-                        borderWidth: 1,
-                        barThickness: 30 // Điều chỉnh kích thước của cột
-                    },
-                    {
-                        label: 'Total Expense',
-                        data: [50000, 120000, 140000],
-                        backgroundColor: '#FF5F9E',
-                        borderWidth: 1,
-                        barThickness: 30 // Điều chỉnh kích thước của cột
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: {
-                            boxWidth: 20 // Kích thước của ô màu cho các chú thích
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function (context) {
-                                return context.dataset.label + ': ' + context.raw + ' VND';
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        stacked: false,
-                        title: {
-                            display: true,
-                            text: 'Type of Savings'
-                        }
-                    },
-                    y: {
-                        stacked: false,
-                        title: {
-                            display: true,
-                        },
-                    }
-                }
-            }
-        });
-
-        // Script for the doughnut chart
-        var ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
-        var doughnutChart = new Chart(ctxDoughnut, {
-            type: 'doughnut',
-            data: {
-                labels: ['Deposited', 'Withdrawn'],
-                datasets: [{
-                    data: [75, 25],
-                    backgroundColor: ['#EF9C66', '#75A47F']
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 20,
-                            padding: 20,
-                        }
-                    },
-                },
-                layout: {
-                    padding: 10
-                },
-                cutout: '70%'
-            }
-        });
-
-        // Redirect
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+
             const findPath = "/analysis/find-account";
             const fullFindUrl = `${currentDomain}${findPath}`;
             document.getElementById("find-link-detail").href = fullFindUrl;
+
             const dailyPath = "/analysis/daily-report";
             const fullDailyUrl = `${currentDomain}${dailyPath}`;
             document.getElementById("daily-link-detail").href = fullDailyUrl;
+
             const monthlyPath = "/analysis/monthly-report";
             const fullMonthlyUrl = `${currentDomain}${monthlyPath}`;
             document.getElementById("monthly-link-detail").href = fullMonthlyUrl;
+
+            // Fetch and display the 5 most recent accounts
+            function fetchNewestAccounts() {
+                fetch('/analysis/find-account/getNewestAccountAPI')
+                    .then(response => response.json())
+                    .then(data => {
+                        const tbody = document.querySelector(".account-table tbody");
+                        tbody.innerHTML = ""; // Clear existing rows
+
+                        data.slice(0, 5).forEach((item, index) => {
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${item.acc_id}</td>
+                                <td>${item.type}</td>
+                                <td>${item.name}</td>
+                                <td>${item.balance}</td>
+                            `;
+                            tbody.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching newest accounts:', error));
+            }
+
+            // Fetch and render daily report data for column chart
+            function fetchDailyReport() {
+                const date = new Date();
+                date.setDate(date.getDate() - 1);
+                const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+                fetch(`/analysis/createDailyReportAPI?date=${formattedDate}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const labels = data.map(item => item.type_of_saving);
+                        const incomeData = data.map(item => item.total_income);
+                        const expenseData = data.map(item => item.total_expense);
+
+                        const ctxBar = document.getElementById('barChart').getContext('2d');
+                        new Chart(ctxBar, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: 'Total Income',
+                                        data: incomeData,
+                                        backgroundColor: '#7FC2FF',
+                                        borderWidth: 1,
+                                        barThickness: 30
+                                    },
+                                    {
+                                        label: 'Total Expense',
+                                        data: expenseData,
+                                        backgroundColor: '#FF5F9E',
+                                        borderWidth: 1,
+                                        barThickness: 30
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'right',
+                                        labels: {
+                                            boxWidth: 20
+                                        }
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function (context) {
+                                                return context.dataset.label + ': ' + context.raw + ' VND';
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        stacked: false,
+                                        title: {
+                                            display: true,
+                                            text: 'Period'
+                                        }
+                                    },
+                                    y: {
+                                        stacked: false,
+                                        title: {
+                                            display: true,
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching daily report:', error));
+            }
+
+            // Fetch and render monthly report data for doughnut chart
+            function fetchMonthlyReport() {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+                const prevMonth = month === 0 ? 11 : month - 1;
+                const prevYear = month === 0 ? year - 1 : year;
+
+                const formattedMonth = (prevMonth + 1).toString().padStart(2, '0'); // MM format
+
+                fetch(`/analysis/createMonthlyReportAPI?month=${encodeURIComponent(formattedMonth)}&year=${encodeURIComponent(prevYear)}&type_of_saving=${encodeURIComponent('Non-term')}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let newAccounts = 0;
+                        let closedAccounts = 0;
+                        // Lặp qua dữ liệu để tính tổng số tài khoản mới và đóng
+                        data.forEach(item => {
+                            newAccounts += item.number_of_new_account;
+                            closedAccounts += item.number_of_closed_account;
+                        });
+
+                        // Cập nhật biểu đồ với số liệu mới và đóng tài khoản
+                        //chart.data.datasets[0].data = [newAccounts, closedAccounts];
+
+                        const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+                        new Chart(ctxDoughnut, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['New accounts', 'Closed accounts'],
+                                datasets: [{
+                                    data: [newAccounts, closedAccounts],
+                                    backgroundColor: ['#EF9C66', '#75A47F']
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                        labels: {
+                                            boxWidth: 20,
+                                            padding: 20
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Monthly account activity',
+                                        position: 'bottom',
+                                        font: {
+                                            size: 20,
+                                            weight: 400,
+                                            family: 'Inter'
+                                        },
+                                        padding: {
+                                            top: 10,
+                                            bottom: 10
+                                        }
+                                    }
+                                },
+                                layout: {
+                                    padding: 10
+                                },
+                                cutout: '70%'
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error fetching monthly report:', error));
+            }
+            fetchNewestAccounts();
+            fetchDailyReport();
+            fetchMonthlyReport();
         });
     </script>
 </body>
