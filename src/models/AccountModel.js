@@ -196,6 +196,11 @@ class Account_H {
             if (rows.length === 0) {
                 throw new Error('Account not found.');
             }
+            
+            if (rows[0].close_date !== null) {
+                return { message: 'fail' };
+            }
+
 
             return rows[0];
         } catch (err) {
