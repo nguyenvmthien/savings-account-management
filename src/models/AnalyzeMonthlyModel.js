@@ -19,29 +19,33 @@ class Analyze_Monthly_H {
             const endDate = moment(startDate)
                 .endOf('month')
                 .format('YYYY-MM-DD');
-
+            
+            console.log(startDate, endDate);
             const query = `
-            SELECT 
-                DATE_FORMAT(account.open_date, '%Y-%m-%d') AS date,
-                SUM(CASE WHEN account.open_date BETWEEN ? AND ? THEN 1 ELSE 0 END) AS number_of_new_account,
-                SUM(CASE WHEN account.close_date BETWEEN ? AND ? THEN 1 ELSE 0 END) AS number_of_closed_account,
-                SUM(CASE WHEN account.open_date BETWEEN ? AND ? THEN 1 ELSE 0 END) - 
-                SUM(CASE WHEN account.close_date BETWEEN ? AND ? THEN 1 ELSE 0 END) AS difference
-            FROM account
-            WHERE account.type = ?
-            GROUP BY DATE_FORMAT(account.open_date, '%Y-%m-%d');
+                SELECT 
+                    DATE_FORMAT(date_table.date, '%Y-%m-%d') AS date,
+                    COALESCE(SUM(CASE WHEN account.open_date = date_table.date THEN 1 ELSE 0 END), 0) AS number_of_new_account,
+                    COALESCE(SUM(CASE WHEN account.close_date = date_table.date THEN 1 ELSE 0 END), 0) AS number_of_closed_account,
+                    COALESCE(SUM(CASE WHEN account.open_date = date_table.date THEN 1 ELSE 0 END), 0) - 
+                    COALESCE(SUM(CASE WHEN account.close_date = date_table.date THEN 1 ELSE 0 END), 0) AS difference
+                FROM 
+                    (SELECT DISTINCT open_date AS date FROM account 
+                    UNION ALL
+                    SELECT DISTINCT close_date FROM account) AS date_table
+                LEFT JOIN 
+                    account ON date_table.date IN (account.open_date, account.close_date)
+                WHERE 
+                    account.type = ?
+                    AND DATE_FORMAT(date_table.date, '%Y-%m') = ?
+                GROUP BY 
+                    date_table.date
+                ORDER BY 
+                    date_table.date ASC;
             `;
 
             const params = [
-                startDate,
-                endDate,
-                startDate,
-                endDate,
-                startDate,
-                endDate,
-                startDate,
-                endDate,
                 type_of_saving,
+                `${year}-${month}`,
             ];
             const [rows, fields] = await pool.execute(query, params);
             return rows;

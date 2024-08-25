@@ -64,10 +64,10 @@
 
     <script>
         // Set up the contact link
-            const currentDomain = window.location.origin;
-            const contactPath = "/contact";
-            const fullContactUrl = `${currentDomain}${contactPath}`;
-            document.getElementById("contact-link").href = fullContactUrl;
+        const currentDomain = window.location.origin;
+        const contactPath = "/contact";
+        const fullContactUrl = `${currentDomain}${contactPath}`;
+        document.getElementById("contact-link").href = fullContactUrl;
 
         document.addEventListener('DOMContentLoaded', function () {
             const selectElement = document.getElementById('type-saving');
@@ -109,17 +109,30 @@
                 const tbody = document.querySelector("#account-table tbody");
                 tbody.innerHTML = ""; // Clear existing rows
 
-                data.forEach((item, index) => {
+                if (data.length === 0) {
+                    // If no data is found, render a row with the message
                     const row = document.createElement("tr");
                     row.innerHTML = `
-                        <td>${index + 1}</td>
-                        <td>${item.acc_id}</td>
-                        <td>${item.type}</td>
-                        <td>${item.name}</td>
-                        <td>${item.balance}</td>
-                    `;
+                <td colspan="5" style="text-align: center;">
+                <div style="font-size: 50px; word-break: break-word;">Oops!</div>
+                <div style="font-size: 30px; word-break: break-word;">No account found.</div>
+                </td>
+    `;
                     tbody.appendChild(row);
-                });
+                } else {
+                    // If data is found, render the table rows
+                    data.forEach((item, index) => {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${item.acc_id}</td>
+            <td>${item.type}</td>
+            <td>${item.name}</td>
+            <td>${item.balance}</td>
+        `;
+                        tbody.appendChild(row);
+                    });
+                }
 
                 // Add scroll bar if more than 10 rows
                 const tableContainer = document.querySelector(".table-container");
@@ -129,7 +142,6 @@
                     tableContainer.style.overflowY = "hidden"; // Hide scrollbar if not needed
                 }
             }
-
             // Initial fetch of newest accounts
             fetchNewestAccounts();
 
@@ -145,8 +157,8 @@
                     .then(data => {
                         if (Array.isArray(data)) {
                             renderTable(data);
-                            // Enable CSV button if the table has data
-                            csvButton.disabled = data.length === 0;
+                            // Always enable CSV button after fetching data
+                            csvButton.disabled = false;
                             reportData = data; // Store data for CSV export
                         } else {
                             console.error('Expected an array but received:', data);
@@ -173,8 +185,22 @@
 
                     link.click();
                     document.body.removeChild(link);
+                } else {
+                    // Generate empty CSV content if no data
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvContent += "No,ID Account,Type of Saving,Customer's name,Balance (VND)\n";
+
+                    const encodedUri = encodeURI(csvContent);
+                    const link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "accounts_report.csv");
+                    document.body.appendChild(link);
+
+                    link.click();
+                    document.body.removeChild(link);
                 }
             });
+
             // Function to check if all input fields are filled
             function checkInputs() {
                 const idAccount = document.getElementById("ID_account").value.trim();
@@ -188,7 +214,7 @@
                     csvButton.disabled = true;
                 }
             }
-             // Add event listeners to input fields to check if all fields are filled
+            // Add event listeners to input fields to check if all fields are filled
             document.querySelectorAll('.input-field, #type-saving').forEach(input => {
                 input.addEventListener('input', checkInputs);
             });

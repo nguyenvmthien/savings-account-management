@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,13 @@
     <link rel="stylesheet" href="/css/analysis-daily-report.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <div class="header">
         <h1>Analysis</h1>
         <div class="row">
             <h2>Daily Report</h2>
-            <button type="submit" class="btn-CSV" id="csv_button" disabled>Export CSV</button>
+            <button type="button" class="btn-CSV" id="csv_button" disabled>Export CSV</button>
         </div>
     </div>
     <div>
@@ -26,7 +28,7 @@
     </div>
     <button class="create_button" id="create">Create Report</button>
     <div class="table-container">
-        <table class="account-table">
+        <table class="account-table" id="account-table">
             <caption>Deposit and Transaction Activity Report on <span id="report-date">27/12/2023</span></caption>
             <thead>
                 <tr>
@@ -46,67 +48,93 @@
     <div class="chart-container">
         <canvas id="myChart"></canvas>
     </div>
+
     <script>
         function formatDate(date) {
-            var day = String(date.getDate()).padStart(2, '0');
-            var month = String(date.getMonth() + 1).padStart(2, '0');
-            var year = date.getFullYear();
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
             return `${day}/${month}/${year}`;
         }
 
-        function fetchAndUpdateChart(date, init = false) {
-            fetch(`/analysis/daily-report/createReportAPI?date=${date}`)
-                .then(response => response.json())
-                .then(data => {
-                    const labels = [];
-                    const totalIncomeData = [];
-                    const totalExpenseData = [];
-                    const tableBody = document.querySelector('.account-table tbody');
+        function fetchData(date) {
+            return fetch(`/analysis/daily-report/createReportAPI?date=${date}`)
+                .then(response => response.json());
+        }
 
-                    // Clear previous table rows
-                    tableBody.innerHTML = '';
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            // Update chart data
-                            labels.push(item.type_of_saving);
-                            totalIncomeData.push(item.total_income);
-                            totalExpenseData.push(item.total_expense);
+        function renderTable(data) {
+            const tableBody = document.querySelector('#account-table tbody');
+            document.getElementById('csv_button').disabled = true;
 
-                            // Populate table
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${item.type_of_saving}</td>
-                                <td>${item.total_income}</td>
-                                <td>${item.total_expense}</td>
-                                <td>${item.total_income - item.total_expense}</td>
-                            `;
-                            if (init == true) {
-                            tableBody.appendChild(row);
-                            }
-                        });
+            // Clear previous table content
+            tableBody.innerHTML = '';
 
-                        // Enable CSV button after data is updated
-                        document.getElementById('csv_button').disabled = false;
-                    } else {
-                        // Display "Insert the date" if no data
-                        const row = document.createElement('tr');
-                        row.classList.add('no-data-message');
-                        row.innerHTML = `<td colspan="4">Insert the date</td>`;
-                        tableBody.appendChild(row);
+            let allZero = true;
 
-                        // Keep CSV button disabled if no data
-                        document.getElementById('csv_button').disabled = true;
-                    } 
+            data.forEach(item => {
+                if (item.total_income !== 0 || item.total_expense !== 0) {
+                    allZero = false; // If any item has non-zero values, set allZero to false
+                }
+            });
 
-                    // Update chart data
-                    chart.data.labels = labels;
-                    chart.data.datasets[0].data = totalIncomeData;
-                    chart.data.datasets[1].data = totalExpenseData;
-                    chart.update();
-                })
-                .catch(error => {
-                    console.error('Error fetching report data:', error);
+            if (allZero) {
+                // Display "Oops! No data is found" if all values are zero
+                const row = document.createElement('tr');
+                row.classList.add('no-data-message');
+                row.innerHTML = `<td colspan="4" style="text-align: center;">Oops! No data is found</td>`;
+                tableBody.appendChild(row);
+                document.getElementById('csv_button').disabled = false;
+            } else {
+                let totalIncomeSum = 0;
+                let totalExpenseSum = 0;
+
+                data.forEach(item => {
+                    // Populate table
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td>${item.type_of_saving}</td>
+                <td>${item.total_income}</td>
+                <td>${item.total_expense}</td>
+                <td>${item.total_income - item.total_expense}</td>
+            `;
+                    tableBody.appendChild(row);
+
+                    totalIncomeSum += item.total_income;
+                    totalExpenseSum += item.total_expense;
                 });
+
+                // Add totals row
+                const totalsRow = document.createElement('tr');
+                totalsRow.innerHTML = `
+            <td><strong>Total</strong></td>
+            <td><strong>${totalIncomeSum}</strong></td>
+            <td><strong>${totalExpenseSum}</strong></td>
+            <td><strong>${totalIncomeSum - totalExpenseSum}</strong></td>
+        `;
+                tableBody.appendChild(totalsRow);
+
+                // Enable CSV button after data is updated
+                document.getElementById('csv_button').disabled = false;
+            }
+        }
+
+
+        function renderChart(data) {
+            const labels = [];
+            const totalIncomeData = [];
+            const totalExpenseData = [];
+
+            data.forEach(item => {
+                labels.push(item.type_of_saving);
+                totalIncomeData.push(item.total_income);
+                totalExpenseData.push(item.total_expense);
+            });
+
+            // Update chart data
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = totalIncomeData;
+            chart.data.datasets[1].data = totalExpenseData;
+            chart.update();
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -115,15 +143,43 @@
             currentDate.setDate(currentDate.getDate() - 1);
             const previousDay = currentDate.toISOString().split('T')[0];
             document.getElementById('report-date').textContent = formatDate(currentDate);
-
-            // Initialize the chart with data from the previous day
-            fetchAndUpdateChart(previousDay, false);
-
             // Set up the contact link
             const currentDomain = window.location.origin;
             const contactPath = "/contact";
             const fullContactUrl = `${currentDomain}${contactPath}`;
             document.getElementById("contact-link").href = fullContactUrl;
+
+            // Set up the CSV button event listener
+            document.getElementById('csv_button').addEventListener('click', function () {
+                const table = document.querySelector('.account-table');
+                let csvContent = 'data:text/csv;charset=utf-8,';
+
+                // Add the headers
+                const headers = Array.from(table.querySelectorAll('thead th'))
+                    .map(th => th.textContent.trim())
+                    .join(',');
+                csvContent += headers + '\r\n';
+
+                // Add the rows
+                const rows = Array.from(table.querySelectorAll('tbody tr'));
+                const dataRows = rows.filter(row => !row.classList.contains('no-data-message'));
+                dataRows.forEach(row => {
+                    const rowData = Array.from(row.querySelectorAll('td'))
+                        .map(td => td.textContent.trim())
+                        .join(',');
+                    csvContent += rowData + '\r\n';
+
+                });
+
+                // Create a download link and click it
+                const encodedUri = encodeURI(csvContent);
+                const link = document.createElement('a');
+                link.setAttribute('href', encodedUri);
+                link.setAttribute('download', 'daily_report.csv');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         });
 
         document.getElementById('create').addEventListener('click', function () {
@@ -131,62 +187,42 @@
             if (date !== "") {
                 const formattedDate = new Date(date);
                 const displayDate = formatDate(formattedDate);
-
-                // Update caption with selected date
                 document.getElementById('report-date').textContent = displayDate;
 
-                // Fetch and update both table and chart data
-                fetchAndUpdateChart(date, true);
+                fetchData(date).then(data => {
+                    const isPreviousDay = new Date(date).toISOString().split('T')[0] === new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
+                    if (isPreviousDay) {
+                        renderChart(data);
+                        document.querySelector('#account-table tbody').innerHTML = '<tr class="no-data-message"><td colspan="4">Insert the date</td></tr>';
+                    } else {
+                        renderTable(data);
+                        renderChart(data);
+                    }
+                }).catch(error => {
+                    console.error('Error fetching report data:', error);
+                });
             } else {
                 alert('Please select a date.');
             }
         });
 
-        document.getElementById('csv_button').addEventListener('click', function () {
-            const table = document.querySelector('.account-table');
-            let csvContent = 'data:text/csv;charset=utf-8,';
-
-            // Add the headers
-            const headers = Array.from(table.querySelectorAll('thead th'))
-                .map(th => th.textContent.trim())
-                .join(',');
-            csvContent += headers + '\r\n';
-
-            // Add the rows
-            const rows = Array.from(table.querySelectorAll('tbody tr'));
-            rows.forEach(row => {
-                const rowData = Array.from(row.querySelectorAll('td'))
-                    .map(td => td.textContent.trim())
-                    .join(',');
-                csvContent += rowData + '\r\n';
-            });
-
-            // Create a download link and click it
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', 'daily_report.csv');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
 
         var ctx = document.getElementById('myChart').getContext('2d');
         var chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: [], // Initially empty, will be populated later
+                labels: [],
                 datasets: [
                     {
                         label: 'Total Income',
-                        data: [], // Initially empty, will be populated later
+                        data: [],
                         backgroundColor: '#7FC2FF',
                         borderWidth: 1,
                         barThickness: 30
                     },
                     {
                         label: 'Total Expense',
-                        data: [], // Initially empty, will be populated later
+                        data: [],
                         backgroundColor: '#FF5F9E',
                         borderWidth: 1,
                         barThickness: 30
@@ -205,23 +241,19 @@
                     tooltip: {
                         callbacks: {
                             label: function (context) {
-                                return context.dataset.label + ': ' + context.raw + ' VND';
+                                let value = context.raw || 0;
+                                return new Intl.NumberFormat().format(value);
                             }
                         }
                     }
                 },
                 scales: {
-                    x: {
-                        stacked: false,
-                        title: {
-                            display: true,
-                            text: 'Type of Savings'
-                        }
-                    },
                     y: {
-                        stacked: false,
-                        title: {
-                            display: true
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function (value) {
+                                return new Intl.NumberFormat().format(value);
+                            }
                         }
                     }
                 }
@@ -229,5 +261,5 @@
         });
     </script>
 </body>
-</html>
 
+</html>

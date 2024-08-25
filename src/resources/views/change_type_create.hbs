@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +28,7 @@
                     <label for="savingsType">Type</label>
                     <select class="form-control" id="savingsType">
                         <option value="" disabled selected>Term/Non-term</option>
-                        <option value="non-term">Non-term</option>
+                        <option value="Non-term">Non-term</option>
                         <option value="term">Term</option>
                     </select>
                 </div>
@@ -49,22 +48,28 @@
         <div class="input-container">
             <div class="input-group">
                 <label for="interest-rate">Interest rate (%)</label>
-                <img src="/images/valid-icon/valid.png" id="valid_interest_rate" class="valid">
-                <img src="/images/valid-icon/invalid.png" id="invalid_interest_rate" class="invalid">
+                <img src="/images/valid-icon/valid.png"
+                    id="valid_interest_rate" class="valid">
+                <img src="/images/valid-icon/invalid.png"
+                    id="invalid_interest_rate" class="invalid">
                 <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
                 <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-deposit">Minimum deposit amount (VND)</label>
-                <img src="/images/valid-icon/valid.png" id="valid_min_deposit" class="valid">
-                <img src="/images/valid-icon/invalid.png" id="invalid_min_deposit" class="invalid">
+                <img src="/images/valid-icon/valid.png"
+                    id="valid_min_deposit" class="valid">
+                <img src="/images/valid-icon/invalid.png"
+                    id="invalid_min_deposit" class="invalid">
                 <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
                 <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-days">Minimum days to withdraw (days)</label>
-                <img src="/images/valid-icon/valid.png" id="valid_min_days" class="valid">
-                <img src="/images/valid-icon/invalid.png" id="invalid_min_days" class="invalid">
+                <img src="/images/valid-icon/valid.png"
+                    id="valid_min_days" class="valid">
+                <img src="/images/valid-icon/invalid.png"
+                    id="invalid_min_days" class="invalid">
                 <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
                 <p id="minDaysNotification" style="display: none; color: red;">It must be a number</p>
             </div>
@@ -75,7 +80,7 @@
                     <label for="hourSelect" class="time-label">Applied time</label>
                     <div class="time-selectors">
                         <select class="date-control" id="hourSelect">
-                            <option value="" disabled selected>hour</option>
+                            <option value="" disabled selected>Hour</option>
                             <!-- Các tùy chọn giờ -->
                             <option value="0">0</option>
                             <option value="1">1</option>
@@ -100,8 +105,6 @@
                             <option value="20">20</option>
                             <option value="21">21</option>
                             <option value="22">22</option>
-                            <option value="23">23</option>
-                            <!-- More options -->
                             <option value="23">23</option>
                         </select>
                         <select class="date-control" id="minSelect">
@@ -188,7 +191,7 @@
                 <h2 id="success-message">Created Successfully!</h2>
             </div>
             <div>
-                <h2 id="fail-message">Failed to Create new account!</h2>
+                <h2 id="fail-message">Failed to Create new type!</h2>
                 <br>
                 <h2 id="fail-message2">Something went wrong.</h2>
             </div>
@@ -205,42 +208,25 @@
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
     }
-    // Function to format the number with commas
-    function formatNumber(value) {
-        // Remove any existing commas
-        value = value.replace(/,/g, '');
-        // Split into integer and decimal parts
-        const parts = value.split('.');
-        // Format the integer part with commas
-        const integerPart = parts[0];
-        const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        // Combine integer and decimal parts if any
-        return parts.length > 1 ? `${formattedIntegerPart}.${parts[1]}` : formattedIntegerPart;
-    }
 
-    // Set up the contact link
-    const currentDomain = window.location.origin;
-    const contactPath = "/contact";
-    const fullContactUrl = `${currentDomain}${contactPath}`;
-    document.getElementById("contact-link").href = fullContactUrl;
     //fetch API to check if Non-term exists
-    fetch('/change-type/create/getcurTypeAPI')
+    fetch('/change-type/create/getCurrentTypeAPI')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('savingsType');
             let nonTermExistsInData = false;
 
-            // Check if 'non-term' exists in the fetched data
+            // Check if 'Non-term' exists in the fetched data
             data.forEach(option => {
-                if (option.type.toLowerCase() === 'non-term') {
+                if (option.type === 'Non-term') {
                     nonTermExistsInData = true;
                 }
             });
 
-            // If 'non-term' exists in the data, remove it from the <select> element
+            // If 'Non-term' exists in the data, remove it from the <select> element
             if (nonTermExistsInData) {
                 Array.from(selectElement.options).forEach(option => {
-                    if (option.value.toLowerCase() === 'non-term') {
+                    if (option.value === 'Non-term') {
                         selectElement.remove(option.index);
                     }
                 });
@@ -248,7 +234,6 @@
             // Otherwise, leave the 'non-term' option as it is (default)
         })
         .catch(error => console.error('Error fetching data:', error));
-
 
     document.addEventListener("DOMContentLoaded", function () {
         const termInputs = document.getElementById("termInputs");
@@ -285,13 +270,8 @@
             validateInput(this, interestRateNotification, isValid);
         });
         document.getElementById("min-deposit").addEventListener("input", function () {
-            let minDeposit = this.value;
-            // Format the number
-            minDeposit = formatNumber(minDeposit);
-            // Update the input field's value
-            this.value = minDeposit;
-            // Validate the formatted value
-            const isValid = !isNaN(minDeposit.replace(/,/g, '')) && minDeposit !== '';
+            const minDeposit = this.value;
+            const isValid = !isNaN(minDeposit) && minDeposit !== '';
             validateInput(this, minDepositNotification, isValid);
         });
 
@@ -371,7 +351,7 @@
             const cancelEdit = document.getElementById("cancel-edit");
             confirmEdit.addEventListener("click", function () {
                 const form = document.getElementById("myForm");
-                popup.style.display = "none";
+                popup.style.display ="none";
                 // Set the savings type appropriately based on selection
                 if (savingsType === "term") {
                     const termInput = document.createElement('input');
@@ -383,7 +363,7 @@
                     const nonTermInput = document.createElement('input');
                     nonTermInput.type = 'hidden';
                     nonTermInput.name = 'type';
-                    nonTermInput.value = 'non-term';
+                    nonTermInput.value = 'Non-term';
                     form.appendChild(nonTermInput);
                 }
                 // Create a hidden input to store the combined time value
@@ -420,15 +400,11 @@
                             document.getElementById('fail-icon').style.display = "inline";
                             document.getElementById('success-message').style.display = "none";
                             document.getElementById('fail-message').style.display = "inline";
-                            document.getElementById('fail-message2').style.display = "inline";
-
                         } else {
                             document.getElementById('success-icon').style.display = "none";
                             document.getElementById('fail-icon').style.display = "none";
                             document.getElementById('success-message').style.display = "none";
                             document.getElementById('fail-message').style.display = "none";
-                            document.getElementById('fail-message2').style.display = "none";
-
                         }
                     })
             });

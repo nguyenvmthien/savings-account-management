@@ -231,7 +231,7 @@ h2 {
     height: 80% !important; /* Make the chart fit its container */
 }
 
-.no-data-message {
+.initial-message {
     text-align: center;
     color: #828282;
     font-family: Inter;
@@ -239,6 +239,14 @@ h2 {
 }
 
 /* Ensure no underline appears below the "no-data-message" */
-.account-table tr.no-data-message::after {
+.account-table tr.initial-message::after {
     display: none;
+}
+
+.no-data-message {
+    position: relative;
+}
+
+.account-table tr.no-data-message::after {
+    content: none; /* Removes the underline */
 }
