@@ -110,10 +110,20 @@ class Withdraw_H {
             // if (witDate <= dateOpened)
             //     throw new Error('Invalid withdrawal date');
 
+            const [latestWitDate] = await connection.execute(
+                `
+                SELECT wit_date
+                FROM withdraw
+                WHERE acc_id = ? AND YEAR(wit_date) = YEAR(?)
+                ORDER BY wit_id DESC
+                LIMIT 1;
+                `,
+                [id_account, withdraw_date],
+            );
+
             if (account_type === 'Non-term') {
                 // if (money_withdraw > principal + interest)
                 //     throw new Error('Error: Insufficient funds');
-
                 
                 if(haveDeposited.length > 0)
                     {
@@ -134,7 +144,39 @@ class Withdraw_H {
                         (money_withdraw * (interest_rate/100)) / (1 + interest_rate/100);
                     
                     console.log('later interest: ', interest);
-                } else {
+                } 
+                if (time_difference < 30 && latestWitDate[0] > 0) {
+                    const recentWitDate = latestWitDate[0].wit_date;
+                    const [recentDepositMoney] = await connection.execute(
+                        `
+                            SELECT SUM(dep_money) AS money_without_interest
+                            FROM deposit
+                            WHERE acc_id = ? AND dep_date BETWEEN ? AND ?;
+                        `,
+                        [id_account, recentWitDate, withdraw_date]
+                    );
+                
+                    let recentDepMoney = recentDepositMoney[0]?.money_without_interest || 0;
+                    console.log('Money without interest: ', recentDepMoney);
+                
+                    if (recentDepMoney > 0) {
+                        const money_with_interest = principal - recentDepMoney;
+                        console.log('Money with interest: ', money_with_interest);
+                
+                        if (money_with_interest <= money_withdraw) {
+                            recentDepMoney -= money_withdraw - money_with_interest;
+                            principal += recentDepMoney - (money_with_interest / (1 + interest_rate / 100));
+                            interest -= (money_with_interest * interest_rate / 100) / (1 + interest_rate / 100);
+                        } else {
+                            principal -= money_withdraw / (1 + interest_rate / 100);
+                            interest -= (money_withdraw * interest_rate / 100) / (1 + interest_rate / 100);
+                        }
+                
+                        console.log('Updated principal: ', principal);
+                        console.log('Updated interest: ', interest);
+                    }
+                }
+                else {
                     principal -= money_withdraw;
                 }
 
