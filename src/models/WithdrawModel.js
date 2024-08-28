@@ -19,7 +19,7 @@ class Withdraw_H {
 
             const [[accountDetails], [balanceDetails]] = await Promise.all([
                 connection.execute(
-                    'SELECT a.open_date, a.init_money' +
+                    'SELECT a.open_date, a.init_money, ' +
                         ' r.interest_rate, a.type ' +
                         'FROM account a ' +
                         'JOIN regulation r ON a.type = r.type ' +
@@ -35,10 +35,11 @@ class Withdraw_H {
 
             const {
                 open_date,
-                init_money,
                 interest_rate,
                 type: account_type,
             } = accountDetails[0];
+            
+            const init_money = parseFloat(account_type[0].init_money);
 
             const dateOpened = new Date(open_date);
             const witDate = new Date(withdraw_date);
@@ -55,7 +56,7 @@ class Withdraw_H {
             let { principal, interest } = balanceDetails[0];
             let money_without_interest = init_money;
 
-            const [[latestwitID], [haveDeposited], [haveWithdrawn]] = await Promise.all([
+            const [[latestwitID], [haveDeposited]] = await Promise.all([
                 connection.execute(
                     `
                     SELECT wit_id
@@ -74,18 +75,22 @@ class Withdraw_H {
                     `, 
                     [withdraw_date, id_account],
                 ),
-                connection.execute(
-                    `
-                    SELECT wit_id
-                    FROM withdraw
-                    WHERE acc_id = ?
-                    LIMIT 1;
-                    `,
-                    [id_account],
-                ),
             ]);
+            
+            const [haveWithdrawn] = await
+            connection.execute(
+                `
+                SELECT wit_id
+                FROM withdraw
+                WHERE acc_id = ?
+                LIMIT 1;
+                `,
+                [id_account],
+            );
 
             console.log('Latest wit_id: ', latestwitID[0].wit_id);
+
+            console.log(haveWithdrawn.length);
 
             const prefix = 'WIT';
 
@@ -155,7 +160,7 @@ class Withdraw_H {
         
                     for (const row of historyOfDepositMoney) {
                         const depDate = new Date(row.dep_date);
-                        const depMoney = row.dep_money;
+                        const depMoney = parseFloat(row.dep_money);
         
                         console.log(`Deposit Date: ${depDate}, Deposit Amount: ${depMoney}`);
                         if (Math.floor((witDate - depDate) / (1000 * 60 * 60 * 24)) <= 30) {
