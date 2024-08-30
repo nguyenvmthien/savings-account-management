@@ -21,7 +21,7 @@ class Deposit_H {
                     const [account] = await connection.execute(
                         `
                         SELECT 
-                            a.open_date, 
+                            CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) as date_created, 
                             r.min_dep_money
                         FROM account a join regulation r on a.type = r.type
                         WHERE a.acc_id = ? 
@@ -30,7 +30,7 @@ class Deposit_H {
                         `,
                         [id_account],
                     );
-                    const dateCreated = new Date(account[0].open_date)
+                    const dateCreated = new Date(account[0].date_created)
                         .toISOString()
                         .split('T')[0];
                     const depositDate = new Date(deposit_date)
