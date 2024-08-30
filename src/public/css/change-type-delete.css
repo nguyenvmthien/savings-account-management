@@ -61,15 +61,15 @@ h2 {
 .form-control {
   width: auto;
   /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
-  color: #828282;
+  color: black;
   height: 45px;
   /* Đặt chiều cao cho dropdown */
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   /* Tăng kích thước font cho dropdown */
   box-sizing: border-box;
-  font-weight: bold;
-  text-align: left; }
+  text-align: left;
+  margin-bottom: -5px; }
 
 .btn-primary {
   margin-left: 150px;
@@ -252,8 +252,11 @@ h2 {
   text-align: center; }
 
 .noti-pop-up img {
-  height: 90px;
-  width: 90px; }
+  height: 80px;
+  width: 80px; }
+
+#success-icon {
+  margin-top: -20px; }
 
 .noti-pop-up button {
   margin-bottom: 15px;

@@ -28,7 +28,7 @@
         </div>
         <div class="input-group">
             <label for="ID_card">ID Card</label>
-            <input type="text" class="input-field" id="ID_card" placeholder="012345678911">
+            <input type="text" class="input-field" id="ID_card" placeholder="012345678">
         </div>
     </div>
     <div class="input-container-second">
@@ -61,7 +61,6 @@
             </tbody>
         </table>
     </div>
-
     <script>
         // Set up the contact link
         const currentDomain = window.location.origin;
@@ -75,7 +74,6 @@
             let reportData = [];
             // Disable CSV button initially
             csvButton.disabled = true;
-
             // Fetch options from API
             fetch('/analysis/find-account/getAllTypeAPI')
                 .then(response => response.json())
@@ -86,12 +84,10 @@
                         optionElement.textContent = option.type;
                         selectElement.appendChild(optionElement);
                     });
-
                 })
                 .catch(error => {
                     console.error('Error fetching options:', error);
                 });
-
             // Fetch newest accounts from API and render them in the table
             function fetchNewestAccounts() {
                 fetch('/analysis/find-account/getNewestAccountAPI')
@@ -103,7 +99,6 @@
                         console.error('Error fetching newest accounts:', error);
                     });
             }
-
             // Render table function
             function renderTable(data) {
                 const tbody = document.querySelector("#account-table tbody");
@@ -116,8 +111,7 @@
                 <td colspan="5" style="text-align: center;">
                 <div style="font-size: 50px; word-break: break-word;">Oops!</div>
                 <div style="font-size: 30px; word-break: break-word;">No account found.</div>
-                </td>
-    `;
+                </td>`;
                     tbody.appendChild(row);
                 } else {
                     // If data is found, render the table rows
@@ -128,12 +122,10 @@
             <td>${item.acc_id}</td>
             <td>${item.type}</td>
             <td>${item.name}</td>
-            <td>${item.balance}</td>
-        `;
+            <td>${item.balance}</td>`;
                         tbody.appendChild(row);
                     });
                 }
-
                 // Add scroll bar if more than 10 rows
                 const tableContainer = document.querySelector(".table-container");
                 if (data.length > 10) {
@@ -144,14 +136,12 @@
             }
             // Initial fetch of newest accounts
             fetchNewestAccounts();
-
             // Fetch and render data on button click
             document.getElementById("submit_button").addEventListener("click", function () {
                 var idAccount = document.getElementById("ID_account").value;
                 var idCard = document.getElementById("ID_card").value;
                 var dateCreate = document.getElementById("date-create").value;
                 var typeSaving = document.getElementById("type-saving").value;
-
                 fetch(`/analysis/find-account/createReportAPI?id_card=${idCard}&id_account=${idAccount}&date_created_account=${dateCreate}&type_of_saving=${typeSaving}`)
                     .then(response => response.json())
                     .then(data => {
@@ -161,28 +151,23 @@
                             csvButton.disabled = false;
                             reportData = data; // Store data for CSV export
                         } else {
-                            console.error('Expected an array but received:', data);
-                            alert('Unexpected data format received from the server.');
+                            return;
                         }
                     })
                     .catch(error => console.error('Error fetching data:', error));
             });
-
             document.getElementById("csv_button").addEventListener("click", function () {
                 if (reportData.length > 0) {
                     let csvContent = "data:text/csv;charset=utf-8,";
                     csvContent += "No,ID Account,Type of Saving,Customer's name,Balance (VND)\n";
-
                     reportData.forEach((row, index) => {
                         csvContent += `${index + 1},${row.acc_id},${row.type},${row.name},${row.balance}\n`;
                     });
-
                     const encodedUri = encodeURI(csvContent);
                     const link = document.createElement("a");
                     link.setAttribute("href", encodedUri);
                     link.setAttribute("download", "accounts_report.csv");
                     document.body.appendChild(link);
-
                     link.click();
                     document.body.removeChild(link);
                 } else {
@@ -195,19 +180,16 @@
                     link.setAttribute("href", encodedUri);
                     link.setAttribute("download", "accounts_report.csv");
                     document.body.appendChild(link);
-
                     link.click();
                     document.body.removeChild(link);
                 }
             });
-
             // Function to check if all input fields are filled
             function checkInputs() {
                 const idAccount = document.getElementById("ID_account").value.trim();
                 const idCard = document.getElementById("ID_card").value.trim();
                 const dateCreate = document.getElementById("date-create").value.trim();
                 const typeSaving = document.getElementById("type-saving").value.trim();
-
                 if (idAccount && idCard && dateCreate && typeSaving) {
                     csvButton.disabled = false;
                 } else {

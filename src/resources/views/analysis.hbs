@@ -62,7 +62,7 @@
                     <button type="submit" class="detail_2" id="csv_button">Detail</button>
                 </a>
             </div>
-            <div class="chart-container">
+            <div class="chart-container" style="position: relative;">
                 <canvas id="doughnutChart"></canvas>
             </div>
         </div>
@@ -167,13 +167,14 @@
                                         stacked: false,
                                         title: {
                                             display: true,
-                                            text: 'Period'
+                                            text: 'Type of savings'
                                         }
                                     },
                                     y: {
                                         stacked: false,
                                         title: {
                                             display: true,
+                                            text: 'VND',
                                         }
                                     }
                                 }
@@ -200,8 +201,8 @@
                         let closedAccounts = 0;
                         // Lặp qua dữ liệu để tính tổng số tài khoản mới và đóng
                         data.forEach(item => {
-                            newAccounts += item.number_of_new_account;
-                            closedAccounts += item.number_of_closed_account;
+                             newAccounts += parseInt(item.number_of_new_account, 10) || 0;
+                            closedAccounts += parseInt(item.number_of_closed_account, 10) || 0;
                         });
 
                         // Cập nhật biểu đồ với số liệu mới và đóng tài khoản
