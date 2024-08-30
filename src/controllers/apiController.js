@@ -170,20 +170,12 @@ class API_Controller {
             return res.json({ message: 'fail' });
         }
     }
-    async getAllDepositTransactionAPI(req, res) {
+    async getAllAndWithdrawTransactionAPI(req, res) {
         try {
-            const result = await depositModel.getAllDepositTransaction();
-            res.json(result);
+            const deposit = await depositModel.getAllDepositTransaction();
+            const withdraw = await withdrawModel.getAllWithdrawTransaction();
+            res.json( {deposited: deposit, withdrawn: withdraw} );
         } catch (error) {
-            return res.json({ message: 'fail' });
-        }
-    }
-
-    async getAllWithdrawTransactionAPI(req, res) {
-        try {
-            const result = await withdrawModel.getAllWithdrawTransaction();
-            res.json(result);
-        } catch {
             return res.json({ message: 'fail' });
         }
     }

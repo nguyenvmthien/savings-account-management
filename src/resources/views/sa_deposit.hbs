@@ -98,7 +98,7 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);
-                        if (data.error == "fail") {
+                        if (data.message == "fail") {
                             document.getElementById('message').innerHTML = "ID cannot be found!";
                             var popup = document.getElementById('noti-pop-up');
                             popup.style.display = "block";

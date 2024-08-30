@@ -158,3 +158,5 @@ class Withdraw_H {
         }
     }
 }
+
+module.exports = new Withdraw_H();
