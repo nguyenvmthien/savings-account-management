@@ -206,6 +206,24 @@ class API_Controller {
             return res.json({ message: 'fail' });
         }
     }
+
+    async getTotalOpenedAccountsAPI(req, res) {
+        try {
+            const result = await accountModel.getTotalOpenedAccount();
+            res.json(result);
+        } catch {
+            return res.json({ message: 'fail' });
+        }
+    }
+
+    async getTotalClosedAccountsAPI(req, res) {
+        try {
+            const result = await accountModel.getTotalClosedAccount();
+            res.json(result);
+        } catch {
+            return res.json({ message: 'fail' });
+        }
+    }
 }
 
 module.exports = new API_Controller();

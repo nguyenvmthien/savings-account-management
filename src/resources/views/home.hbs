@@ -22,14 +22,14 @@
         <div class="welcome-text1">
             Total account opened. <br>
         </div>
-        <div class="amount1">1.000.000</div>
+        <div id="opened-accounts" class="amount1"></div>
     </div>
 
     <div class="welcome-box2">
         <div class="welcome-text2">
             Total account closed <br>
         </div>
-        <div class="amount2">1.000.000</div>
+        <div id="closed-accounts" class="amount2"></div>
     </div>
 
     <!-- New welcome box -->
@@ -53,6 +53,24 @@
                     // Cập nhật dữ liệu cho biểu đồ với dữ liệu fetch từ server
                     config.data.datasets[0].data = [data.deposited, data.withdrawn];
                     chart.update(); // Cập nhật biểu đồ với dữ liệu mới
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+
+            fetch('/home/getTotalOpenedAccountsAPI')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('opened-accounts').innerText = data; 
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+            
+            fetch('/home/getTotalClosedAccountsAPI')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('closed-accounts').innerText = data;
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
