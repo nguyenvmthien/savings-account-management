@@ -19,8 +19,8 @@ class Withdraw_H {
 
             const [[accountDetails], [balanceDetails]] = await Promise.all([
                 connection.execute(
-                    'SELECT a.open_date, a.init_money, ' +
-                        ' r.interest_rate, a.type ' +
+                    'SELECT CONVERT_TZ(a.open_date, "+00:00", @@session.time_zone) as date_created,  ' +
+                        ' a.init_money, r.interest_rate, a.type ' +
                         'FROM account a ' +
                         'JOIN regulation r ON a.type = r.type ' +
                         'WHERE a.acc_id = ?;',
@@ -34,12 +34,15 @@ class Withdraw_H {
             
 
             const {
-                open_date,
+                date_created: open_date,
                 interest_rate,
                 type: account_type,
+                init_money,
             } = accountDetails[0];
             
-            const init_money = parseFloat(account_type[0].init_money);
+            const initial_money = parseFloat(init_money);
+
+            console.log('Init money:', init_money);
 
             const dateOpened = new Date(open_date);
             const witDate = new Date(withdraw_date);
@@ -54,7 +57,9 @@ class Withdraw_H {
             
 
             let { principal, interest } = balanceDetails[0];
-            let money_without_interest = init_money;
+            let money_without_interest = initial_money;
+
+            console.log('Money without interest: ', money_without_interest);
 
             const [[latestwitID], [haveDeposited]] = await Promise.all([
                 connection.execute(
@@ -149,7 +154,9 @@ class Withdraw_H {
                 else if (time_difference < 30 && haveWithdrawn.length > 0) {
                     const [historyOfDepositMoney] = await connection.execute(
                         `
-                        SELECT dep_date, dep_money
+                        SELECT 
+                            CONVERT_TZ(dep_date, '+00:00', @@session.time_zone) as deposit_date, 
+                            dep_money
                         FROM deposit
                         WHERE acc_id = ?;
                         `,
@@ -159,7 +166,7 @@ class Withdraw_H {
                     console.log('History of deposit: ', historyOfDepositMoney);
         
                     for (const row of historyOfDepositMoney) {
-                        const depDate = new Date(row.dep_date);
+                        const depDate = new Date(row.deposit_date);
                         const depMoney = parseFloat(row.dep_money);
         
                         console.log(`Deposit Date: ${depDate}, Deposit Amount: ${depMoney}`);
