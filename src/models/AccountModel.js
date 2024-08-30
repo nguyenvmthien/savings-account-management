@@ -52,7 +52,7 @@ class Account_H {
                     `
                     SELECT r.apply_date, r.interest_rate
                     FROM regulation r 
-                    WHERE r.type = ? AND r.apply_date <= ? 
+                    WHERE r.type = ? AND r.apply_date <= ? AND r.deleted = 0 
                     ORDER BY r.apply_date DESC 
                     LIMIT 1
                     `,
@@ -62,6 +62,7 @@ class Account_H {
                 console.log(regulation, 'get regulation');
 
                 if (regulation.length === 0) {
+                    return { message: 'fail' };
                     throw new Error(
                         'Regulation for the given type_of_saving not found.',
                     );
@@ -351,7 +352,7 @@ class Account_H {
                     r.min_wit_time AS min_wit_date,
                     (
                         CASE 
-                            WHEN a.type = 'non-term' THEN (
+                            WHEN a.type = 'Non-term' THEN (
                                 SELECT COALESCE(MAX(dep.dep_date), a.open_date)
                                 FROM deposit dep
                                 WHERE dep.acc_id = a.acc_id
@@ -394,6 +395,8 @@ class Account_H {
 
             // If the difference in days is greater than or equal to the minimum withdrawal date
             let totalAmount = principal;
+            // tach principal ra thanh tien goc chua tinh lai va da tinh lai
+            
             let t_interest = interest;
 
             if (diffDaysCheck >= min_wit_date) {
@@ -422,7 +425,7 @@ class Account_H {
 
                 totalAmount += t_interest;
             }
-
+            console.log(totalAmount);
             return { totalAmount, lastDepositDate };
         } catch (err) {
             console.error('Error getting current balance:', err);

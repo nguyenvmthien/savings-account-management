@@ -23,7 +23,7 @@ class Deposit_H {
                         SELECT 
                             a.open_date, 
                             r.min_dep_money
-                        FROM account a join regulation r on a.type = r.type
+                        FROM account a join regulation r on a.type = r.type and a.apply_date = r.apply_date
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1;
