@@ -448,6 +448,7 @@ class Account_H {
                 FROM account a
                 JOIN customer c ON a.cus_id = c.cus_id
                 JOIN balance b ON a.acc_id = b.acc_id
+                WHERE a.close_date IS NULL
                 ORDER BY a.open_date DESC
                 LIMIT ${numOfAccounts};
             `;

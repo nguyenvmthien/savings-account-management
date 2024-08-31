@@ -125,6 +125,14 @@
         var isMoneyValid = false;
         var isDateValid = false;
         var isTypeValid = false;
+
+        function changeDateFormat(inputDate) {
+            var date = new Date(inputDate);
+            var day = date.getDate();
+            var month = (date.getMonth() + 1)<10? '0'+(date.getMonth() + 1): (date.getMonth() + 1);
+            var year = date.getFullYear();
+            return day + '-' + month + '-' + year;
+        }
         function confirmSubmit() {
             if (isIDCardValid && isNameValid && isAddressValid && isMoneyValid && isDateValid && isTypeValid) {
                 var cusID = document.querySelector('[name="id_card"]').value;
@@ -138,7 +146,7 @@
                 document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + cusID;
                 document.getElementById('confirmName').innerText = 'Customer Name: ' + name;
                 document.getElementById('confirmAddress').innerText = 'Customer Address: ' + address;
-                document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + createDate;
+                document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + changeDateFormat(createDate);
                 document.getElementById('confirmTos').innerText = 'Type of Saving: ' + typeOfSaving;
                 document.getElementById('confirmRate').innerText = 'Interest Rate: ' + rate;
                 document.getElementById('confirmMoney').innerText = 'Money: ' + money + ' VND';
