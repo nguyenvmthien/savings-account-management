@@ -27,8 +27,8 @@ class Regulation_H {
             try {
                 // Check if the account already exists
                 const [existingRegulation] = await connection.execute(
-                    'SELECT * FROM regulation WHERE type = ? and apply_date = ? and deleted = 0;',
-                    [type, real_apply_date],
+                    'SELECT * FROM regulation WHERE type = ? and deleted = 0;',
+                    [type],
                 );
                 console.log(existingRegulation);
                 //If regulation doesn't exist
@@ -47,10 +47,11 @@ class Regulation_H {
                     );
 
                     await connection.commit();
+                    return { message: 'success' };
                 }
 
                 await connection.commit();
-                return { message: 'success' };
+                return { message: 'fail' };
             } catch (err) {
                 //errors appear during creating
                 await connection.rollback();
@@ -266,11 +267,39 @@ class Regulation_H {
 
             //Execute the query and get the rows (ignore fields)
             const [rows, fields] = await pool.execute(query);
+            rows.sort((a, b) => {
+                // Handle the special case for "non-term"
+                if (a.type === 'Non-term') return -1;
 
-            if (rows.length > 0) {
+                // Extract the numeric part of the term (e.g., "1 month" -> 1, "2 months" -> 2)
+                const aMonths = parseInt(a.type.match(/\d+/), 10);
+                const bMonths = parseInt(b.type.match(/\d+/), 10);
+
+                // If both terms have numbers, compare them numerically
+                if (!isNaN(aMonths) && !isNaN(bMonths)) {
+                    return aMonths - bMonths;
+                }
+
+                // If one of the terms couldn't be parsed, keep the original order
+                return 0;
+            });
+
+
+            // unique type
+            const uniqueType = [];
+            const map = new Map();
+            for (const item of rows) {
+                if (!map.has(item.type)) {
+                    map.set(item.type, true);
+                    uniqueType.push(item);
+                }
+            }
+
+            if (uniqueType.length > 0) {
                 // Return all rows (each row represents a type of saving)
-                return rows;
-            } else {
+                return uniqueType;
+            }
+            else {
                 return { message: 'fail' };
                 throw new Error('There is nothing here.');
             }

@@ -20,7 +20,7 @@ class Withdraw_Controller {
             res.json(result);
         } catch {
             console.log('Error withdraw:');
-            res.status(500).json({ message: 'fail' });
+            res.json({ message: 'fail' });
         }
     }
 }
