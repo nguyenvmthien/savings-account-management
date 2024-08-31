@@ -100,6 +100,7 @@ h2 {
 }
 .valid, .invalid {
     margin-left: 130px;
+    margin-top: 3px;
     position: absolute;
     display: none; /* Ẩn biểu tượng mặc định */
     height: 15px;
@@ -155,25 +156,26 @@ h2 {
 .date-control {
     width: 100px; 
     height: 40px; 
-    padding: 5px;
+    padding: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     text-align: left;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
     margin-top: 10px;
-    color:#828282;
+    color:#000;
 }
 #app-date {
-    width: 130px;
+    width: 150px;
     height:40px;
-    padding: 5px;
+    padding: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     text-align: left;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
     margin-top: 10px;
+    color: #000
 }
 
 .time-inputs {

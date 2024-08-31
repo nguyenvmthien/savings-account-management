@@ -64,16 +64,16 @@
                     <select class="date-control" id="hourSelect">
                         <option value="" disabled selected>Hour</option>
                         <!-- Các tùy chọn giờ -->
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
+                        <option value="0">00</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
@@ -92,16 +92,16 @@
                     <select class="date-control" id="minSelect">
                         <option value="" disabled selected>Min</option>
                         <!-- Các tùy chọn phút -->
-                        <option value="0">0</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
+                        <option value="0">00</option>
+                        <option value="1">01</option>
+                        <option value="2">02</option>
+                        <option value="3">03</option>
+                        <option value="4">04</option>
+                        <option value="5">05</option>
+                        <option value="6">06</option>
+                        <option value="7">07</option>
+                        <option value="8">08</option>
+                        <option value="9">09</option>
                         <option value="10">10</option>
                         <option value="11">11</option>
                         <option value="12">12</option>
@@ -257,8 +257,8 @@
         });
 
         document.getElementById("min-deposit").addEventListener("input", function () {
-            let minDepositRaw = this.value.replace(/,/g, '').replace(/[^0-9]/g, '');
-            const formattedMinDeposit = new Intl.NumberFormat().format(minDepositRaw);
+            let minDepositRaw = this.value.replace(/[^0-9.]/g, '');
+            const formattedMinDeposit = minDepositRaw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             this.value = formattedMinDeposit;
             const isValid = !isNaN(minDepositRaw) && minDepositRaw !== '';
             validateInput(this, minDepositNotification, isValid);
@@ -380,5 +380,15 @@
             });
         });
     })
+
+    document.getElementById("savingsType").addEventListener("change", function () {
+        if(this.value === "Non-term") {
+            document.getElementById("min-days").value = ""; 
+            document.getElementById("min-days").readOnly = false;
+        } else {
+            document.getElementById("min-days").readOnly = true;
+            document.getElementById("min-days").value = parseInt(this.value.split(' ')) * 30;
+        }
+    });
 </script>
 </html>
