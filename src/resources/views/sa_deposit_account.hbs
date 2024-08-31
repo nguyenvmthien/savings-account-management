@@ -44,7 +44,7 @@
                 <input id="interest_rate" name="interest_rate" type="text" class="form-control" readonly>
             </div>
             <div class="form-group">
-                <span>Current amount (VND)</span>
+                <span>Current principle (VND)</span>
                 <input id="principal" name="current_amount" type="text" class="form-control" readonly>
             </div>
         </fieldset>
@@ -225,7 +225,8 @@
             document.getElementById('customer_name').value = accountData.customer_name;
             document.getElementById('type_of_saving').value = accountData.type_of_saving;
             document.getElementById('interest_rate').value = accountData.interest_rate;
-            document.getElementById('principal').value = accountData.principal.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('principal').value = Math.floor(Number(accountData.principal));
+            document.getElementById('principal').value = document.getElementById('principal').value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
             document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
             document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
@@ -241,7 +242,7 @@
                 .then(data => {
                     console.log('Raw Data:', data);
                     minDepMoney = data.min_dep_money;
-                    document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney}`;
+                    document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
                     document.getElementById('dep_date_error_message').innerText = `Must be after opened date`;
                 })
                 .catch(error => {

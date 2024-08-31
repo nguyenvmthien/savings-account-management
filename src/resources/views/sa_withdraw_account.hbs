@@ -198,12 +198,11 @@
         var minWitDays = 15;
 
         function addStrings(num1, num2) {
-            const int1 = parseInt(num1, 10);
-            const int2 = parseInt(num2, 10);
-
+            const int1 = parseFloat(num1, 10);
+            const int2 = parseFloat(num2, 10);
             const sum = int1 + int2;
 
-            return sum.toString();
+            return Math.floor(sum).toString();
         }
 
         function subtractStrings(num1, num2) {
