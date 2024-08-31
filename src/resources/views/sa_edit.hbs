@@ -70,11 +70,11 @@
             if(isIDValid) {
                 var id = document.getElementById('id_account').value;
                 console.log('Calling API with id:', id);
-                fetch('/sa/deposit/checkID?id_account=' + id)
+                fetch('/sa/edit/checkID?id_account=' + id)
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);
-                        if (data.error == "fail") {
+                        if (data.message == "fail") {
                             var popup = document.getElementById('noti-pop-up');
                             popup.style.display = "block";
                         }
