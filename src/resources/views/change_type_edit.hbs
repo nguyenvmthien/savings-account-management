@@ -195,6 +195,8 @@
     function closeNotiPopup() {
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
+        if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/edit";
     }
     // Gọi API để lấy danh sách các loại tiết kiệm
     const selectElement = document.getElementById("savingsType");
@@ -294,7 +296,6 @@
                 isValid = false;
             }
             if (!isValid || interestRate === "" || minDeposit === "" || minDays === "" || hour === "" || minute === "" || date === "") {
-                alert("Please follow the instruction");
                 return;
             }
             const popup = document.getElementById("pop-up");

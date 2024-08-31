@@ -172,7 +172,7 @@ cursor: pointer;
     font-family: Inter;
     text-align: center;
     padding-right: 25px; /* Adjust right padding similarly */
-    padding-bottom: 4px;
+    padding-bottom: 5px;
 }
 
 .account-table th, .account-table td {
@@ -206,10 +206,11 @@ cursor: pointer;
     background-color: #440A67;  /* Color of the underline */
 }
 
-.account-table th:nth-child(1), th:nth-child(2), th:nth-child(5) {
-    text-align: center; /* Align text to the left in header */
-    padding-left: 35px; /* Add 5px padding to the left in header */
+.account-table th {
+    text-align: center;
+    padding-left: 35px;
 }
+
 .account-table tr:last-child::after {
     display: none;  /* Disable the underline for the last row */
 }

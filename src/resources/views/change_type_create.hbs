@@ -211,6 +211,8 @@
     function closeNotiPopup() {
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
+        if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/create";
     }
     function checkTermMonthsInDatabase(monthInput) {
         fetch('/change-type/create/getCurrentTypeAPI') // Fetch API to check existing term months

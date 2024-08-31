@@ -223,6 +223,10 @@ h2 {
     cursor: pointer;
 }
 
+.btn-primary:hover {
+    background-color: #176E65;
+}
+
 p[id$="Notification"] {
     margin-top: 1px;
     font-size: 0.9rem;
