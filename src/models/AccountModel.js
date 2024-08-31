@@ -199,9 +199,11 @@ class Account_H {
                 return { message: 'fail' };
                 throw new Error('Account not found.');
             }
+
             if (rows[0].close_date != null) {
                 return { message: 'fail' };
             }
+         
             return rows[0];
         } catch (err) {
             console.error('Error searching account:', err);

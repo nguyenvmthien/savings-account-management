@@ -76,7 +76,8 @@ h2 {
   color: #828282;
   font-size: 16px;
   font-family: Inter;
-  text-align: center; }
+  text-align: center;
+  padding-bottom: 4px; }
 
 .account-table th, .account-table td {
   padding-left: 10px;
@@ -88,12 +89,16 @@ h2 {
   font-family: Inter;
   color: #440A67;
   margin-top: 20px;
-  font-weight: 400; }
+  font-weight: 400;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* Add space above and below each td to visually center data between row underlines */ }
 
 .account-table tr {
   position: relative; }
 
-.account-table tr::after {
+.account-table tr::after,
+.account-table thead th::after {
   content: "";
   display: block;
   position: absolute;
@@ -102,6 +107,10 @@ h2 {
   right: 5%;
   height: 1px;
   background-color: #440A67; }
+
+.account-table tr:last-child::after {
+  display: none;
+  /* Disable the underline for the last row */ }
 
 .section-container {
   display: flex; }
@@ -162,8 +171,9 @@ h2 {
   height: 100%; }
 
 #barChart {
-  margin-left: -20px; }
+  margin-left: -20px;
+  margin-top: -20px; }
 
 #doughnutChart {
-  margin-top: -20px;
+  margin-top: -40px;
   margin-left: 50px; }
