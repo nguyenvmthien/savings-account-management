@@ -21,16 +21,16 @@ class Deposit_H {
                     const [account] = await connection.execute(
                         `
                         SELECT 
-                            a.open_date, 
+                            CONVERT_TZ(a.open_date, '+00:00', @@session.time_zone) as date_created, 
                             r.min_dep_money
-                        FROM account a join regulation r on a.type = r.type
+                        FROM account a join regulation r on a.type = r.type and a.apply_date = r.apply_date
                         WHERE a.acc_id = ? 
                         ORDER BY a.open_date DESC
                         LIMIT 1;
                         `,
                         [id_account],
                     );
-                    const dateCreated = new Date(account[0].open_date)
+                    const dateCreated = new Date(account[0].date_created)
                         .toISOString()
                         .split('T')[0];
                     const depositDate = new Date(deposit_date)
@@ -56,10 +56,9 @@ class Deposit_H {
                             `
                             SELECT dep_id
                             FROM deposit
-                            ORDER BY dep_date DESC
+                            ORDER BY dep_id DESC
                             LIMIT 1;
                             `,
-                            [id_account],
                         );
 
                         console.log('Latest dep_id: ', latestdepID[0].dep_id);
@@ -83,7 +82,7 @@ class Deposit_H {
 
                         console.log('generate dep_id successful');
                         await connection.execute(
-                            'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, ?);',
+                            'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, CONVERT_TZ(?, "+00:00", @@session.time_zone));',
                             [dep_id, id_account, money_deposit, deposit_date],
                         );
 

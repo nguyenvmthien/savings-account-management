@@ -83,7 +83,7 @@ h2 {
 .create_button {
     margin-top: -10px;
     position: fixed;
-    left: 700px;
+    left: 710px;
     right: 70px;
     width: 140px; 
     height: 40px;
@@ -181,41 +181,87 @@ h2 {
     border: none;
     text-align: center;
 }
-.account-table th:nth-child(1) {
-    text-align: center; /* Align text to the left in header */
-    padding-left: 40px; /* Add 5px padding to the left in header */
+.account-table th:nth-child(1), 
+.account-table td:nth-child(1) {
+    text-align: center; /* Align text to the center */
+    width: auto;  /* Set appropriate width */
+    padding-left: 10px;  /* Distance from the left edge */
+    padding-right: 10px; /* Align right padding for consistency */
 }
-.account-table th:nth-child(3) {
-    text-align: center; /* Align text to the left in header */
-    padding-left: 50px; /* Add 5px padding to the left in header */
+.account-table th:nth-child(2), 
+.account-table td:nth-child(2) {
+    text-align: center; /* Align text to the center */
+    width: auto;  /* Set appropriate width */
+    padding-left: 25px;  /* Distance from the left edge */
+    padding-right: 25px; /* Align right padding for consistency */
 }
-.account-table th:nth-child(5) {
-    text-align: center; /* Align text to the left in header */
-    padding-left: -10px; /* Add 5px padding to the left in header */
+
+.account-table th:nth-child(3), 
+.account-table td:nth-child(3) {
+    text-align: center; /* Align text to the center */
+    width: auto;  /* Set appropriate width */
+    padding-left: 25px;  /* Distance from the left edge */
+    padding-right: 25px; /* Align right padding for consistency */
 }
+
+.account-table th:nth-child(4), 
+.account-table td:nth-child(4) {
+    text-align: center; /* Align text to the center */
+    width: auto;  /* Set appropriate width */
+    padding-left: 25px;  /* Distance from the left edge */
+    padding-right: 25px; /* Align right padding for consistency */
+}
+
+.account-table th:nth-child(5), 
+.account-table td:nth-child(5) {
+    text-align: center; /* Align text to the center */
+    width: auto;  /* Adjust width as needed */
+    padding-right: 30px; /* Align right padding for consistency */
+}
+
 .account-table td {
     font-family: Inter;
     color: #440A67;
     margin-top: 20px;
     font-weight: 400;
     text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px; /* Add space above and below each td to visually center data between row underlines */
 }
-
 .account-table tr {
     position: relative; /* Để sử dụng pseudo-element */
 }
-
-.account-table tr::after {
+.account-table tr:last-child::after {
+    display: none;  /* Disable the underline for the last row */
+}
+.account-table tr::after, .account-table thead th::after {
     content: "";
     display: block;
     position: absolute;
     bottom: 0;
     left: 1%;  /* Space from the left */
-    right: 5%;  /* Space from the right */
+    right: 4%;  /* Space from the right */
     height: 1px;  /* Thickness of the underline */
     background-color: #440A67;  /* Color of the underline */
 }
+.scrollable {
+    overflow-y: scroll;  /* Show vertical scrollbar */
+    max-height: 350px;   /* Limit height to trigger scroll after approx. 10 rows */
+}
 
+/* Scrollbar styles for the scrollable class */
+.scrollable::-webkit-scrollbar {
+    width: 9px;  /* Width of the scrollbar */
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+    background-color: #6D5858;  /* Color of the scrollbar thumb */
+    border-radius: 10px;  /* Rounded corners for the thumb */
+}
+
+.scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1;  /* Color of the scrollbar track */
+}
 .chart-container {
     position: absolute;
     top: -20px;    /* Adjust the top position as needed */
@@ -224,14 +270,13 @@ h2 {
     height: 300px; 
     align-items: center;  
 }
-
 /* CSS for the chart canvas */
 .chart-container canvas {
     width: 80% !important;  /* Make the chart fit its container */
     height: 80% !important; /* Make the chart fit its container */
 }
 
-.no-data-message {
+.initial-message {
     text-align: center;
     color: #828282;
     font-family: Inter;
@@ -239,6 +284,13 @@ h2 {
 }
 
 /* Ensure no underline appears below the "no-data-message" */
-.account-table tr.no-data-message::after {
+.account-table tr.initial-message::after {
     display: none;
+}
+
+.no-data-message {
+    position: relative;
+}
+.account-table tr.no-data-message::after {
+    content: none; /* Removes the underline */
 }

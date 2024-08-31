@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,6 +42,7 @@
                         </div>
                     </div>
                     <p id="termNotification" style="display: none; color: red;">It must be an integer</p>
+                    <p id="termNotificationExists" style="display: none; color: red;"></p>
                 </div>
             </div>
         </div>
@@ -48,28 +50,22 @@
         <div class="input-container">
             <div class="input-group">
                 <label for="interest-rate">Interest rate (%)</label>
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_interest_rate" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_interest_rate" class="invalid">
+                <img src="/images/valid-icon/valid.png" id="valid_interest_rate" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_interest_rate" class="invalid">
                 <input type="text" name="interest_rate" class="input-field" id="interest-rate" placeholder="0.15">
                 <p id="interestRateNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-deposit">Minimum deposit amount (VND)</label>
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_min_deposit" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_min_deposit" class="invalid">
-                <input type="text" name="min_dep_money" class="input-field" id="min-deposit" placeholder="100,000">
+                <img src="/images/valid-icon/valid.png" id="valid_min_deposit" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_min_deposit" class="invalid">
+                <input type="text" class="input-field" id="min-deposit" placeholder="100,000">
                 <p id="minDepositNotification" style="display: none; color: red;">It must be a number</p>
             </div>
             <div class="input-group">
                 <label for="min-days">Minimum days to withdraw (days)</label>
-                <img src="/images/valid-icon/valid.png"
-                    id="valid_min_days" class="valid">
-                <img src="/images/valid-icon/invalid.png"
-                    id="invalid_min_days" class="invalid">
+                <img src="/images/valid-icon/valid.png" id="valid_min_days" class="valid">
+                <img src="/images/valid-icon/invalid.png" id="invalid_min_days" class="invalid">
                 <input type="text" name="min_days_withdraw" class="input-field" id="min-days" placeholder="30">
                 <p id="minDaysNotification" style="display: none; color: red;">It must be a number</p>
             </div>
@@ -82,16 +78,16 @@
                         <select class="date-control" id="hourSelect">
                             <option value="" disabled selected>Hour</option>
                             <!-- Các tùy chọn giờ -->
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                            <option value="0">00</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">09</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -111,16 +107,16 @@
                             <option value="" disabled selected>Min</option>
                             <!-- Options for minutes -->
                             <!-- Các tùy chọn phút -->
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                            <option value="0">00</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">09</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -204,18 +200,55 @@
     </div>
 </body>
 <script>
+    function changeDateFormat(inputDate) {
+            var date = new Date(inputDate);
+            var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+            var month = (date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1) : (date.getMonth() + 1);
+            var year = date.getFullYear();
+            return day + '-' + month + '-' + year;
+    }
+
     function closeNotiPopup() {
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
+        if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/create";
+    }
+    function checkTermMonthsInDatabase(monthInput) {
+        fetch('/change-type/create/getCurrentTypeAPI') // Fetch API to check existing term months
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Log data to check format
+
+                // Check if the input month exists in the database
+                const monthExistsInDB = data.some(term => {
+                    // Extract the month part from the 'type' string
+                    const [monthInType] = term.type.split(' '); // Extract the first part of the 'type' string
+                    console.log(`monthInType: ${monthInType}, monthInput: ${monthInput}`);
+                    // Compare extracted month with the input month
+                    return monthInType === monthInput;
+                });
+                // Reference to the termNotificationExists element
+                const termNotificationExists = document.getElementById('termNotificationExists');
+                if (monthExistsInDB) {
+                    // Show the notification if the month exists in the database
+                    termNotificationExists.style.display = "flex";
+                    termNotificationExists.textContent = "This type has already existed.";
+                } else {
+                    // Hide the notification if the month does not exist in the database
+                    termNotificationExists.style.display = "none";
+                }
+            })
+            .catch(error => console.error('Error fetching term-month data:', error));
     }
 
+
     //fetch API to check if Non-term exists
-    fetch('/change-type/create/getcurTypeAPI')
+    fetch('/change-type/create/getCurrentTypeAPI')
         .then(response => response.json())
         .then(data => {
             const selectElement = document.getElementById('savingsType');
             let nonTermExistsInData = false;
-
             // Check if 'Non-term' exists in the fetched data
             data.forEach(option => {
                 if (option.type === 'Non-term') {
@@ -262,6 +295,7 @@
         document.getElementById("savingsType").addEventListener("change", function () {
             const savingsType = document.getElementById("savingsType").value;
             termInputs.style.display = savingsType === "term" ? "block" : "none";
+            document.getElementById("min-days").readOnly = savingsType === "term" ? true : false;
         });
         // Real-time validation for each input field
         document.getElementById("interest-rate").addEventListener("input", function () {
@@ -270,8 +304,10 @@
             validateInput(this, interestRateNotification, isValid);
         });
         document.getElementById("min-deposit").addEventListener("input", function () {
-            const minDeposit = this.value;
-            const isValid = !isNaN(minDeposit) && minDeposit !== '';
+            let minDepositRaw = this.value.replace(/[^0-9.]/g, '');
+            const formattedMinDeposit = minDepositRaw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.value = formattedMinDeposit;
+            const isValid = !isNaN(minDepositRaw) && minDepositRaw !== '';
             validateInput(this, minDepositNotification, isValid);
         });
 
@@ -283,8 +319,8 @@
 
         document.getElementById("term-months").addEventListener("input", function () {
             const termMonths = this.value;
-            const isValid = !isNaN(termMonths) && Number.isInteger(Number(termMonths)) && termMonths !== '';
-            validateInput(this, termNotification, isValid);
+            checkTermMonthsInDatabase(termMonths); // Call the function to check in the database
+            document.getElementById('min-days').value = termMonths * 30;
         });
 
         document.getElementById("submit_button").addEventListener("click", function (event) {
@@ -292,16 +328,17 @@
             const savingsType = document.getElementById("savingsType").value;
             const interestRate = document.getElementById("interest-rate").value;
             const minDeposit = document.getElementById("min-deposit").value;
+            const minDepositRaw = minDeposit.replace(/,/g, ''); // Remove commas for validation
             const minDays = document.getElementById("min-days").value;
             const hour = document.getElementById("hourSelect").value;
             const minute = document.getElementById("minSelect").value;
-            const date = document.getElementById("app-date").value;
+            const date = changeDateFormat(document.getElementById("app-date").value);
 
             let isValid = true;
             if (isNaN(interestRate) || interestRate === '') {
                 isValid = false;
             }
-            if (isNaN(minDeposit) || minDeposit === '') {
+            if (isNaN(minDepositRaw) || minDepositRaw === '') {
                 isValid = false;
             }
             if (isNaN(minDays) || !Number.isInteger(Number(minDays)) || minDays === '') {
@@ -335,7 +372,7 @@
                 <legend>Saving's Information</legend>
                 <p>Type of savings: ${savingsTypeDisplay}</p>
                 <p>Interest rate: ${interestRate}%</p>
-                <p>Minimum deposit amount: ${minDeposit} VNĐ</p>
+                <p>Minimum deposit amount: ${minDeposit} VND</p>
                 <p>Minimum days to withdraw: ${minDays} days</p>
                 <legend>Applicable Time</legend>
                 <p>Applied time: ${appliedTime}</p>
@@ -351,7 +388,7 @@
             const cancelEdit = document.getElementById("cancel-edit");
             confirmEdit.addEventListener("click", function () {
                 const form = document.getElementById("myForm");
-                popup.style.display ="none";
+                popup.style.display = "none";
                 // Set the savings type appropriately based on selection
                 if (savingsType === "term") {
                     const termInput = document.createElement('input');
@@ -363,7 +400,7 @@
                     const nonTermInput = document.createElement('input');
                     nonTermInput.type = 'hidden';
                     nonTermInput.name = 'type';
-                    nonTermInput.value = 'non-term';
+                    nonTermInput.value = 'Non-term';
                     form.appendChild(nonTermInput);
                 }
                 // Create a hidden input to store the combined time value
@@ -371,6 +408,12 @@
                 hiddenInput.type = 'hidden';
                 hiddenInput.name = 'applied_time';
                 hiddenInput.value = appliedTime;
+                // Add the raw minimum deposit (without commas)
+                const minDepositInput = document.createElement('input');
+                minDepositInput.type = 'hidden';
+                minDepositInput.name = 'min_dep_money';
+                minDepositInput.value = minDepositRaw; // Store raw value
+                form.appendChild(minDepositInput);
                 // Append the hidden input to the form
                 form.appendChild(hiddenInput);
                 var data = new FormData(form);
@@ -414,4 +457,5 @@
         });
     });
 </script>
+
 </html>

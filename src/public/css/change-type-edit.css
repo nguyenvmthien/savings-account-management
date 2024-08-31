@@ -45,8 +45,7 @@ h2 {
   line-height: 150%;
   box-sizing: border-box;
   padding: 16px;
-  height: 40px;
-  width: 100px; }
+  height: 40px; }
 
 /* Định dạng cho các nhóm loại tiết kiệm */
 .type-group {
@@ -59,18 +58,16 @@ h2 {
   font-family: 'Inter';
   font-weight: black;
   font-weight: 500;
-  font-size: 15px; }
+  font-size: 16px; }
 
 /* Định dạng cho các trường chọn loại tiết kiệm */
 .form-control {
   width: 200px;
-  height: 38px;
-  color: #828282;
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  /* Tăng kích thước font cho dropdown */
+  height: 40px;
+  color: black;
+  font-family: 'Inter';
+  font-size: 15px;
   box-sizing: border-box;
-  font-weight: bold;
   text-align: left;
   margin-bottom: 10px; }
 
@@ -92,7 +89,7 @@ h2 {
 
 .input-group label {
   font-family: 'Inter', sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   /* Kích thước font cho label */
   margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
@@ -100,7 +97,8 @@ h2 {
   font-weight: 500; }
 
 .valid, .invalid {
-  margin-left: 120px;
+  margin-left: 130px;
+  margin-top: 3px;
   position: absolute;
   display: none;
   /* Ẩn biểu tượng mặc định */
@@ -109,21 +107,22 @@ h2 {
   /* Sửa kích thước width */ }
 
 #valid_min_deposit, #invalid_min_deposit {
-  margin-left: 235px; }
+  margin-left: 250px; }
 
 #valid_min_days, #invalid_min_days {
-  margin-left: 245px; }
+  margin-left: 260px; }
 
 /* Định dạng cho các trường nhập liệu */
 .input-field {
   width: 40%;
-  /* Đảm bảo ô nhập bao phủ toàn bộ chiều rộng của container */
   padding: 10px;
-  height: 38px;
+  height: 40px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   box-sizing: border-box;
-  border-radius: 0.25rem; }
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  font-size: 15px; }
 
 /* Định dạng cho các trường nhập liệu term */
 .term-inputs {
@@ -143,7 +142,7 @@ h2 {
 .date label {
   display: block;
   font-family: 'Inter';
-  font-size: 15px;
+  font-size: 16px;
   /* Kích thước font cho label */
   margin-bottom: 10px;
   /* Khoảng cách giữa label và ô nhập */
@@ -153,25 +152,26 @@ h2 {
 .date-control {
   width: 100px;
   height: 40px;
-  padding: 5px;
+  padding: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   text-align: left;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
   margin-top: 10px;
-  color: #828282; }
+  color: #000; }
 
 #app-date {
-  width: 130px;
+  width: 150px;
   height: 40px;
-  padding: 5px;
+  padding: 10px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   text-align: left;
   border: 1px solid #ccc;
   border-radius: 0.25rem;
-  margin-top: 10px; }
+  margin-top: 10px;
+  color: #000; }
 
 .time-inputs {
   display: flex;
@@ -319,8 +319,11 @@ p[id$="Notification"] {
   font-size: 25px; }
 
 .noti-pop-up img {
-  height: 90px;
-  width: 90px; }
+  height: 80px;
+  width: 80px; }
+
+#success-icon {
+  margin-top: -20px; }
 
 .noti-pop-up button {
   margin-bottom: 15px;

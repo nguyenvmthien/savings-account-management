@@ -85,7 +85,8 @@ input {
   border-style: solid;
   border-width: 1px;
   border-color: #E0E0E0;
-  background-color: #FFF; }
+  background-color: #FFF;
+  font-family: Inter; }
 
 select {
   width: 100%;
@@ -174,7 +175,7 @@ select {
 .pop-up-content {
   position: relative;
   background-color: #fefefe;
-  margin: 3% auto;
+  margin: 8% auto;
   padding: 0 20px;
   width: 80%;
   max-width: 600px;

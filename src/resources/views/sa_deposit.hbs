@@ -63,7 +63,7 @@
             document.getElementById("contact-link").href = fullContactUrl;
 
             // Nếu không có Non-term đang áp dụng thì không cho tạo;
-            fetch('/sa/deposit/getCurrentTypeAPI')
+            /*fetch('/sa/deposit/getCurrentTypeAPI')
                 .then(response => response.json())
                 .then(data => {
                     console.log('Raw Data:', data);
@@ -81,7 +81,7 @@
                 })
                 .catch(error => {
                     console.error('Error getting current type:', error);
-                });
+                });*/
         });
 
         // Noti pop-up
@@ -98,7 +98,7 @@
                     .then(response => response.json())
                     .then(data => {
                         console.log('Raw Data:', data);
-                        if (data.error == "fail") {
+                        if (data.message == "fail") {
                             document.getElementById('message').innerHTML = "ID cannot be found!";
                             var popup = document.getElementById('noti-pop-up');
                             popup.style.display = "block";

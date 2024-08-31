@@ -66,74 +66,61 @@
         </div>
     </div>
     <script>
-          function closeNotiPopup() {
-        var notificationPopup = document.getElementById("noti-pop-up");
-        notificationPopup.style.display = "none";
-    }
+        function closeNotiPopup() {
+            var notificationPopup = document.getElementById("noti-pop-up");
+            notificationPopup.style.display = "none";
+            if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/delete";
+        }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        // Fetch the select options for the "savingsType"
-        const selectElement = document.getElementById("savingsType");
-
-        fetch('/change-type/delete/getcurTypeAPI')
-            .then(response => response.json())
-            .then(data => {
-                const existList = new Set();
-                let nonTermAdded = false;
-
-                data.forEach(option => {
-                    const optionTypeLower = option.type.toLowerCase();
-
-                    if (optionTypeLower === 'non-term') {
-                        if (!nonTermAdded) {
-                            const optionElement = document.createElement('option');
-                            optionElement.value = option.type;
-                            optionElement.textContent = option.type;
-                            selectElement.appendChild(optionElement);
-                            nonTermAdded = true;
-                        }
-                    } else if (!existList.has(optionTypeLower)) {
+        document.addEventListener("DOMContentLoaded", function () {
+            // Fetch the select options for the "savingsType"
+            const selectElement = document.getElementById("savingsType");
+            fetch('/change-type/delete/getCurrentTypeAPI')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(option => {
                         const optionElement = document.createElement('option');
                         optionElement.value = option.type;
                         optionElement.textContent = option.type;
                         selectElement.appendChild(optionElement);
-                        existList.add(optionTypeLower);
-                    }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching savings types:', error);
                 });
-            })
-            .catch(error => {
-                console.error('Error fetching savings types:', error);
-            });
 
-        // Handle the contact link
-        const currentDomain = window.location.origin;
-        const contactPath = "/contact";
-        const fullContactUrl = `${currentDomain}${contactPath}`;
-        document.getElementById("contact-link").href = fullContactUrl;
+            // Handle the contact link
+            const currentDomain = window.location.origin;
+            const contactPath = "/contact";
+            const fullContactUrl = `${currentDomain}${contactPath}`;
+            document.getElementById("contact-link").href = fullContactUrl;
 
-        // Handle the form submission and pop-up
-        const form = document.getElementById("myForm");
-        const popup = document.getElementById("pop-up");
-        const popupContent = document.getElementById("popup-content");
-        const notificationPopup = document.getElementById("noti-pop-up");
-        const successMessage = document.getElementById("success-message");
-        const failMessage = document.getElementById("fail-message");
-        const failMessage2 = document.getElementById("fail-message2");
-        const successIcon = document.getElementById("success-icon");
-        const failIcon = document.getElementById("fail-icon");
+            // Handle the form submission and pop-up
+            const form = document.getElementById("myForm");
+            const popup = document.getElementById("pop-up");
+            const popupContent = document.getElementById("popup-content");
+            const notificationPopup = document.getElementById("noti-pop-up");
+            const successMessage = document.getElementById("success-message");
+            const failMessage = document.getElementById("fail-message");
+            const failMessage2 = document.getElementById("fail-message2");
+            const successIcon = document.getElementById("success-icon");
+            const failIcon = document.getElementById("fail-icon");
 
-        form.addEventListener("submit", function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            // Prepare the form data
-            const formData = new FormData(form);
-            const formObject = {};
-            formData.forEach((value, key) => {
-                formObject[key] = value;
-            });
-
-            // Show the confirmation pop-up
-            popupContent.innerHTML = `
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                if(document.getElementById("savingsType").value == "") {
+                    return;
+                }
+                // Prepare the form data
+                const formData = new FormData(form);
+                const formObject = {};
+                formData.forEach((value, key) => {
+                    formObject[key] = value;
+                });
+                // Show the confirmation pop-up
+                popupContent.innerHTML = `
                 <div>
                     <h1>Are you sure?</h1>
                     <div class="buttons">
@@ -142,67 +129,57 @@
                     </div>
                 </div>
             `;
-            popup.style.display = 'flex';
+                popup.style.display = 'flex';
 
-            // Handle pop-up buttons
-            document.getElementById("confirm-edit").addEventListener("click", function () {
-                // Proceed with form submission via fetch
-                fetch('/change-type/delete', {
-                    method: 'POST',
-                    body: JSON.stringify(formObject),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        popup.style.display = 'none'; // Close the pop-up
-
-                        // Handle success/fail notification
-                        if (data.message = "success") {
-                            successMessage.style.display = "inline";
-                            failMessage.style.display = "none";
-                            failMessage2.style.display = "none";
-                            successIcon.style.display = "inline";
-                            failIcon.style.display = "none";
-                        } else if (data.message == "fail") {
-                            successMessage.style.display = "none";
-                            failMessage.style.display = "inline";
-                            failMessage2.style.display = "inline";
-                            successIcon.style.display = "none";
-                            failIcon.style.display = "inline";
+                // Handle pop-up buttons
+                document.getElementById("confirm-edit").addEventListener("click", function () {
+                    // Proceed with form submission via fetch
+                    fetch('/change-type/delete', {
+                        method: 'POST',
+                        body: JSON.stringify(formObject),
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-                        else  {
-                            successMessage.style.display = "none";
-                            failMessage.style.display = "none";
-                            successIcon.style.display = "none";
-                            failIcon.style.display = "none";
-                        }
-
-                        notificationPopup.style.display = "flex"; // Show notification screen
                     })
-                    .catch(error => {
-                        console.error('Error during deletion:', error);
-                        popup.style.display = 'none'; // Close the pop-up
+                        .then(response => response.json())
+                        .then(data => {
+                            popup.style.display = 'none'; // Close the pop-up
 
-                        // Show failure notification
-                        successMessage.style.display = "none";
-                        failMessage.style.display = "block";
-                        failMessage2.style.display = "block";
-                        successIcon.style.display = "none";
-                        failIcon.style.display = "block";
-                        notificationPopup.style.display = "flex";
-                    });
-            });
+                            // Handle success/fail notification
+                            if (data.message = "success") {
+                                successMessage.style.display = "inline";
+                                failMessage.style.display = "none";
+                                failMessage2.style.display = "none";
+                                successIcon.style.display = "inline";
+                                failIcon.style.display = "none";
+                            } else if (data.message == "fail") {
+                                successMessage.style.display = "none";
+                                failMessage.style.display = "inline";
+                                failMessage2.style.display = "inline";
+                                successIcon.style.display = "none";
+                                failIcon.style.display = "inline";
+                            }
+                            else {
+                                successMessage.style.display = "none";
+                                failMessage.style.display = "none";
+                                successIcon.style.display = "none";
+                                failIcon.style.display = "none";
+                            }
 
-            document.getElementById("cancel-edit").addEventListener("click", function () {
-                popup.style.display = 'none'; // Close the pop-up
+                            notificationPopup.style.display = "flex"; // Show notification screen
+                        })
+                        .catch(error => {
+                            console.error('Error during deletion:', error);
+                            popup.style.display = 'none'; // Close the pop-up
+                        });
+                });
+                document.getElementById("cancel-edit").addEventListener("click", function () {
+                    popup.style.display = 'none'; // Close the pop-up
+                });
             });
+            // Handle closing the notification pop-up
+            document.getElementById("pop-up-button").addEventListener("click", closeNotiPopup);
         });
-        // Handle closing the notification pop-up
-        document.getElementById("pop-up-button").addEventListener("click", closeNotiPopup);
-    });
     </script>
 </body>
-
 </html>

@@ -140,7 +140,6 @@ h2 {
 .table-container {
   width: 100%;
   margin-top: 50px;
-  margin-left: -20px;
   overflow-y: auto;
   /* Thanh cuộn dọc */
   overflow-x: hidden;
@@ -170,7 +169,8 @@ h2 {
   font-family: Inter;
   text-align: center;
   padding-right: 25px;
-  /* Adjust right padding similarly */ }
+  /* Adjust right padding similarly */
+  padding-bottom: 5px; }
 
 .account-table th, .account-table td {
   padding-left: 10px;
@@ -182,13 +182,17 @@ h2 {
   font-family: Inter;
   color: #440A67;
   margin-top: 20px;
-  font-weight: 400; }
+  font-weight: 400;
+  padding-top: 8px;
+  /* Add some top padding to vertically center items between underlines */
+  padding-bottom: 8px;
+  /* Add some bottom padding to vertically center items */ }
 
 .account-table tr {
   position: relative;
   /* Để sử dụng pseudo-element */ }
 
-.account-table tr::after {
+.account-table tr::after, .account-table thead th::after {
   content: "";
   display: block;
   position: absolute;
@@ -201,3 +205,11 @@ h2 {
   /* Thickness of the underline */
   background-color: #440A67;
   /* Color of the underline */ }
+
+.account-table th {
+  text-align: center;
+  padding-left: 35px; }
+
+.account-table tr:last-child::after {
+  display: none;
+  /* Disable the underline for the last row */ }
