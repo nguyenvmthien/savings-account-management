@@ -69,6 +69,8 @@
         function closeNotiPopup() {
             var notificationPopup = document.getElementById("noti-pop-up");
             notificationPopup.style.display = "none";
+            if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/delete";
         }
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -107,7 +109,10 @@
 
             form.addEventListener("submit", function (event) {
                 event.preventDefault(); // Prevent default form submission
-
+                
+                if(document.getElementById("savingsType").value == "") {
+                    return;
+                }
                 // Prepare the form data
                 const formData = new FormData(form);
                 const formObject = {};

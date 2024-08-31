@@ -321,7 +321,7 @@ class Regulation_H {
                 min_dep_money,
                 min_wit_time
             FROM regulation
-            WHERE type = ? and apply_date = ? and deleted = 0;
+            WHERE type = ? and apply_date = ?;
             `;
 
             const [rows, fields] = await pool.execute(query, [

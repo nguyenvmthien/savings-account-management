@@ -115,12 +115,22 @@
     <script>
         var isDepMoneyValid = false;
         var isDepDateValid = false;
+
+        function changeDateFormat(inputDate) {
+            var date = new Date(inputDate);
+            var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+            var month = (date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1) : (date.getMonth() + 1);
+            var year = date.getFullYear();
+            return day + '-' + month + '-' + year;
+        }
+
         function confirmSubmit() {
             if (isDepMoneyValid && isDepDateValid) {
                 var money_deposit = document.querySelector('[name="money_deposit"]').value;
                 var deposit_date = document.querySelector('[name="deposit_date"]').value;
+                document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + changeDateFormat(document.getElementById('confirmCreateDate').innerText.slice(21, 31));
 
-                document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + deposit_date;
+                document.getElementById('confirmDepositDate').innerText = 'Deposit date: ' + changeDateFormat(deposit_date);
                 document.getElementById('confirmDepositedMoney').innerText = 'Money deposited: ' + money_deposit + ' VND';
                 var popup = document.getElementById('pop-up');
                 popup.style.display = "block";
@@ -285,7 +295,6 @@
         document.getElementById('deposit_date').addEventListener('change', function () {
             const dateDeposit = document.getElementById('deposit_date').value;
             const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
-            // console.log(getDifferenceInDays(dateDeposit, dateCreate));
             if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
                 document.getElementById('dep_date_error_message').style.display = 'none';
                 document.getElementById('valid_dep_date').style.display = "inline";

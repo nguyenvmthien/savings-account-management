@@ -97,12 +97,13 @@
 
                         data.slice(0, 5).forEach((item, index) => {
                             const row = document.createElement("tr");
+                            const balance = item.balance >= 0 ? Math.floor(Number(item.balance)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : 0;
                             row.innerHTML = `
                                 <td>${index + 1}</td>
                                 <td>${item.acc_id}</td>
                                 <td>${item.type}</td>
                                 <td>${item.name}</td>
-                                <td>${item.balance}</td>
+                                <td>${balance}</td>
                             `;
                             tbody.appendChild(row);
                         });
@@ -114,11 +115,16 @@
             function fetchDailyReport() {
                 const date = new Date();
                 date.setDate(date.getDate() - 1);
-                const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                const formattedDate = `${year}-${month}-${day}`;
+                console.log(formattedDate);
 
                 fetch(`/analysis/createDailyReportAPI?date=${formattedDate}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
                         const labels = data.map(item => item.type_of_saving);
                         const incomeData = data.map(item => item.total_income);
                         const expenseData = data.map(item => item.total_expense);
@@ -192,7 +198,8 @@
                 const prevMonth = month === 0 ? 11 : month - 1;
                 const prevYear = month === 0 ? year - 1 : year;
 
-                const formattedMonth = (prevMonth + 1).toString().padStart(2, '0'); // MM format
+                const formattedMonth = (prevMonth + 1).toString().padStart(2, '0');
+                console.log(formattedMonth);
 
                 fetch(`/analysis/createMonthlyReportAPI?month=${encodeURIComponent(formattedMonth)}&year=${encodeURIComponent(prevYear)}&type_of_saving=${encodeURIComponent('Non-term')}`)
                     .then(response => response.json())
@@ -201,7 +208,7 @@
                         let closedAccounts = 0;
                         // Lặp qua dữ liệu để tính tổng số tài khoản mới và đóng
                         data.forEach(item => {
-                             newAccounts += parseInt(item.number_of_new_account, 10) || 0;
+                            newAccounts += parseInt(item.number_of_new_account, 10) || 0;
                             closedAccounts += parseInt(item.number_of_closed_account, 10) || 0;
                         });
 

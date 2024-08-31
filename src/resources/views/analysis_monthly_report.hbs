@@ -229,8 +229,8 @@
                                         number_of_closed_account: item.number_of_closed_account,
                                         difference: item.difference
                                     });
-                                    newAccounts += item.number_of_new_account;
-                                    closedAccounts += item.number_of_closed_account;
+                                    newAccounts += parseInt(item.number_of_new_account);
+                                    closedAccounts += parseInt(item.number_of_closed_account);
                                 });
 
                                 if (data.length > 10) {

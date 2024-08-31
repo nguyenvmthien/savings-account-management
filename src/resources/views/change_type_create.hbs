@@ -78,16 +78,16 @@
                         <select class="date-control" id="hourSelect">
                             <option value="" disabled selected>Hour</option>
                             <!-- Các tùy chọn giờ -->
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                            <option value="0">00</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">09</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -107,16 +107,16 @@
                             <option value="" disabled selected>Min</option>
                             <!-- Options for minutes -->
                             <!-- Các tùy chọn phút -->
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
+                            <option value="0">00</option>
+                            <option value="1">01</option>
+                            <option value="2">02</option>
+                            <option value="3">03</option>
+                            <option value="4">04</option>
+                            <option value="5">05</option>
+                            <option value="6">06</option>
+                            <option value="7">07</option>
+                            <option value="8">08</option>
+                            <option value="9">09</option>
                             <option value="10">10</option>
                             <option value="11">11</option>
                             <option value="12">12</option>
@@ -200,9 +200,19 @@
     </div>
 </body>
 <script>
+    function changeDateFormat(inputDate) {
+            var date = new Date(inputDate);
+            var day = date.getDate() < 10 ? '0'+date.getDate() : date.getDate();
+            var month = (date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1) : (date.getMonth() + 1);
+            var year = date.getFullYear();
+            return day + '-' + month + '-' + year;
+    }
+
     function closeNotiPopup() {
         var notificationPopup = document.getElementById("noti-pop-up");
         notificationPopup.style.display = "none";
+        if (document.getElementById('success-icon').style.display == "inline")
+            window.location.href = "/change-type/create";
     }
     function checkTermMonthsInDatabase(monthInput) {
         fetch('/change-type/create/getCurrentTypeAPI') // Fetch API to check existing term months
@@ -285,6 +295,7 @@
         document.getElementById("savingsType").addEventListener("change", function () {
             const savingsType = document.getElementById("savingsType").value;
             termInputs.style.display = savingsType === "term" ? "block" : "none";
+            document.getElementById("min-days").readOnly = savingsType === "term" ? true : false;
         });
         // Real-time validation for each input field
         document.getElementById("interest-rate").addEventListener("input", function () {
@@ -293,8 +304,8 @@
             validateInput(this, interestRateNotification, isValid);
         });
         document.getElementById("min-deposit").addEventListener("input", function () {
-            let minDepositRaw = this.value.replace(/,/g, '').replace(/[^0-9]/g, '');
-            const formattedMinDeposit = new Intl.NumberFormat().format(minDepositRaw);
+            let minDepositRaw = this.value.replace(/[^0-9.]/g, '');
+            const formattedMinDeposit = minDepositRaw.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
             this.value = formattedMinDeposit;
             const isValid = !isNaN(minDepositRaw) && minDepositRaw !== '';
             validateInput(this, minDepositNotification, isValid);
@@ -309,6 +320,7 @@
         document.getElementById("term-months").addEventListener("input", function () {
             const termMonths = this.value;
             checkTermMonthsInDatabase(termMonths); // Call the function to check in the database
+            document.getElementById('min-days').value = termMonths * 30;
         });
 
         document.getElementById("submit_button").addEventListener("click", function (event) {
@@ -320,7 +332,7 @@
             const minDays = document.getElementById("min-days").value;
             const hour = document.getElementById("hourSelect").value;
             const minute = document.getElementById("minSelect").value;
-            const date = document.getElementById("app-date").value;
+            const date = changeDateFormat(document.getElementById("app-date").value);
 
             let isValid = true;
             if (isNaN(interestRate) || interestRate === '') {

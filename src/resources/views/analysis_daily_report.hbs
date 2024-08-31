@@ -146,7 +146,10 @@
         document.addEventListener("DOMContentLoaded", function () {
             const currentDate = new Date();
             currentDate.setDate(currentDate.getDate() - 1);
-            const previousDay = currentDate.toISOString().split('T')[0];
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            const previousDay = `${year}-${month}-${day}`;
             document.getElementById('report-date').textContent = formatDate(currentDate);
 
             const contactPath = "/contact";

@@ -62,7 +62,7 @@ h2 {
     text-align: left;
     color: black;
     margin-bottom: 20px;
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 15px;
 }
 
@@ -70,7 +70,7 @@ h2 {
     display: block;
     font-weight: 500;
     width: 100%;
-    font-style: Inter;
+    font-style: 'Inter';
     color:black;
 }
 
@@ -78,9 +78,13 @@ h2 {
     margin-bottom: 10px;
     font-weight: 500;
     width: 100%;
-    font-style: Inter;
+    font-style: 'Inter';
     color:black;
     font-size: 16px;
+}
+
+.label-group-1 p{
+    margin-top: 0;
 }
 
 .input-group-1 {
@@ -88,7 +92,7 @@ h2 {
     gap:20px;
     height: 55px;
     width: 40%;
-    font-family: Inter;
+    font-family: 'Inter';
     font-size: 15px;
 }
 
@@ -109,13 +113,14 @@ h2 {
 }
 .input-group label {
     font-family: 'Inter', sans-serif;
-    font-size: 15px; /* Kích thước font cho label */
+    font-size: 16px; /* Kích thước font cho label */
     margin-bottom: 10px; /* Khoảng cách giữa label và ô nhập */
     color:black;
     font-weight: 500;
 }
 .valid, .invalid {
-    margin-left: 120px;
+    margin-left: 130px;
+    margin-top: 3px;
     position: absolute;
     display: none; /* Ẩn biểu tượng mặc định */
     height: 15px;
@@ -123,11 +128,11 @@ h2 {
 }
 
 #valid_min_deposit, #invalid_min_deposit {
-    margin-left: 233px;
+    margin-left: 250px;
 }
 
 #valid_min_days, #invalid_min_days{
-    margin-left: 243px;
+    margin-left: 260px;
 }
 
 /* Định dạng cho các trường nhập liệu */
@@ -158,7 +163,7 @@ h2 {
 
 .time-label {
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
 }
 
@@ -170,13 +175,12 @@ h2 {
 .date-control {
     width: 100px; /* Adjust width as needed */
     height: 40px;
-    padding: 5px;
+    padding: 10px;
     font-family: 'Inter', sans-serif;
-    font-size: 16px;
+    font-size: 15px;
     text-align: left;
     border: 1px solid #ccc;
     border-radius: 0.25rem;
-    color: #828282;
 }
 
 .day {
@@ -187,15 +191,14 @@ h2 {
 
 .day label {
     font-family: 'Inter', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 500;
     margin-bottom: 10px;
 }
 
 .day input {
     width: 150px;
-    font-weight: 500;
-    color:#828282;    
+    color: #000;    
 }
 
 /* Định dạng cho nút chính */
@@ -218,6 +221,10 @@ h2 {
     text-decoration: none;
     border: none;
     cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #176E65;
 }
 
 p[id$="Notification"] {
