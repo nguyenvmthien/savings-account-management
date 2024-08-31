@@ -226,7 +226,7 @@ class Withdraw_H {
                     [principal, interest, id_account],
                 );
                 
-                if ( Math.floor(principal) === 0) {
+                if ( Math.floor(principal) <= 0) {
                     await connection.execute(
                         'UPDATE account SET close_date = ? WHERE acc_id = ?;',
                         [withdraw_date, id_account],

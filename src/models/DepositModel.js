@@ -82,7 +82,7 @@ class Deposit_H {
 
                         console.log('generate dep_id successful');
                         await connection.execute(
-                            'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, ?);',
+                            'INSERT INTO deposit (dep_id, acc_id, dep_money, dep_date) VALUES (?, ?, ?, CONVERT_TZ(?, "+00:00", @@session.time_zone));',
                             [dep_id, id_account, money_deposit, deposit_date],
                         );
 

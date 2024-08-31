@@ -73,7 +73,7 @@ class Account_H {
                 console.log(apply_date, 'get apply_date');
                 // Insert the new account
                 await connection.execute(
-                    'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, ?)',
+                    'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, CONVERT_TZ(?, "+00:00", @@session.time_zone))',
                     [
                         id_account,
                         id_card,
@@ -336,6 +336,8 @@ class Account_H {
     // NEED CHECK AGAIN.
     async getCurrentBalance(id_account, withdraw_date) {
         try {
+            console.log('id_account: ' + id_account);
+            console.log('withdraw_date: ' + withdraw_date);
             // Validate input
             if (!id_account || !withdraw_date) {
                 throw new Error('Account ID and withdrawal date are required.');
@@ -393,17 +395,54 @@ class Account_H {
             const diffTime = Math.abs(withdrawDate - openDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Difference in days
 
+            console.log('last_deposit_date: ' + last_deposit_date);
             // If the difference in days is greater than or equal to the minimum withdrawal date
             let totalAmount = principal;
             // tach principal ra thanh tien goc chua tinh lai va da tinh lai
-            
-            let t_interest = interest;
 
+            let t_interest = interest;
+            console.log('diffDaysCheck: ' + diffDaysCheck);
+            console.log('min_wit_date: ' + min_wit_date);
             if (diffDaysCheck >= min_wit_date) {
                 if (type === 'Non-term') {
                     if (diffDaysCheck > 30) {
                         // For non-term accounts: interest = principal * interest_rate
                         t_interest = principal * (interest_rate / 100);
+                    }
+                    if (diffDaysCheck <= 30) {
+                        // get all deposit transaction that (wit_date - dep_date <= 30)
+                        const query10 = `
+                            SELECT SUM(dep_money) AS total_deposit
+                            FROM deposit
+                            WHERE acc_id = ? AND dep_date >= ?
+                            ;
+                        `;
+
+                        const query11 = `
+                            SELECT SUM(init_money) AS total_deposit
+                            FROM account
+                            WHERE acc_id = ? AND open_date >= ?
+                            `;
+
+                        const condition_date = new Date(withdraw_date);
+                        // minus 30 days in withdraw_date
+                        condition_date.setDate(condition_date.getDate() - 30);
+
+                        const [rows10] = await pool.execute(query10, [
+                            id_account,
+                            condition_date,
+                        ]);
+
+                        const [rows11] = await pool.execute(query11, [
+                            id_account,
+                            condition_date,
+                        ]);
+
+                        console.log(rows10, rows11);
+                        const money_without_interest = rows10[0].total_deposit + rows11[0].total_deposit;
+                        t_interest = (principal - money_without_interest) * (interest_rate / 100);
+                        console.log(t_interest);
+                        console.log('code in 15 to 30 days');
                     }
                 } else {
                     // For fixed-term accounts: interest = principal * interest_rate * [(withdraw_date - last_deposit_date) / x]
@@ -450,8 +489,9 @@ class Account_H {
                     c.name,
                     b.principal + b.interest AS balance
                 FROM account a
-                JOIN customer c ON a.cus_id = c.cus_id
-                JOIN balance b ON a.acc_id = b.acc_id
+                    JOIN customer c ON a.cus_id = c.cus_id
+                    JOIN balance b ON a.acc_id = b.acc_id
+                WHERE a.close_date IS NULL
                 ORDER BY a.open_date DESC
                 LIMIT ${numOfAccounts};
             `;

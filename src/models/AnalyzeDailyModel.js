@@ -25,7 +25,7 @@ class Analyze_Daily_H {
                     deposit ON account.acc_id = deposit.acc_id
                 LEFT JOIN 
                     withdraw ON account.acc_id = withdraw.acc_id 
-                WHERE deposit.dep_date = ? OR account.open_date = ? OR withdraw.wit_date = ?
+                WHERE deposit.dep_date = CONVERT_TZ(?, "+00:00", @@session.time_zone) OR account.open_date = CONVERT_TZ(?, "+00:00", @@session.time_zone) OR withdraw.wit_date = CONVERT_TZ(?, "+00:00", @@session.time_zone)
                 GROUP BY 
                     account.type;
             `;
