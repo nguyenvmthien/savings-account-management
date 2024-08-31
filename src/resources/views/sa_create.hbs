@@ -129,7 +129,7 @@
         function changeDateFormat(inputDate) {
             var date = new Date(inputDate);
             var day = date.getDate();
-            var month = (date.getMonth() + 1)<10? '0'+(date.getMonth() + 1): (date.getMonth() + 1);
+            var month = (date.getMonth() + 1) < 10 ? '0'+(date.getMonth() + 1) : (date.getMonth() + 1);
             var year = date.getFullYear();
             return day + '-' + month + '-' + year;
         }
