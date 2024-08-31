@@ -73,7 +73,7 @@ class Account_H {
                 console.log(apply_date, 'get apply_date');
                 // Insert the new account
                 await connection.execute(
-                    'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, CONVERT_TZ(?, "+00:00", @@session.time_zone))',
+                    'INSERT INTO account (acc_id, cus_id, init_money, type, apply_date, open_date) VALUES (?, ?, ?, ?, ?, ?)',
                     [
                         id_account,
                         id_card,
