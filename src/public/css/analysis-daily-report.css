@@ -46,6 +46,9 @@ h2 {
   cursor: pointer;
   margin-left: 50px; }
 
+.btn-CSV:hover {
+  background: #176E65; }
+
 .daily_report {
   display: flex;
   /* Sử dụng Flexbox để sắp xếp các phần tử trên cùng một hàng */
@@ -92,43 +95,42 @@ h2 {
   border: none;
   cursor: pointer; }
 
+.create_button:hover {
+  background: #176E65; }
+
 .table-container {
   width: 100%;
   margin-top: 120px;
   border: 3px dashed #6D5858;
   overflow-x: hidden;
-  /* Hide horizontal scrollbar */ }
+  overflow-y: auto;
+  max-height: 450px; }
 
 .table-container table {
   width: 100%;
   border-collapse: collapse;
-  margin-left: 15px;
-  /* Left margin */ }
+  margin-left: 15px; }
 
-.account-table th:nth-child(1), .account-table td:nth-child(1) {
+.account-table th:nth-child(1),
+.account-table td:nth-child(1) {
   text-align: center;
-  width: 20%;
-  /* Set appropriate width */ }
+  width: 20%; }
 
-/* Align the second column */
-.account-table th:nth-child(2), .account-table td:nth-child(2) {
+.account-table th:nth-child(2),
+.account-table td:nth-child(2) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
+  width: 30%; }
 
-/* Align the third column */
-.account-table th:nth-child(3), .account-table td:nth-child(3) {
+.account-table th:nth-child(3),
+.account-table td:nth-child(3) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
+  width: 30%; }
 
-/* Align the fourth column */
-.account-table th:nth-child(4), .account-table td:nth-child(4) {
+.account-table th:nth-child(4),
+.account-table td:nth-child(4) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
+  width: 30%; }
 
-/* Remove underline below the total row */
 .account-table tr.total-row::after {
   display: none; }
 
@@ -175,7 +177,8 @@ tbody tr {
   width: 100%;
   padding-bottom: 4px; }
 
-.account-table th, .account-table td {
+.account-table th,
+.account-table td {
   padding-top: 15px;
   border: none;
   text-align: center; }
@@ -193,7 +196,8 @@ tbody tr {
   position: relative;
   /* Để sử dụng pseudo-element */ }
 
-.account-table tr::after, .account-table thead th::after {
+.account-table tr::after,
+.account-table thead th::after {
   content: "";
   display: block;
   position: absolute;

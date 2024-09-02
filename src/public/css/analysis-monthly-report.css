@@ -45,6 +45,9 @@ h2 {
   cursor: pointer;
   margin-left: 50px; }
 
+.btn-CSV:hover {
+  background: #176E65; }
+
 .filters {
   display: flex;
   gap: 30px;
@@ -88,6 +91,9 @@ h2 {
   text-align: center;
   border: none;
   cursor: pointer; }
+
+.create_button:hover {
+  background: #176E65; }
 
 #myChart {
   position: absolute;
@@ -139,7 +145,10 @@ h2 {
   width: 100%;
   margin-top: 50px;
   margin-left: -20px;
-  border: 3px dashed #6D5858; }
+  border: 3px dashed #6D5858;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 450px; }
 
 .account-table {
   width: 100%;

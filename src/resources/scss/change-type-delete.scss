@@ -1,4 +1,3 @@
-/* Định dạng cho container chứa form */
 .header {
     display: flex;
     flex-direction: row;
@@ -50,8 +49,8 @@ h2 {
 }
 
 .type-group {
-    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
-    margin-bottom: 20px; /* Khoảng cách dưới nhóm Type */
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .type-group label {
@@ -62,11 +61,11 @@ h2 {
     font-size: 16px;
 }
 .form-control {
-    width: auto; /* Điều chỉnh chiều rộng cho phù hợp với nội dung */
+    width: auto;
     color: black;
-    height: 45px; /* Đặt chiều cao cho dropdown */
+    height: 45px;
     font-family: 'Inter', sans-serif;
-    font-size: 13px; /* Tăng kích thước font cho dropdown */
+    font-size: 13px;
     box-sizing: border-box;
     text-align: left;
     margin-bottom: -5px;
@@ -74,21 +73,21 @@ h2 {
 
 .btn-primary {
     margin-left: 150px;
-    width: 120px; /* Điều chỉnh kích thước nếu cần */
-    height: 40px; /* Điều chỉnh kích thước nếu cần */
+    width: 120px;
+    height: 40px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; /* Màu chữ trắng */
-    font-size: 20px; /* Kích thước chữ */
-    font-family: 'Inter', sans-serif; /* Phông chữ */
-    font-weight: bold; 
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     text-decoration: none;
-    border: none; 
-    cursor: pointer; /* Thay đổi con trỏ khi di chuột vào nút */
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -97,13 +96,13 @@ h2 {
 
 .delete-message {
     margin-left: 20px;
-    background-color: #FEF4F4; /* Màu nền xanh nhạt */
-    border-radius: 30px; /* Bo tròn các góc */
-    padding: 20px; /* Tăng padding */
+    background-color: #FEF4F4;
+    border-radius: 30px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    width: 80%; /* Tăng chiều rộng */
-    height: 150px; /* Tăng chiều cao */
+    width: 80%;
+    height: 150px;
     position: absolute;
     border: 2px dashed #7B7575;;
     bottom: 10px;
@@ -185,30 +184,30 @@ h2 {
 
 .buttons {
     align-items: center;
-    display: flex; /* Sử dụng flexbox để sắp xếp các nút */
-    justify-content: center; /* Vertically centers content inside the pop-up */
-    gap: 60px; /* Khoảng cách giữa các nút */
+    display: flex;
+    justify-content: center;
+    gap: 60px;
 }
 .buttons button {
-    padding: 10px 20px; /* Điều chỉnh kích thước của nút */
-    font-size: 16px; /* Kích thước chữ */
+    padding: 10px 20px;
+    font-size: 16px;
 }
 .pop-up button {
     bottom: 50px;
     right: 70px;
-    width: 120px; /* Điều chỉnh kích thước nếu cần */
-    height: 40px; /* Điều chỉnh kích thước nếu cần */
+    width: 120px;
+    height: 40px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; /* Màu chữ trắng */
-    font-size: 20px; /* Kích thước chữ */
-    font-family: 'Inter', sans-serif; /* Phông chữ */
-    font-weight: bold; /* Độ dày chữ */
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    text-decoration: none; /* Loại bỏ gạch chân nếu có */
+    text-decoration: none;
     cursor: pointer;
     border: none;
 }

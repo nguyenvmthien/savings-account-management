@@ -40,13 +40,17 @@ h2 {
     height: 40px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; /* Màu chữ trắng */
-    font-size: 15px; /* Kích thước chữ */
-    font-family: 'Inter'; /* Phông chữ */
-    font-weight: bold; /* Độ dày chữ */
+    color: #fff;
+    font-size: 15px;
+    font-family: 'Inter';
+    font-weight: bold;
     text-align: center;
     border: none; 
     cursor: pointer; 
+}
+
+.btn-CSV:hover {
+    background: #176E65;
 }
 
 .input-container {
@@ -90,8 +94,8 @@ h2 {
 .input_date_create,
 .type_of_saving {
     display: flex;
-    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
-    gap: 15px; /* Khoảng cách giữa label và input */
+    align-items: center;
+    gap: 15px;
 }
 
 .input_date_create label,
@@ -133,28 +137,33 @@ width: 100px;
 height: 40px;
 background: #16A596;
 border-radius: 8px;
-color: #fff; /* Màu chữ trắng */
-font-size: 20px; /* Kích thước chữ */
-font-family: 'Inter'; /* Phông chữ */
-font-weight: bold; /* Độ dày chữ */
+color: #fff;
+font-size: 20px;
+font-family: 'Inter';
+font-weight: bold;
 text-align: center;
 border: none; 
 cursor: pointer; 
 }
 
+.btn-primary:hover {
+    background: #176E65;
+}
+
 .table-container {
     width: 100%;
     margin-top: 50px;
-    overflow-y: auto; /* Thanh cuộn dọc */
-    overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+    overflow-y: auto;
+    overflow-x: hidden;
     border: 3px dashed #6D5858;
+    max-height: 450px;
 }
 
 .account-table {
     width: 100%;
     border-collapse: collapse;
-    margin-left: 15px; /* Cách lề trái 15px */
-    margin-right: 30px; /* Cách lề phải 15px */
+    margin-left: 15px;
+    margin-right: 30px;
 }
 
 .account-table caption {
@@ -163,7 +172,7 @@ cursor: pointer;
     font-weight: bold;
     font-size: 24px;
     color: #440A67;
-    margin-top: 10px; /* Cách lề trên của bảng 10px */
+    margin-top: 10px;
 }
 
 .account-table th {
@@ -171,12 +180,9 @@ cursor: pointer;
     font-size: 16px;
     font-family: Inter;
     text-align: center;
-    padding-right: 25px; /* Adjust right padding similarly */
+    padding-right: 25px;
     padding-bottom: 5px;
-}
-
-.account-table th, .account-table td {
-    padding-left: 10px;
+    padding-left: 35px;
     padding-top: 10px;
     border: none;
     text-align: center;
@@ -187,12 +193,15 @@ cursor: pointer;
     color: #440A67;
     margin-top: 20px;
     font-weight: 400;
-    padding-top: 8px; /* Add some top padding to vertically center items between underlines */
-    padding-bottom: 8px; /* Add some bottom padding to vertically center items */
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 10px;
+    border: none;
+    text-align: center;
 }
 
 .account-table tr {
-    position: relative; /* Để sử dụng pseudo-element */
+    position: relative;
 }
 
 .account-table tr::after, .account-table thead th::after {
@@ -200,19 +209,14 @@ cursor: pointer;
     display: block;
     position: absolute;
     bottom: 0;
-    left: 1%;  /* Space from the left */
-    right: 5%;  /* Space from the right */
-    height: 1px;  /* Thickness of the underline */
-    background-color: #440A67;  /* Color of the underline */
-}
-
-.account-table th {
-    text-align: center;
-    padding-left: 35px;
+    left: 1%;
+    right: 5%;
+    height: 1px;
+    background-color: #440A67;
 }
 
 .account-table tr:last-child::after {
-    display: none;  /* Disable the underline for the last row */
+    display: none;
 }
 
 
