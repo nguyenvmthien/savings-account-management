@@ -22,44 +22,48 @@ h2 {
     letter-spacing: -0.68px;
     margin-left: -680px;
     font-family: 'Inter', sans-serif;
-    color:black;
+    color: black;
     font-style: normal;
 }
 
 .row {
     margin-top: 60px;
     display: flex;
-    gap:150px;
+    gap: 150px;
 }
 
 .btn-CSV {
     margin-top: 15px;
-    position: absolute; 
+    position: absolute;
     right: 10px;
-    width: 120px; 
+    width: 120px;
     height: 40px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; /* Màu chữ trắng */
-    font-size: 15px; /* Kích thước chữ */
-    font-family: 'Inter'; /* Phông chữ */
-    font-weight: bold; /* Độ dày chữ */
+    color: #fff;
+    font-size: 15px;
+    font-family: 'Inter';
+    font-weight: bold;
     text-align: center;
-    border: none; 
-    cursor: pointer; 
+    border: none;
+    cursor: pointer;
+}
+
+.btn-CSV:hover {
+    background: #176E65;
 }
 
 .input-container {
     margin-top: -20px;
-    display: flex; 
-    gap:150px;
+    display: flex;
+    gap: 150px;
 }
 
 .input-ID,
 .input-group {
     display: flex;
     align-items: center;
-    gap:15px;
+    gap: 15px;
 }
 
 .input-ID label,
@@ -67,7 +71,7 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 15px;
-    }
+}
 
 .input-ID .input-field,
 .input-group .input-field {
@@ -82,16 +86,16 @@ h2 {
 }
 
 .input-container-second {
-    display: flex; 
-    gap: 153px; 
+    display: flex;
+    gap: 153px;
     margin-top: 10px;
 }
 
 .input_date_create,
 .type_of_saving {
     display: flex;
-    align-items: center; /* Căn giữa các phần tử theo chiều dọc */
-    gap: 15px; /* Khoảng cách giữa label và input */
+    align-items: center;
+    gap: 15px;
 }
 
 .input_date_create label,
@@ -99,11 +103,10 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 15px;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
-.input_date_create .input-field
- {
+.input_date_create .input-field {
     width: 150px;
     padding: 10px;
     height: 40px;
@@ -115,7 +118,7 @@ h2 {
 }
 
 .type_of_saving option {
-    width: 180px; 
+    width: 180px;
     padding: 10px;
     height: 40px;
     font-family: 'Inter';
@@ -126,44 +129,58 @@ h2 {
 }
 
 .btn-primary {
-position: absolute; 
-margin-top: -10px;
-right: 20px;
-width: 100px; 
-height: 40px;
-background: #16A596;
-border-radius: 8px;
-color: #fff; /* Màu chữ trắng */
-font-size: 20px; /* Kích thước chữ */
-font-family: 'Inter'; /* Phông chữ */
-font-weight: bold; /* Độ dày chữ */
-text-align: center;
-border: none; 
-cursor: pointer; 
+    position: absolute;
+    margin-top: -10px;
+    right: 20px;
+    width: 100px;
+    height: 40px;
+    background: #16A596;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #176E65;
 }
 
 .table-container {
     width: 100%;
     margin-top: 50px;
-    overflow-y: auto; /* Thanh cuộn dọc */
-    overflow-x: hidden; /* Ẩn thanh cuộn ngang */
+    overflow: hidden;
     border: 3px dashed #6D5858;
+    padding-right: 35px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 450px;
 }
 
 .account-table {
     width: 100%;
     border-collapse: collapse;
-    margin-left: 15px; /* Cách lề trái 15px */
-    margin-right: 30px; /* Cách lề phải 15px */
+    margin-left: 20px;
+    table-layout: fixed;
 }
 
 .account-table caption {
     text-align: left;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter';
     font-weight: bold;
     font-size: 24px;
     color: #440A67;
-    margin-top: 10px; /* Cách lề trên của bảng 10px */
+    margin-top: 10px;
+}
+
+.account-table thead,
+.account-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .account-table th {
@@ -171,14 +188,8 @@ cursor: pointer;
     font-size: 16px;
     font-family: Inter;
     text-align: center;
-    padding-right: 25px; /* Adjust right padding similarly */
+    border-bottom: 1px solid #440A67;
     padding-bottom: 5px;
-}
-
-.account-table th, .account-table td {
-    padding-left: 10px;
-    padding-top: 10px;
-    border: none;
     text-align: center;
 }
 
@@ -187,39 +198,22 @@ cursor: pointer;
     color: #440A67;
     margin-top: 20px;
     font-weight: 400;
-    padding-top: 8px; /* Add some top padding to vertically center items between underlines */
-    padding-bottom: 8px; /* Add some bottom padding to vertically center items */
-}
-
-.account-table tr {
-    position: relative; /* Để sử dụng pseudo-element */
-}
-
-.account-table tr::after, .account-table thead th::after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 1%;  /* Space from the left */
-    right: 5%;  /* Space from the right */
-    height: 1px;  /* Thickness of the underline */
-    background-color: #440A67;  /* Color of the underline */
-}
-
-.account-table th {
+    border-bottom: 1px solid #440A67;
     text-align: center;
-    padding-left: 35px;
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
 
-.account-table tr:last-child::after {
-    display: none;  /* Disable the underline for the last row */
+.account-table th:first-child,
+.account-table td:first-child {
+    width: 10%;
 }
 
+.account-table th:not(:first-child),
+.account-table td:not(:first-child) {
+    width: 22.5%;
+}
 
-
-
-
-
-
-
-
+.account-table tbody tr:last-child td {
+    border-bottom: none;
+}

@@ -170,7 +170,7 @@ class API_Controller {
             return res.json({ message: 'fail' });
         }
     }
-    async getAllAndWithdrawTransactionAPI(req, res) {
+    async getAllDepositAndWithdrawTransactionAPI(req, res) {
         try {
             const deposit = await depositModel.getAllDepositTransaction();
             const withdraw = await withdrawModel.getAllWithdrawTransaction();

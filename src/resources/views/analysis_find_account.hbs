@@ -127,13 +127,6 @@
                         tbody.appendChild(row);
                     });
                 }
-                // Add scroll bar if more than 10 rows
-                const tableContainer = document.querySelector(".table-container");
-                if (data.length > 10) {
-                    tableContainer.style.overflowY = "auto"; // Show vertical scrollbar
-                } else {
-                    tableContainer.style.overflowY = "hidden"; // Hide scrollbar if not needed
-                }
             }
             // Initial fetch of newest accounts
             fetchNewestAccounts();

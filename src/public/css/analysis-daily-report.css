@@ -46,6 +46,9 @@ h2 {
   cursor: pointer;
   margin-left: 50px; }
 
+.btn-CSV:hover {
+  background: #176E65; }
+
 .daily_report {
   display: flex;
   /* Sử dụng Flexbox để sắp xếp các phần tử trên cùng một hàng */
@@ -77,9 +80,7 @@ h2 {
 .create_button {
   position: absolute;
   top: 230px;
-  /* Position it 30px from the bottom */
   left: 250px;
-  /* Position it 30px from the right */
   width: 140px;
   height: 40px;
   background: #16A596;
@@ -92,59 +93,47 @@ h2 {
   border: none;
   cursor: pointer; }
 
+.create_button:hover {
+  background: #176E65; }
+
 .table-container {
   width: 100%;
   margin-top: 120px;
   border: 3px dashed #6D5858;
   overflow-x: hidden;
-  /* Hide horizontal scrollbar */ }
+  overflow-y: auto;
+  max-height: 450px;
+  padding-right: 35px; }
 
 .table-container table {
   width: 100%;
   border-collapse: collapse;
-  margin-left: 15px;
-  /* Left margin */ }
+  margin-left: 15px; }
 
-.account-table th:nth-child(1), .account-table td:nth-child(1) {
+.account-table th:nth-child(1),
+.account-table td:nth-child(1) {
   text-align: center;
-  width: 20%;
-  /* Set appropriate width */ }
+  width: 20%; }
 
-/* Align the second column */
-.account-table th:nth-child(2), .account-table td:nth-child(2) {
+.account-table th:nth-child(2),
+.account-table td:nth-child(2) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
+  width: 30%; }
 
-/* Align the third column */
-.account-table th:nth-child(3), .account-table td:nth-child(3) {
+.account-table th:nth-child(3),
+.account-table td:nth-child(3) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
+  width: 30%; }
 
-/* Align the fourth column */
-.account-table th:nth-child(4), .account-table td:nth-child(4) {
+.account-table th:nth-child(4),
+.account-table td:nth-child(4) {
   text-align: center;
-  width: 30%;
-  /* Set appropriate width */ }
-
-/* Remove underline below the total row */
-.account-table tr.total-row::after {
-  display: none; }
+  width: 30%; }
 
 thead {
   display: table;
   width: 100%;
   table-layout: fixed; }
-
-tbody {
-  display: block;
-  max-height: 350px;
-  /* Limit height to trigger scroll after approx. 10 rows */
-  width: calc(100% - 17px);
-  /* Adjust width to account for scrollbar width */
-  position: relative;
-  /* Ensure the scroll bar is properly positioned */ }
 
 tbody tr {
   display: table;
@@ -164,8 +153,7 @@ tbody tr {
   font-weight: bold;
   font-size: 24px;
   color: #440A67;
-  margin-top: 10px;
-  /* Space above the table */ }
+  margin-top: 10px; }
 
 .account-table th {
   color: #828282;
@@ -175,10 +163,11 @@ tbody tr {
   width: 100%;
   padding-bottom: 4px; }
 
-.account-table th, .account-table td {
+.account-table th,
+.account-table td {
   padding-top: 15px;
-  border: none;
-  text-align: center; }
+  text-align: center;
+  border-bottom: 1px solid #440A67; }
 
 .account-table td {
   font-family: 'Inter', sans-serif;
@@ -186,50 +175,11 @@ tbody tr {
   font-weight: 400;
   margin-top: 20px;
   padding-top: 10px;
-  padding-bottom: 10px;
-  /* Add space above and below each td to visually center data between row underlines */ }
+  padding-bottom: 10px; }
 
 .account-table tr {
-  position: relative;
-  /* Để sử dụng pseudo-element */ }
+  position: relative; }
 
-.account-table tr::after, .account-table thead th::after {
-  content: "";
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 2%;
-  /* Space from the left */
-  right: 5%;
-  /* Space from the right */
-  height: 1px;
-  /* Thickness of the underline */
-  background-color: #440A67;
-  /* Color of the underline */ }
-
-/* Styles applied when tbody has the scrollable class */
-.scrollable {
-  overflow-y: scroll;
-  /* Always show vertical scrollbar */
-  max-height: 500px;
-  /* Limit height to trigger scroll after approx. 10 rows */ }
-
-/* Scrollbar styles for the scrollable class */
-.scrollable::-webkit-scrollbar {
-  width: 9px;
-  /* Make the scrollbar wider */ }
-
-.scrollable::-webkit-scrollbar-thumb {
-  background-color: #6D5858;
-  /* Thumb (draggable part) color */
-  border-radius: 10px;
-  /* Round the corners */ }
-
-.scrollable::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  /* Track (background of scrollbar) color */ }
-
-/* Ensure no underline appears below the "no-data-message" */
 .account-table tr.no-data-message::after {
   display: none; }
 
