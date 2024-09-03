@@ -75,13 +75,13 @@
 .amount1,
 .amount2 {
     color: #6D5858;
-    font-family: Inika;
+    font-family: sans-serif;
     font-size: 30px;
     font-style: normal;
     font-weight: 700;
-    line-height: 110%;
+    line-height: 100%;
     letter-spacing: -0.6px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 /* CSS cho welcome-box3 */
@@ -157,21 +157,16 @@
 
 .chart-container {
     position: absolute;
-    top: 50px;
-    /* Adjust the top position as needed */
-    right: 30px;
-    /* Adjust the right position as needed */
-    width: 300px;
-    height: 300px;
+    top: 30px;
+    right: 77px;
+    width: 400px;
+    height: 400px;
     justify-content: center;
     align-items: center;
     background-color: #f9f9f9;
-    /* Optional: background color for the chart container */
     padding: 10px;
-    /* Optional: padding inside the container */
     border: 2px dashed #7B7575;
     border-radius: 10px;
-    /* Optional: rounded corners */
 }
 
 /* CSS for the chart canvas */

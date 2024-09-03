@@ -231,7 +231,7 @@
             document.getElementById('tos-input').value = accountData.type_of_saving;
             document.getElementById('date').value = accountData.date_created.slice(0, 10);
             document.getElementById('rate').value = accountData.interest_rate;
-            document.getElementById('money').value = accountData.init_money;
+            document.getElementById('money').value = accountData.init_money.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
             document.getElementById('confirmCId').innerText = 'Customer ID Card: ' + accountData.id_card;
             document.getElementById('confirmName').innerText = 'Customer Name: ' + accountData.customer_name;
@@ -240,7 +240,7 @@
             document.getElementById('confirmCreateDate').innerText = 'Date Create Account: ' + changeDateFormat(accountData.date_created.slice(0, 10));
             document.getElementById('confirmTos').innerText = 'Type of Saving: ' + accountData.type_of_saving;
             document.getElementById('confirmRate').innerText = 'Interest Rate: ' + accountData.interest_rate + '%';
-            document.getElementById('confirmMoney').innerText = 'Money: ' + accountData.init_money + ' VND';
+            document.getElementById('confirmMoney').innerText = 'Money: ' + accountData.init_money.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' VND';
         });
 
         // Valid input
@@ -261,7 +261,7 @@
         });
 
         document.getElementById('address').addEventListener('input', function () {
-            const regex = /^[A-Za-zÀ-ỹ0-9,\s]+$/;
+            const regex = /^[A-Za-zÀ-ỹ0-9,./\s]+$/;
             if (regex.test(this.value)) {
                 document.getElementById('address_error_message').style.display = 'none';
                 document.getElementById('valid_address').style.display = "inline";

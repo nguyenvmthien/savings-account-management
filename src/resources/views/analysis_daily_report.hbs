@@ -96,9 +96,9 @@
                     const row = document.createElement('tr');
                     row.innerHTML = `
                 <td>${item.type_of_saving}</td>
-                <td>${item.total_income}</td>
-                <td>${item.total_expense}</td>
-                <td>${item.total_income - item.total_expense}</td>
+                <td>${item.total_income.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>${item.total_expense.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>${(item.total_income - item.total_expense).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
             `;
                     tableBody.appendChild(row);
 
@@ -111,18 +111,11 @@
                     totalsRow.classList.add("total-row");
                     totalsRow.innerHTML = `
                 <td>Total</td>
-                <td>${totalIncomeSum}</td>
-                <td>${totalExpenseSum}</td>
-                <td>${totalIncomeSum - totalExpenseSum}</td>
+                <td>${totalIncomeSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>${totalExpenseSum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                <td>${(totalIncomeSum - totalExpenseSum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
             `;
                     tableBody.appendChild(totalsRow);
-                }
-
-                const numberOfRows = tableBody.querySelectorAll('tr').length;
-                if (numberOfRows > 10) {
-                    tableBody.classList.add('scrollable');
-                } else {
-                    tableBody.classList.remove('scrollable');
                 }
 
                 document.getElementById('csv_button').disabled = false;
@@ -188,14 +181,8 @@
                 document.getElementById('report-date').textContent = displayDate;
 
                 fetchData(date).then(data => {
-                    const isPreviousDay = new Date(date).toISOString().split('T')[0] === new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
-                    if (isPreviousDay) {
-                        renderChart(data);
-                        document.querySelector('#account-table tbody').innerHTML = '<tr class="no-data-message"><td colspan="4">Insert the date</td></tr>';
-                    } else {
-                        renderTable(data);
-                        renderChart(data);
-                    }
+                    renderTable(data);
+                    renderChart(data);
                 }).catch(error => {
                     console.error('Error fetching report data:', error);
                 });
@@ -241,6 +228,20 @@
                                 let value = context.raw || 0;
                                 return new Intl.NumberFormat().format(value);
                             }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Daily operations sales report',
+                        position: 'bottom',
+                        font: {
+                            size: 20,
+                            weight: 400,
+                            family: 'Inter'
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 10
                         }
                     }
                 },

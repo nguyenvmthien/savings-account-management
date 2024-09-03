@@ -253,7 +253,7 @@
                     console.log('Raw Data:', data);
                     minDepMoney = data.min_dep_money;
                     document.getElementById('dep_money_error_message').innerText = `Must be greater than or equal to ${minDepMoney.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-                    document.getElementById('dep_date_error_message').innerText = `Must be after opened date`;
+                    document.getElementById('dep_date_error_message').innerText = `Must be after ${changeDateFormat(accountData.date_created.slice(0, 10))}`;
                 })
                 .catch(error => {
                     console.error('Error get min deposit money:', error);
@@ -295,7 +295,8 @@
         document.getElementById('deposit_date').addEventListener('change', function () {
             const dateDeposit = document.getElementById('deposit_date').value;
             const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
-            if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
+            document.getElementById('dep_date_error_message').innerText = `Must be after ${changeDateFormat(dateCreate)}`;
+            if (getDifferenceInDays(dateDeposit, dateCreate) > 0) {
                 document.getElementById('dep_date_error_message').style.display = 'none';
                 document.getElementById('valid_dep_date').style.display = "inline";
                 document.getElementById('invalid_dep_date').style.display = "none";

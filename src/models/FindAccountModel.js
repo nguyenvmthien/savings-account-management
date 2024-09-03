@@ -19,36 +19,36 @@ class Find_Account_H {
             const params = [];
             // check if the parameter is not null, may be use lib,...
 
-            console.log(
-                id_card,
-                id_account,
-                date_created_account,
-                type_of_saving,
-            );
-            console.log(
-                id_card !== null,
-                id_account !== null,
-                date_created_account !== null,
-                type_of_saving !== null,
-            );
-            console.log(
-                id_card === null,
-                id_account === null,
-                date_created_account === null,
-                type_of_saving === null,
-            );
-            console.log(
-                id_card != null,
-                id_account != null,
-                date_created_account != null,
-                type_of_saving != null,
-            );
-            console.log(
-                id_card == null,
-                id_account == null,
-                date_created_account == null,
-                type_of_saving == null,
-            );
+            // console.log(
+            //     id_card,
+            //     id_account,
+            //     date_created_account,
+            //     type_of_saving,
+            // );
+            // console.log(
+            //     id_card !== null,
+            //     id_account !== null,
+            //     date_created_account !== null,
+            //     type_of_saving !== null,
+            // );
+            // console.log(
+            //     id_card === null,
+            //     id_account === null,
+            //     date_created_account === null,
+            //     type_of_saving === null,
+            // );
+            // console.log(
+            //     id_card != null,
+            //     id_account != null,
+            //     date_created_account != null,
+            //     type_of_saving != null,
+            // );
+            // console.log(
+            //     id_card == null,
+            //     id_account == null,
+            //     date_created_account == null,
+            //     type_of_saving == null,
+            // );
 
             if (id_card) {
                 baseQuery += ' AND customer.cus_id = ?';
