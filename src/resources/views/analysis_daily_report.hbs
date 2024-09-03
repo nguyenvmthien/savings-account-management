@@ -188,14 +188,8 @@
                 document.getElementById('report-date').textContent = displayDate;
 
                 fetchData(date).then(data => {
-                    const isPreviousDay = new Date(date).toISOString().split('T')[0] === new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0];
-                    if (isPreviousDay) {
-                        renderChart(data);
-                        document.querySelector('#account-table tbody').innerHTML = '<tr class="no-data-message"><td colspan="4">Insert the date</td></tr>';
-                    } else {
-                        renderTable(data);
-                        renderChart(data);
-                    }
+                    renderTable(data);
+                    renderChart(data);
                 }).catch(error => {
                     console.error('Error fetching report data:', error);
                 });
