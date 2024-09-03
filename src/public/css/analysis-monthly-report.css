@@ -175,7 +175,8 @@ h2 {
   padding-right: 45px;
   /* Adjust right padding similarly */ }
 
-.account-table th, .account-table td {
+.account-table th,
+.account-table td {
   padding-left: 5px;
   padding-top: 10px;
   border: none;
@@ -245,26 +246,21 @@ h2 {
   /* Add space above and below each td to visually center data between row underlines */ }
 
 .account-table tr {
-  position: relative;
-  /* Để sử dụng pseudo-element */ }
+  position: relative; }
 
 .account-table tr:last-child::after {
-  display: none;
-  /* Disable the underline for the last row */ }
+  display: none; }
 
-.account-table tr::after, .account-table thead th::after {
+.account-table tr::after,
+.account-table thead th::after {
   content: "";
   display: block;
   position: absolute;
   bottom: 0;
   left: 1%;
-  /* Space from the left */
   right: 4%;
-  /* Space from the right */
   height: 1px;
-  /* Thickness of the underline */
-  background-color: #440A67;
-  /* Color of the underline */ }
+  background-color: #440A67; }
 
 .scrollable {
   overflow-y: scroll;
@@ -290,28 +286,17 @@ h2 {
 .chart-container {
   position: absolute;
   top: -20px;
-  /* Adjust the top position as needed */
   right: 100px;
-  /* Adjust the right position as needed */
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   align-items: center; }
-
-/* CSS for the chart canvas */
-.chart-container canvas {
-  width: 80% !important;
-  /* Make the chart fit its container */
-  height: 80% !important;
-  /* Make the chart fit its container */ }
 
 .initial-message {
   text-align: center;
   color: #828282;
   font-family: Inter;
-  font-size: 50px;
-  /* Đổi kích thước phông chữ nếu cần */ }
+  font-size: 50px; }
 
-/* Ensure no underline appears below the "no-data-message" */
 .account-table tr.initial-message::after {
   display: none; }
 
@@ -319,5 +304,4 @@ h2 {
   position: relative; }
 
 .account-table tr.no-data-message::after {
-  content: none;
-  /* Removes the underline */ }
+  content: none; }

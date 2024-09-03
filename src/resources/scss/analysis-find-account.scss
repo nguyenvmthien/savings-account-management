@@ -22,21 +22,21 @@ h2 {
     letter-spacing: -0.68px;
     margin-left: -680px;
     font-family: 'Inter', sans-serif;
-    color:black;
+    color: black;
     font-style: normal;
 }
 
 .row {
     margin-top: 60px;
     display: flex;
-    gap:150px;
+    gap: 150px;
 }
 
 .btn-CSV {
     margin-top: 15px;
-    position: absolute; 
+    position: absolute;
     right: 10px;
-    width: 120px; 
+    width: 120px;
     height: 40px;
     background: #16A596;
     border-radius: 8px;
@@ -45,8 +45,8 @@ h2 {
     font-family: 'Inter';
     font-weight: bold;
     text-align: center;
-    border: none; 
-    cursor: pointer; 
+    border: none;
+    cursor: pointer;
 }
 
 .btn-CSV:hover {
@@ -55,15 +55,15 @@ h2 {
 
 .input-container {
     margin-top: -20px;
-    display: flex; 
-    gap:150px;
+    display: flex;
+    gap: 150px;
 }
 
 .input-ID,
 .input-group {
     display: flex;
     align-items: center;
-    gap:15px;
+    gap: 15px;
 }
 
 .input-ID label,
@@ -71,7 +71,7 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 15px;
-    }
+}
 
 .input-ID .input-field,
 .input-group .input-field {
@@ -86,8 +86,8 @@ h2 {
 }
 
 .input-container-second {
-    display: flex; 
-    gap: 153px; 
+    display: flex;
+    gap: 153px;
     margin-top: 10px;
 }
 
@@ -103,11 +103,10 @@ h2 {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 15px;
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
-.input_date_create .input-field
- {
+.input_date_create .input-field {
     width: 150px;
     padding: 10px;
     height: 40px;
@@ -119,7 +118,7 @@ h2 {
 }
 
 .type_of_saving option {
-    width: 180px; 
+    width: 180px;
     padding: 10px;
     height: 40px;
     font-family: 'Inter';
@@ -130,20 +129,20 @@ h2 {
 }
 
 .btn-primary {
-position: absolute; 
-margin-top: -10px;
-right: 20px;
-width: 100px; 
-height: 40px;
-background: #16A596;
-border-radius: 8px;
-color: #fff;
-font-size: 20px;
-font-family: 'Inter';
-font-weight: bold;
-text-align: center;
-border: none; 
-cursor: pointer; 
+    position: absolute;
+    margin-top: -10px;
+    right: 20px;
+    width: 100px;
+    height: 40px;
+    background: #16A596;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    font-family: 'Inter';
+    font-weight: bold;
+    text-align: center;
+    border: none;
+    cursor: pointer;
 }
 
 .btn-primary:hover {
@@ -153,26 +152,35 @@ cursor: pointer;
 .table-container {
     width: 100%;
     margin-top: 50px;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     border: 3px dashed #6D5858;
+    padding-right: 35px;
+    overflow-x: hidden;
+    overflow-y: auto;
     max-height: 450px;
 }
 
 .account-table {
     width: 100%;
     border-collapse: collapse;
-    margin-left: 15px;
-    margin-right: 30px;
+    margin-left: 20px;
+    table-layout: fixed;
 }
 
 .account-table caption {
     text-align: left;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter';
     font-weight: bold;
     font-size: 24px;
     color: #440A67;
     margin-top: 10px;
+}
+
+.account-table thead,
+.account-table tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
 }
 
 .account-table th {
@@ -180,11 +188,8 @@ cursor: pointer;
     font-size: 16px;
     font-family: Inter;
     text-align: center;
-    padding-right: 25px;
+    border-bottom: 1px solid #440A67;
     padding-bottom: 5px;
-    padding-left: 35px;
-    padding-top: 10px;
-    border: none;
     text-align: center;
 }
 
@@ -193,37 +198,22 @@ cursor: pointer;
     color: #440A67;
     margin-top: 20px;
     font-weight: 400;
+    border-bottom: 1px solid #440A67;
+    text-align: center;
     padding-top: 8px;
     padding-bottom: 8px;
-    padding-left: 10px;
-    border: none;
-    text-align: center;
 }
 
-.account-table tr {
-    position: relative;
+.account-table th:first-child,
+.account-table td:first-child {
+    width: 10%;
 }
 
-.account-table tr::after, .account-table thead th::after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 1%;
-    right: 5%;
-    height: 1px;
-    background-color: #440A67;
+.account-table th:not(:first-child),
+.account-table td:not(:first-child) {
+    width: 22.5%;
 }
 
-.account-table tr:last-child::after {
-    display: none;
+.account-table tbody tr:last-child td {
+    border-bottom: none;
 }
-
-
-
-
-
-
-
-
-

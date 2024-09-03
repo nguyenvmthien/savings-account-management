@@ -271,7 +271,6 @@
                     console.log('Raw Data:', data);
                     minWitDays = data.min_wit_time;
                     document.getElementById('wit_money_error_message').innerText = `Must be less than or equal to ${addStrings(accountData.principal, accountData.interest).replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`;
-                    document.getElementById('wit_date_error_message').innerText = `At least ${minWitDays} day(s) from the date of last deposit`;
                 })
                 .catch(error => {
                     console.error('Error get min withdraw days:', error);
@@ -342,6 +341,7 @@
                     document.getElementById('wit_money_error_message').innerText = `Must be less than or equal to ${document.getElementById('balance').value}`;
                     if(document.getElementById('type_of_saving').value != 'Non-term')
                         document.getElementById('money_withdraw').value = document.getElementById('balance').value;
+                    document.getElementById('wit_date_error_message').innerText = `At least ${minWitDays} day(s) from ${changeDateFormat(lastDepositDate)}`;
                 })
                 .catch(error => {
                     console.error('Error get current balance:', error);

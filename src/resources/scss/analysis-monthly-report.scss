@@ -28,23 +28,24 @@ h2 {
 
 .row {
     display: flex;
-    align-items: center; /* Căn giữa theo chiều dọc */
-    gap:200px;
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    gap: 200px;
 }
 
 .btn-CSV {
-    position: relative; 
-    width: 100px; 
+    position: relative;
+    width: 100px;
     height: 30px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; 
+    color: #fff;
     font-size: 15px;
-    font-family: 'Inter'; 
-    font-weight: bold; 
+    font-family: 'Inter';
+    font-weight: bold;
     text-align: center;
-    border: none; 
-    cursor: pointer; 
+    border: none;
+    cursor: pointer;
     margin-left: 50px;
 }
 
@@ -89,17 +90,17 @@ h2 {
     position: fixed;
     left: 710px;
     right: 70px;
-    width: 140px; 
+    width: 140px;
     height: 40px;
     background: #16A596;
     border-radius: 8px;
-    color: #fff; 
-    font-size: 18px; 
-    font-family: 'Inter'; 
-    font-weight: 700; 
+    color: #fff;
+    font-size: 18px;
+    font-family: 'Inter';
+    font-weight: 700;
     text-align: center;
-    border: none; 
-    cursor: pointer; 
+    border: none;
+    cursor: pointer;
 }
 
 .create_button:hover {
@@ -108,7 +109,7 @@ h2 {
 
 #myChart {
     position: absolute;
-    top:60px;
+    top: 60px;
     right: 20px;
     width: 20%;
     height: 20%;
@@ -116,39 +117,48 @@ h2 {
 
 .table-container {
     margin-top: 150px;
-    border: 2px dashed #6D5858; /* Dashed border for container */
-    padding: 20px; /* Padding inside the container */
+    border: 2px dashed #6D5858;
+    /* Dashed border for container */
+    padding: 20px;
+    /* Padding inside the container */
 }
 
 .caption-container {
     display: flex;
     align-items: center;
-    margin-bottom: 20px; /* Margin below the caption container */
+    margin-bottom: 20px;
+    /* Margin below the caption container */
 }
 
 .table-title {
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     font-size: 24px;
-    color: #440A67; /* Color for table title */
+    color: #440A67;
+    /* Color for table title */
 }
 
 .filter-info {
     display: flex;
-    align-items: center; /* Center items vertically */
-    margin-left: 150px; /* Space between title and filter info */
+    align-items: center;
+    /* Center items vertically */
+    margin-left: 150px;
+    /* Space between title and filter info */
 }
 
 .filter-label {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
-    color: #828282; /* Color for filter labels */
-    margin-left: 50px; /* Space between title and filter info */
+    color: #828282;
+    /* Color for filter labels */
+    margin-left: 50px;
+    /* Space between title and filter info */
 
 }
 
 .filter-label:not(:last-child) {
-    margin-right: 40px; /* Space between filter labels */
+    margin-right: 40px;
+    /* Space between filter labels */
 }
 
 .table-container {
@@ -164,8 +174,10 @@ h2 {
 .account-table {
     width: 100%;
     border-collapse: collapse;
-    margin-left: 15px; /* Cách lề trái 15px */
-    margin-right: 30px; /* Cách lề phải 15px */
+    margin-left: 15px;
+    /* Cách lề trái 15px */
+    margin-right: 30px;
+    /* Cách lề phải 15px */
 }
 
 .account-table caption {
@@ -174,7 +186,8 @@ h2 {
     font-weight: bold;
     font-size: 24px;
     color: #440A67;
-    margin-top: 10px; /* Cách lề trên của bảng 10px */
+    margin-top: 10px;
+    /* Cách lề trên của bảng 10px */
 }
 
 .account-table th {
@@ -182,51 +195,74 @@ h2 {
     font-size: 16px;
     font-family: Inter;
     text-align: center;
-    padding-right: 45px; /* Adjust right padding similarly */
+    padding-right: 45px;
+    /* Adjust right padding similarly */
 }
 
-.account-table th, .account-table td {
+.account-table th,
+.account-table td {
     padding-left: 5px;
     padding-top: 10px;
     border: none;
     text-align: center;
 }
-.account-table th:nth-child(1), 
+
+.account-table th:nth-child(1),
 .account-table td:nth-child(1) {
-    text-align: center; /* Align text to the center */
-    width: auto;  /* Set appropriate width */
-    padding-left: 10px;  /* Distance from the left edge */
-    padding-right: 10px; /* Align right padding for consistency */
+    text-align: center;
+    /* Align text to the center */
+    width: auto;
+    /* Set appropriate width */
+    padding-left: 10px;
+    /* Distance from the left edge */
+    padding-right: 10px;
+    /* Align right padding for consistency */
 }
-.account-table th:nth-child(2), 
+
+.account-table th:nth-child(2),
 .account-table td:nth-child(2) {
-    text-align: center; /* Align text to the center */
-    width: auto;  /* Set appropriate width */
-    padding-left: 25px;  /* Distance from the left edge */
-    padding-right: 25px; /* Align right padding for consistency */
+    text-align: center;
+    /* Align text to the center */
+    width: auto;
+    /* Set appropriate width */
+    padding-left: 25px;
+    /* Distance from the left edge */
+    padding-right: 25px;
+    /* Align right padding for consistency */
 }
 
-.account-table th:nth-child(3), 
+.account-table th:nth-child(3),
 .account-table td:nth-child(3) {
-    text-align: center; /* Align text to the center */
-    width: auto;  /* Set appropriate width */
-    padding-left: 25px;  /* Distance from the left edge */
-    padding-right: 25px; /* Align right padding for consistency */
+    text-align: center;
+    /* Align text to the center */
+    width: auto;
+    /* Set appropriate width */
+    padding-left: 25px;
+    /* Distance from the left edge */
+    padding-right: 25px;
+    /* Align right padding for consistency */
 }
 
-.account-table th:nth-child(4), 
+.account-table th:nth-child(4),
 .account-table td:nth-child(4) {
-    text-align: center; /* Align text to the center */
-    width: auto;  /* Set appropriate width */
-    padding-left: 25px;  /* Distance from the left edge */
-    padding-right: 25px; /* Align right padding for consistency */
+    text-align: center;
+    /* Align text to the center */
+    width: auto;
+    /* Set appropriate width */
+    padding-left: 25px;
+    /* Distance from the left edge */
+    padding-right: 25px;
+    /* Align right padding for consistency */
 }
 
-.account-table th:nth-child(5), 
+.account-table th:nth-child(5),
 .account-table td:nth-child(5) {
-    text-align: center; /* Align text to the center */
-    width: auto;  /* Adjust width as needed */
-    padding-right: 30px; /* Align right padding for consistency */
+    text-align: center;
+    /* Align text to the center */
+    width: auto;
+    /* Adjust width as needed */
+    padding-right: 30px;
+    /* Align right padding for consistency */
 }
 
 .account-table td {
@@ -236,64 +272,72 @@ h2 {
     font-weight: 400;
     text-align: center;
     padding-top: 10px;
-    padding-bottom: 10px; /* Add space above and below each td to visually center data between row underlines */
+    padding-bottom: 10px;
+    /* Add space above and below each td to visually center data between row underlines */
 }
+
 .account-table tr {
-    position: relative; /* Để sử dụng pseudo-element */
+    position: relative;
 }
+
 .account-table tr:last-child::after {
-    display: none;  /* Disable the underline for the last row */
+    display: none;
 }
-.account-table tr::after, .account-table thead th::after {
+
+.account-table tr::after,
+.account-table thead th::after {
     content: "";
     display: block;
     position: absolute;
     bottom: 0;
-    left: 1%;  /* Space from the left */
-    right: 4%;  /* Space from the right */
-    height: 1px;  /* Thickness of the underline */
-    background-color: #440A67;  /* Color of the underline */
+    left: 1%;
+    right: 4%;
+    height: 1px;
+    background-color: #440A67;
 }
+
 .scrollable {
-    overflow-y: scroll;  /* Show vertical scrollbar */
-    max-height: 350px;   /* Limit height to trigger scroll after approx. 10 rows */
+    overflow-y: scroll;
+    /* Show vertical scrollbar */
+    max-height: 350px;
+    /* Limit height to trigger scroll after approx. 10 rows */
 }
 
 /* Scrollbar styles for the scrollable class */
 .scrollable::-webkit-scrollbar {
-    width: 9px;  /* Width of the scrollbar */
+    width: 9px;
+    /* Width of the scrollbar */
 }
 
 .scrollable::-webkit-scrollbar-thumb {
-    background-color: #6D5858;  /* Color of the scrollbar thumb */
-    border-radius: 10px;  /* Rounded corners for the thumb */
+    background-color: #6D5858;
+    /* Color of the scrollbar thumb */
+    border-radius: 10px;
+    /* Rounded corners for the thumb */
 }
 
 .scrollable::-webkit-scrollbar-track {
-    background: #f1f1f1;  /* Color of the scrollbar track */
+    background: #f1f1f1;
+    /* Color of the scrollbar track */
 }
+
 .chart-container {
     position: absolute;
-    top: -20px;    /* Adjust the top position as needed */
-    right: 100px;  /* Adjust the right position as needed */
-    width: 300px;  
-    height: 300px; 
-    align-items: center;  
-}
-/* CSS for the chart canvas */
-.chart-container canvas {
-    width: 80% !important;  /* Make the chart fit its container */
-    height: 80% !important; /* Make the chart fit its container */
+    top: -20px;
+    right: 100px;
+    width: 250px;
+    height: 250px;
+    align-items: center;
 }
 
 .initial-message {
     text-align: center;
     color: #828282;
     font-family: Inter;
-    font-size: 50px; /* Đổi kích thước phông chữ nếu cần */
+    font-size: 50px;
 }
 
-/* Ensure no underline appears below the "no-data-message" */
+
 .account-table tr.initial-message::after {
     display: none;
 }
@@ -301,6 +345,7 @@ h2 {
 .no-data-message {
     position: relative;
 }
+
 .account-table tr.no-data-message::after {
-    content: none; /* Removes the underline */
+    content: none;
 }

@@ -88,9 +88,7 @@ h2 {
 .create_button {
     position: absolute;
     top: 230px;
-    /* Position it 30px from the bottom */
     left: 250px;
-    /* Position it 30px from the right */
     width: 140px;
     height: 40px;
     background: #16A596;
@@ -115,6 +113,7 @@ h2 {
     overflow-x: hidden;
     overflow-y: auto;
     max-height: 450px;
+    padding-right: 35px;
 }
 
 .table-container table {
@@ -147,24 +146,10 @@ h2 {
     width: 30%;
 }
 
-.account-table tr.total-row::after {
-    display: none;
-}
-
 thead {
     display: table;
     width: 100%;
     table-layout: fixed;
-}
-
-tbody {
-    display: block;
-    max-height: 350px;
-    /* Limit height to trigger scroll after approx. 10 rows */
-    width: calc(100% - 17px);
-    /* Adjust width to account for scrollbar width */
-    position: relative;
-    /* Ensure the scroll bar is properly positioned */
 }
 
 tbody tr {
@@ -188,7 +173,6 @@ tbody tr {
     font-size: 24px;
     color: #440A67;
     margin-top: 10px;
-    /* Space above the table */
 }
 
 .account-table th {
@@ -203,8 +187,8 @@ tbody tr {
 .account-table th,
 .account-table td {
     padding-top: 15px;
-    border: none;
     text-align: center;
+    border-bottom: 1px solid #440A67;
 }
 
 .account-table td {
@@ -214,57 +198,12 @@ tbody tr {
     margin-top: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    /* Add space above and below each td to visually center data between row underlines */
 }
 
 .account-table tr {
     position: relative;
-    /* Để sử dụng pseudo-element */
 }
 
-.account-table tr::after,
-.account-table thead th::after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 2%;
-    /* Space from the left */
-    right: 5%;
-    /* Space from the right */
-    height: 1px;
-    /* Thickness of the underline */
-    background-color: #440A67;
-    /* Color of the underline */
-}
-
-/* Styles applied when tbody has the scrollable class */
-.scrollable {
-    overflow-y: scroll;
-    /* Always show vertical scrollbar */
-    max-height: 500px;
-    /* Limit height to trigger scroll after approx. 10 rows */
-}
-
-/* Scrollbar styles for the scrollable class */
-.scrollable::-webkit-scrollbar {
-    width: 9px;
-    /* Make the scrollbar wider */
-}
-
-.scrollable::-webkit-scrollbar-thumb {
-    background-color: #6D5858;
-    /* Thumb (draggable part) color */
-    border-radius: 10px;
-    /* Round the corners */
-}
-
-.scrollable::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    /* Track (background of scrollbar) color */
-}
-
-/* Ensure no underline appears below the "no-data-message" */
 .account-table tr.no-data-message::after {
     display: none;
 }

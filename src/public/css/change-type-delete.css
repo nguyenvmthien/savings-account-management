@@ -59,19 +59,19 @@ h2 {
   color: black;
   height: 45px;
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   box-sizing: border-box;
   text-align: left;
   margin-bottom: -5px; }
 
 .btn-primary {
-  margin-left: 150px;
-  width: 120px;
-  height: 40px;
+  margin-left: 160px;
+  width: 150px;
+  height: 60px;
   background: #16A596;
   border-radius: 8px;
   color: #fff;
-  font-size: 20px;
+  font-size: 26px;
   font-family: 'Inter', sans-serif;
   font-weight: bold;
   display: flex;

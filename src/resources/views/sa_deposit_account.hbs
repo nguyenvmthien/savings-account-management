@@ -296,7 +296,7 @@
             const dateDeposit = document.getElementById('deposit_date').value;
             const dateCreate = document.getElementById('confirmCreateDate').innerText.slice(21, 31);
             document.getElementById('dep_date_error_message').innerText = `Must be after ${changeDateFormat(dateCreate)}`;
-            if (getDifferenceInDays(dateDeposit, dateCreate) >= 0) {
+            if (getDifferenceInDays(dateDeposit, dateCreate) > 0) {
                 document.getElementById('dep_date_error_message').style.display = 'none';
                 document.getElementById('valid_dep_date').style.display = "inline";
                 document.getElementById('invalid_dep_date').style.display = "none";

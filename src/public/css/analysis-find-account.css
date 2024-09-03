@@ -135,35 +135,40 @@ h2 {
 .table-container {
   width: 100%;
   margin-top: 50px;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   border: 3px dashed #6D5858;
+  padding-right: 35px;
+  overflow-x: hidden;
+  overflow-y: auto;
   max-height: 450px; }
 
 .account-table {
   width: 100%;
   border-collapse: collapse;
-  margin-left: 15px;
-  margin-right: 30px; }
+  margin-left: 20px;
+  table-layout: fixed; }
 
 .account-table caption {
   text-align: left;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter';
   font-weight: bold;
   font-size: 24px;
   color: #440A67;
   margin-top: 10px; }
+
+.account-table thead,
+.account-table tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; }
 
 .account-table th {
   color: #828282;
   font-size: 16px;
   font-family: Inter;
   text-align: center;
-  padding-right: 25px;
+  border-bottom: 1px solid #440A67;
   padding-bottom: 5px;
-  padding-left: 35px;
-  padding-top: 10px;
-  border: none;
   text-align: center; }
 
 .account-table td {
@@ -171,24 +176,18 @@ h2 {
   color: #440A67;
   margin-top: 20px;
   font-weight: 400;
+  border-bottom: 1px solid #440A67;
+  text-align: center;
   padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 10px;
-  border: none;
-  text-align: center; }
+  padding-bottom: 8px; }
 
-.account-table tr {
-  position: relative; }
+.account-table th:first-child,
+.account-table td:first-child {
+  width: 10%; }
 
-.account-table tr::after, .account-table thead th::after {
-  content: "";
-  display: block;
-  position: absolute;
-  bottom: 0;
-  left: 1%;
-  right: 5%;
-  height: 1px;
-  background-color: #440A67; }
+.account-table th:not(:first-child),
+.account-table td:not(:first-child) {
+  width: 22.5%; }
 
-.account-table tr:last-child::after {
-  display: none; }
+.account-table tbody tr:last-child td {
+  border-bottom: none; }
