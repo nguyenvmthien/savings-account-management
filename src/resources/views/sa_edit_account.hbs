@@ -261,7 +261,7 @@
         });
 
         document.getElementById('address').addEventListener('input', function () {
-            const regex = /^[A-Za-zÀ-ỹ0-9,\s]+$/;
+            const regex = /^[A-Za-zÀ-ỹ0-9,./\s]+$/;
             if (regex.test(this.value)) {
                 document.getElementById('address_error_message').style.display = 'none';
                 document.getElementById('valid_address').style.display = "inline";
