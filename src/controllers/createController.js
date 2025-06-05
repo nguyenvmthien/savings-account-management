@@ -20,13 +20,14 @@ class Create_Account_Controller {
             date_created,
         } = req.body;
         console.log(
+            "id_card: %s, customer_name: %s, customer_address: %s, id_account: %s, money: %s, type_of_saving: %s, date_created: %s",
             id_card,
             customer_name,
             customer_address,
             id_account,
             money,
             type_of_saving,
-            date_created,
+            date_created
         );
 
         // create account
